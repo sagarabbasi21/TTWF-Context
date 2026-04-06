@@ -47,7 +47,12 @@
       "Bash(python -c \" import sys,json data=json.load\\(sys.stdin\\) items = data if isinstance\\(data,list\\) else data.get\\('results',data\\) for a in items: print\\(f' {a[\\\\\"id\\\\\"]}: {a[\\\\\"name\\\\\"]}'\\) \")",
       "Bash(python -c \"import sys,json; data=json.load\\(sys.stdin\\); items=data if isinstance\\(data,list\\) else data.get\\('results',data\\); [print\\(f' {c[\\\\\"id\\\\\"]}: {c[\\\\\"name\\\\\"]}'\\) for c in items]\")",
       "Bash(python manage.py check)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(\"teach_the_world_env/Scripts/python.exe\" manage.py check)",
+      "Bash(\"teach_the_world_env/Scripts/python.exe\" manage.py showmigrations school_management geo_hierarchy user_management)",
+      "Bash(\"teach_the_world_env/Scripts/python.exe\" manage.py migrate school_management)",
+      "Bash(teach_the_world_env/Scripts/python.exe manage.py shell -c ':*)",
+      "Bash(export AITASKS_AGENT_ID=claude-sonnet-4-6)"
     ]
   }
 }
