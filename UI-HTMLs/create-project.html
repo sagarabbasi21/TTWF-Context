@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Create New Project | Teach The World</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <!-- jQuery (required for Select2) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- Select2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+  <!-- Select2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#7BAFDE",
+            "background-light": "#f6f8f8",
+            "background-dark": "#10221d",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body data-page="projects" data-title="Create New Project" data-desc="Fill in the details below to initialize a new educational project."
+  class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen font-display">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <div id="sidebar"></div>
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- Scrollable Content -->
+      <main class="flex-1 overflow-y-auto p-8">
+        <div class="w-full space-y-6">
+
+          <!-- Top Action Bar -->
+          <div class="flex items-center justify-end gap-3">
+            <button type="button" onclick="window.location.href='projects.html'"
+              class="px-5 py-2 rounded border border-gray-300 text-slate-600 text-xs font-bold tracking-widest hover:bg-slate-50 transition-colors">
+              Cancel
+            </button>
+            <button type="button" onclick="document.getElementById('projectForm').submit()"
+              class="px-5 py-2 rounded bg-primary text-white text-xs font-bold tracking-widest hover:bg-primary/90 shadow-sm transition-colors">
+              Save Project
+            </button>
+          </div>
+
+          <form id="projectForm" class="space-y-6">
+
+            <!-- Project Details Card -->
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+              <div class="bg-primary text-white px-6 py-3 flex items-center gap-2 rounded-t-lg">
+                <span class="material-symbols-outlined text-lg">folder</span>
+                <span class="text-sm font-bold">Project Details</span>
+              </div>
+              <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div class="col-span-1">
+                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Project ID <span class="text-red-500">*</span></label>
+                    <input
+                      class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3"
+                      placeholder="e.g. TTWF - 2026 - 001" type="text" value="TTWF - 2026 - 001" />
+                  </div>
+                  <div class="col-span-1 md:col-span-2">
+                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Project Name <span class="text-red-500">*</span></label>
+                    <input
+                      class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3"
+                      placeholder="Enter a descriptive project name" type="text" />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                  <div>
+                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Select Donor</label>
+                    <div class="relative">
+                      <select id="donorSelect" multiple class="w-full">
+                        <option value="1">Global Education Trust</option>
+                        <option value="2">Unity Foundation</option>
+                        <option value="3">Tech4All Charity</option>
+                        <option value="4">Horizon Partners</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Project Status <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                      <select
+                        class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 bg-white appearance-none">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="completed">Completed</option>
+                        <option value="on-hold">On Hold</option>
+                      </select>
+                      <span
+                        class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-sm">expand_more</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Timeline Card -->
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+              <div class="bg-primary text-white px-6 py-3 flex items-center gap-2 rounded-t-lg">
+                <span class="material-symbols-outlined text-lg">schedule</span>
+                <span class="text-sm font-bold">Timeline</span>
+              </div>
+              <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Start Date <span class="text-red-500">*</span></label>
+                    <input
+                      class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3"
+                      type="text" placeholder="dd-mm-yyyy" />
+                  </div>
+                  <div>
+                    <div class="flex items-center justify-between mb-2">
+                      <label class="block text-[10px] font-bold text-slate-500 tracking-wider">End Date <span class="text-[10px] font-normal text-slate-400">(Optional)</span></label>
+                      <label class="flex items-center gap-2 cursor-pointer select-none">
+                        <span class="text-[10px] text-slate-500">Set end date</span>
+                        <div class="relative">
+                          <input type="checkbox" id="endDateToggle" class="sr-only peer" />
+                          <div class="w-9 h-5 bg-slate-200 peer-checked:bg-primary rounded-full transition-colors"></div>
+                          <div class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4"></div>
+                        </div>
+                      </label>
+                    </div>
+                    <div id="endDateField" class="relative hidden">
+                      <input
+                        class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3"
+                        type="text" placeholder="dd-mm-yyyy" id="endDateInput" />
+                    </div>
+                    <p id="endDatePlaceholder" class="text-xs text-slate-400 italic py-2">No end date set -- toggle to add one.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Description Card -->
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+              <div class="bg-primary text-white px-6 py-3 flex items-center gap-2 rounded-t-lg">
+                <span class="material-symbols-outlined text-lg">description</span>
+                <span class="text-sm font-bold">Description</span>
+              </div>
+              <div class="p-6">
+                <div>
+                  <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Brief Description <span class="text-[10px] font-normal text-slate-400">(Optional)</span></label>
+                  <textarea
+                    class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 resize-none"
+                    placeholder="Outline the goals and scope of this project..." rows="4"></textarea>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="layout.js"></script>
+  <script>
+  document.getElementById('endDateToggle').addEventListener('change', function() {
+    var field = document.getElementById('endDateField');
+    var placeholder = document.getElementById('endDatePlaceholder');
+    if (this.checked) {
+      field.classList.remove('hidden');
+      placeholder.classList.add('hidden');
+    } else {
+      field.classList.add('hidden');
+      placeholder.classList.remove('hidden');
+      document.getElementById('endDateInput').value = '';
+    }
+  });
+  </script>
+  <script>
+  $(document).ready(function () {
+    $('#donorSelect').select2({
+      placeholder: "Choose donors",
+      width: '100%',
+      closeOnSelect: false
+    });
+  });
+</script>
+</body>
+
+</html>

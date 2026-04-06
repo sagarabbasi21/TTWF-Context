@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Device Management - Teach The World</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7BAFDE",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#13131f",
+                        "neutral-border": "#e2e8f0",
+                        "neutral-text-main": "#1e293b",
+                        "neutral-text-sub": "#64748b"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="devices" data-title="Device Management" data-desc="Detailed device inventory and assignment management across all regions." class="bg-background-light dark:bg-background-dark text-neutral-text-main font-display">
+    <div x-data="{ open:false ,otpOpen: false, otp: '339416', deviceLabel: '12'}" class="flex min-h-screen overflow-hidden">
+        <div id="sidebar"></div>
+        <!-- Sidebar -->
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+            <!-- Top Bar -->
+
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+                <div class="max-w-[1400px] mx-auto space-y-8">
+                    <!-- Title & Description -->
+                    <div class="flex justify-end">
+                        <button @click="open = true"
+                            class="w-full sm:w-auto bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]">
+                            <span class="material-symbols-outlined text-xl">add_circle</span>
+                            Add New Device
+                        </button>
+                    </div>
+                      <!-- Statistics Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        <div
+                            class="bg-white p-6 rounded-xl border border-neutral-border flex items-center gap-5 shadow-sm">
+                            <div
+                                class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">assignment_turned_in</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-neutral-text-sub">Assigned</p>
+                                <p class="text-2xl font-black text-slate-900">1,240</p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-xl border border-neutral-border flex items-center gap-5 shadow-sm">
+                            <div
+                                class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">inventory_2</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-neutral-text-sub">Unassigned</p>
+                                <p class="text-2xl font-black text-slate-900">156</p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-xl border border-neutral-border flex items-center gap-5 shadow-sm">
+                            <div
+                                class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">devices_other</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-neutral-text-sub">Total</p>
+                                <p class="text-2xl font-black text-slate-900">1,396</p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-xl border border-neutral-border flex items-center gap-5 shadow-sm">
+                            <div
+                                class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">sync</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-neutral-text-sub">Last 7 Days Sync</p>
+                                <p class="text-2xl font-black text-slate-900">890</p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-xl border border-neutral-border flex items-center gap-5 shadow-sm">
+                            <div
+                                class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">history</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-neutral-text-sub">Last 15 Days Sync</p>
+                                <p class="text-2xl font-black text-slate-900">1,120</p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-xl border border-neutral-border flex items-center gap-5 shadow-sm">
+                            <div
+                                class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">warning</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-neutral-text-sub">More than 15 Days</p>
+                                <p class="text-2xl font-black text-slate-900">276</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hierarchy Filters -->
+                    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[var(--primary-teal)]">filter_list</span>
+                                <h3 class="font-bold text-slate-700">Hierarchy Filters</h3>
+                            </div>
+                            <button class="text-[var(--primary-teal)] text-xs font-bold hover:underline">Clear all
+                                filters</button>
+                        </div>
+
+                        <!-- ✅ wrapped / responsive -->
+                        <div
+                            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
+                            <div class="space-y-2">
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 tracking-widest">Country</label>
+                                <select
+                                    class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                    <option selected>All</option>
+                                    <option>Pakistan</option>
+                                    <option>United Kingdom</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 tracking-widest">Province</label>
+                                <select
+                                    class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                    <option selected>All</option>
+                                    <option>Punjab</option>
+                                    <option>Sindh</option>
+                                    <option>KPK</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 tracking-widest">District</label>
+                                <select
+                                    class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                    <option selected>All</option>
+                                    <option>East</option>
+                                    <option>West</option>
+                                    <option>South</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 tracking-widest">Region</label>
+                                <select
+                                    class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                    <option selected>All</option>
+                                    <option>Central</option>
+                                    <option>North</option>
+                                    <option>South</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 tracking-widest">Area</label>
+                                <select
+                                    class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                    <option selected>All</option>
+                                    <option>Gulberg</option>
+                                    <option>DHA</option>
+                                    <option>Johar Town</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 tracking-widest">Cluster</label>
+                                <select
+                                    class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                    <option selected>All</option>
+                                    <option>Cluster A</option>
+                                    <option>Cluster B</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 tracking-widest">School</label>
+                                <select
+                                    class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                    <option selected>All</option>
+                                    <option>Main Campus</option>
+                                    <option>West Wing</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+
+                  
+
+
+                    <!-- Data Table -->
+                    <div class="bg-white rounded-xl border border-neutral-border overflow-hidden shadow-sm">
+                        <div
+                            class="p-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-700">
+                            <div class="flex items-center space-x-3">
+                                <button
+                                    class="inline-flex items-center px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg hover:bg-primary/90 transition-all shadow-sm active:translate-y-px tracking-wider">
+                                    <span class="material-symbols-outlined text-sm mr-2">download</span> Excel
+                                </button>
+                                <div class="h-6 w-px bg-slate-200 mx-2"></div>
+                                <div
+                                    class="flex items-center text-[10px] font-bold text-slate-500 tracking-widest">
+                                    <span>Show</span>
+                                    <select
+                                        class="mx-2 rounded-lg border-slate-200 bg-white  py-1 text-xs focus:ring-primary focus:border-primary">
+                                        <option>10</option>
+                                        <option selected="">25</option>
+                                        <option>50</option>
+                                    </select>
+                                    <span>entries</span>
+                                </div>
+                                <div class="h-6 w-px bg-slate-200 mx-2"></div>
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-slate-400 text-lg">sync</span>
+                                    <select
+                                        class="rounded-lg border-slate-200 bg-slate-50 py-1.5 px-3 text-xs font-semibold text-slate-600 focus:ring-primary focus:border-primary cursor-pointer">
+                                        <option value="">All Last Sync</option>
+                                        <option value="today">Today</option>
+                                        <option value="15days">Last 15 Days</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="relative w-full md:w-80">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                    <span class="material-symbols-outlined text-lg">search</span>
+                                </span>
+                                <input
+                                    class="pl-10 pr-4 py-2 w-full border border-slate-200  rounded-xl bg-slate-50 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400 placeholder:text-[10px] placeholder:font-bold placeholder:tracking-widest"
+                                    placeholder="Search devices..." type="text" />
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-primary text-white">
+                                        <th class="px-6 py-4 text-xs font-bold tracking-wider">Device Name
+                                        </th>
+                                        <th class="px-6 py-4 text-xs font-bold tracking-wider">Device ID</th>
+                                        <th class="px-6 py-4 text-xs font-bold tracking-wider">Tablet ID</th>
+                                        <th class="px-6 py-4 text-xs font-bold tracking-wider">School</th>
+                                        <th class="px-6 py-4 text-xs font-bold tracking-wider">Last Sync Date</th>
+                                        <th class="px-6 py-4 text-xs font-bold tracking-wider">Last Sync Time</th>
+                                        <th class="px-6 py-4 text-xs font-bold tracking-wider">Sync Status</th>
+                                        <th class="px-6 py-4 text-xs font-bold tracking-wider text-right">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-semibold text-slate-900">EduTab X100</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub font-mono">DEV-99218</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub">TAB-0041</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub">Musa Goth</td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2 py-1 rounded-full">
+                                                13-03-2026
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2 py-1 rounded-full">
+                                                09:15 AM
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2 py-1 rounded-full">
+                                                2 days ago
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex items-center justify-center gap-3">
+                                                <button
+                                                    class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                    title="Edit">
+                                                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                                                </button>
+
+                                                <button
+                                                    class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50"
+                                                    title="Delete">
+                                                    <span class="material-symbols-outlined text-[20px]">delete</span>
+                                                </button>
+                                                <button
+                                                 @click="otpOpen = true"
+                                                    class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                    title="Assign">
+                                                    <span class="material-symbols-outlined text-[20px]">refresh</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-semibold text-slate-900">EduTab X100</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub font-mono">DEV-99219</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub">TAB-0042</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub">Test School 2</td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-1 rounded-full">
+                                                28-02-2026
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-1 rounded-full">
+                                                02:30 PM
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-1 rounded-full">
+                                                15 days ago
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex items-center justify-center gap-3">
+                                                <button
+                                                    class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                    title="Edit">
+                                                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                                                </button>
+                                                <button
+                                                    class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50"
+                                                    title="Delete">
+                                                    <span class="material-symbols-outlined text-[20px]">delete</span>
+                                                </button>
+                                                <button
+                                                 @click="otpOpen = true"
+                                                    class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                    title="Assign">
+                                                    <span class="material-symbols-outlined text-[20px]">refresh</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-semibold text-slate-900">Galaxy Tab A8</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub font-mono">DEV-99250</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub">TAB-0088</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub">Green Valley Academy</td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2 py-1 rounded-full">
+                                                13-03-2026
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2 py-1 rounded-full">
+                                                11:45 AM
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2 py-1 rounded-full">
+                                                2 days ago
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex items-center justify-center gap-3">
+                                                <button
+                                                    class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                    title="Edit">
+                                                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                                                </button>
+
+                                                <button
+                                                    class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50"
+                                                    title="Delete">
+                                                    <span class="material-symbols-outlined text-[20px]">delete</span>
+                                                </button>
+                                                <button
+                                                 @click="otpOpen = true"
+                                                    class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                    title="Assign">
+                                                    <span class="material-symbols-outlined text-[20px]">refresh</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm font-semibold text-slate-900">Surface Go 3</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub font-mono">DEV-99301</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub">TAB-0105</td>
+                                        <td class="px-6 py-4 text-sm text-neutral-text-sub">Musa Goth</td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-red-700 bg-red-50 px-2 py-1 rounded-full">
+                                                01-03-2026
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-red-700 bg-red-50 px-2 py-1 rounded-full">
+                                                04:20 PM
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold text-red-700 bg-red-50 px-2 py-1 rounded-full">
+                                                24 days ago
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex items-center justify-center gap-3">
+                                                <button
+                                                    class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                    title="Edit">
+                                                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                                                </button>
+
+                                                <button
+                                                    class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50"
+                                                    title="Delete">
+                                                    <span class="material-symbols-outlined text-[20px]">delete</span>
+                                                </button>
+                                                <button
+                                                 @click="otpOpen = true"
+                                                    class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                    title="Assign">
+                                                    <span class="material-symbols-outlined text-[20px]">refresh</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
+                            class="px-6 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
+                            <p class="text-sm text-neutral-text-sub">Showing 1 to 4 of 1,396 devices</p>
+                            <div class="flex gap-2">
+                                <button
+                                    class="px-3 py-1 text-sm font-semibold border border-neutral-border rounded hover:bg-white transition-colors disabled:opacity-50"
+                                    disabled="">Previous</button>
+                                <button
+                                    class="px-3 py-1 text-sm font-semibold border border-neutral-border rounded hover:bg-white transition-colors">Next</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+        <!-- Modal Overlay -->
+        <div x-show="open" x-transition.opacity
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+            style="display:none;" @keydown.escape.window="open = false">
+
+            <!-- Modal Card -->
+            <div x-transition.scale @click.away="open = false"
+                class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 relative">
+
+                <!-- Close Button -->
+                <button @click="open = false"
+                    class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 transition-colors">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+
+                <!-- Title -->
+                <h2 class="text-xl font-bold text-slate-800 mb-6">
+                    Add New Device
+                </h2>
+
+                <!-- Input -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-slate-600 mb-2">
+                        Device Name
+                    </label>
+
+                    <input type="text" placeholder="Enter Device Name"
+                        class="w-full border border-slate-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition-all">
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex items-center gap-3">
+                    <button
+                        class="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-md shadow-primary/20 hover:opacity-90 transition-all">
+                        Add
+                    </button>
+                    <button @click="open = false" type="button"
+                        class="px-6 py-2.5 rounded-lg text-sm font-bold text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all">
+                        Cancel
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <!-- OTP Modal -->
+        <div x-show="otpOpen" x-transition.opacity @keydown.escape.window="otpOpen = false"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50" style="display:none;"
+            @click.self="otpOpen = false">
+            <div x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
+                x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                class="bg-white rounded-xl shadow-2xl w-full max-w-2xl px-10 py-10 relative">
+                <!-- Close -->
+                <button @click="otpOpen = false"
+                    class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 transition-colors"
+                    aria-label="Close">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+
+                <!-- Icon -->
+                <div class="flex justify-center mb-6">
+                    <div class="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-[44px]">sms</span>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-center text-xl font-extrabold text-slate-800">
+                    OTP for Device – <span x-text="deviceLabel"></span>
+                </h2>
+
+                <!-- OTP Input Row -->
+                <div class="mt-8 flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        <input id="otpValue" x-model="otp" readonly class="w-full bg-white border border-slate-200 rounded-lg px-5 py-4 text-lg font-semibold text-slate-700 shadow-sm
+                   focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" />
+
+                        <button type="button"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-md hover:bg-slate-100 text-slate-500 hover:text-slate-700 transition"
+                            title="Copy OTP" @click="
+              navigator.clipboard.writeText(otp);
+              $el.innerHTML = '<span class=&quot;material-symbols-outlined text-[22px]&quot;>check</span>';
+              setTimeout(() => { 
+                $el.innerHTML = '<span class=&quot;material-symbols-outlined text-[22px]&quot;>content_copy</span>'; 
+              }, 900);
+            ">
+                            <span class="material-symbols-outlined text-[22px]">content_copy</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="layout.js"></script>
+</body>
+
+</html>

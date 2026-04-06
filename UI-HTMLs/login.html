@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Teach The World - Login</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #7BAFDE;
+            --off-white: #F9FAFB;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--off-white)] min-h-screen flex flex-col items-center">
+ <header class="w-full py-12 flex items-center justify-center gap-6">
+    
+    <img 
+        src="/images/teach-the-world.webp" 
+        alt="Teach The World Logo"
+        class="w-48 md:w-56 lg:w-64 h-auto mb-4 object-contain"
+    />
+
+
+</header>
+    <main class="flex-1 flex items-center justify-center w-full px-4 pb-24">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-xl shadow-gray-200/50 p-10 border border-gray-100">
+            <h2 class="text-3xl font-semibold text-[#1A497F] mb-8">Login</h2>
+            <form action="dashboard.html" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" for="email">Email</label>
+                    <div class="relative">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">person</span>
+                        <input
+                            class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all placeholder:text-gray-400 text-gray-900"
+                            id="email" name="email" placeholder="Enter Email" type="text" />
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" for="password">Password</label>
+                    <div class="relative">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">lock</span>
+                        <input
+                            class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all placeholder:text-gray-400 text-gray-900"
+                            id="password" name="password" placeholder="Enter Password" type="password" />
+                    </div>
+                </div>
+                <button
+                    class="w-full bg-[var(--primary-color)] hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all mt-4"
+                   onclick="window.location.href='dashboard.html'">
+                    Login
+                </button>
+                <div class="text-center mt-6">
+                    <a class="text-sm text-gray-500 hover:text-gray-700 transition-colors" href="forgot-password.html">
+                        Forgot Password? <span class="text-[var(--primary-color)] font-medium">Click to reset</span>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+</body>
+
+</html>

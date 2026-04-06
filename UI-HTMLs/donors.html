@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7BAFDE",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+    <title>Donor Listing Screen</title>
+</head>
+
+<body data-page="donors" data-title="Donor Directory" data-desc="Manage and track your global donor network"
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar"></div>
+        <main class="flex-1 flex flex-col overflow-hidden">
+
+            <div class="flex-1 overflow-auto p-8 space-y-6">
+                <div class="flex items-center justify-end">
+                    <button onclick="window.location.href='create-donor.html'"
+                        class="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-bold shadow-sm shadow-primary/20 hover:opacity-90 transition-opacity">
+                        <span class="material-symbols-outlined text-lg">person_add</span>
+                        Add Donor
+                    </button>
+                </div>
+
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div
+                        class="p-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-700">
+                        <div class="flex items-center space-x-3">
+                            <button
+                                class="inline-flex items-center px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg hover:bg-primary/90 transition-all shadow-sm active:translate-y-px tracking-wider">
+                                <span class="material-symbols-outlined text-sm mr-2">download</span> Excel
+                            </button>
+                            <!-- <button
+                                class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-[10px] font-bold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-all tracking-wider">
+                                <span class="material-symbols-outlined text-sm mr-2">picture_as_pdf</span> PDF
+                            </button> -->
+                            <div class="h-6 w-px bg-slate-200 mx-2"></div>
+                            <div
+                                class="flex items-center text-[10px] font-bold text-slate-500 tracking-widest">
+                                <span>Show</span>
+                                <select
+                                    class="mx-2 rounded-lg border-slate-200 bg-white  py-1 text-xs focus:ring-primary focus:border-primary">
+                                    <option>10</option>
+                                    <option selected="">25</option>
+                                    <option>50</option>
+                                </select>
+                                <span>entries</span>
+                            </div>
+                        </div>
+                        <div class="relative w-full md:w-80">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                <span class="material-symbols-outlined text-lg">search</span>
+                            </span>
+                            <input
+                                class="pl-10 pr-4 py-2 w-full border border-slate-200  rounded-xl bg-slate-50 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400 placeholder:text-[10px] placeholder:font-bold placeholder:tracking-widest"
+                                placeholder="Search donors..." type="text" />
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+
+                        <table class="w-full text-left border-collapse min-w-[1000px]">
+                            <thead>
+                                <tr class="bg-primary border-b border-primary/20">
+                                    <th class="px-6 py-4 text-xs font-bold text-white tracking-wider">Donor
+                                        Name</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-white tracking-wider">Donor
+                                        Type</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-white tracking-wider">Email
+                                    </th>
+                                    <th class="px-6 py-4 text-xs font-bold text-white tracking-wider">Mobile
+                                    </th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold text-white tracking-wider text-center">
+                                        Projects Linked</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-white tracking-wider">Status
+                                    </th>
+                                    <th class="px-6 py-4 text-xs font-bold text-white tracking-wider">Created On</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold text-white tracking-wider text-right">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                                                JD</div>
+                                            <div>
+                                                <p class="text-sm font-bold text-slate-900 dark:text-slate-100">
+                                                    Johnathan Doe</p>
+                                                <p class="text-[11px] text-slate-500">Joined Oct 2023</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">Individual</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">j.doe@example.com
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">+1 (555) 123-4567
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <span
+                                            class="text-sm font-bold text-primary bg-primary/10 px-3 py-1 rounded-lg">12</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-1.5">
+                                            <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                            <span class="text-xs font-medium text-emerald-600">Active</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">12-10-2023</td>
+                                    <td class="px-6 py-4 text-center">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit">
+                                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                                                GF</div>
+                                            <div>
+                                                <p class="text-sm font-bold text-slate-900 dark:text-slate-100">Global
+                                                    Foundation</p>
+                                                <p class="text-[11px] text-slate-500">Joined Jan 2024</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">Organization</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                                        contact@globalfound.org</td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">+1 (555) 987-6543
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <span
+                                            class="text-sm font-bold text-primary bg-primary/10 px-3 py-1 rounded-lg">45</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-1.5">
+                                            <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                            <span class="text-xs font-medium text-emerald-600">Active</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">05-01-2024</td>
+                                    <td class="px-6 py-4 text-center">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit">
+                                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                                                SS</div>
+                                            <div>
+                                                <p class="text-sm font-bold text-slate-900 dark:text-slate-100">Sarah
+                                                    Smith</p>
+                                                <p class="text-[11px] text-slate-500">Joined Feb 2024</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">Individual</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                                        s.smith@provider.net</td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">+1 (555) 234-5678
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <span
+                                            class="text-sm font-bold text-primary bg-primary/10 px-3 py-1 rounded-lg">3</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-1.5">
+                                            <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+                                            <span class="text-xs font-medium text-amber-600">Pending</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">18-02-2024</td>
+                                    <td class="px-6 py-4 text-center">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit">
+                                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                                                TC</div>
+                                            <div>
+                                                <p class="text-sm font-bold text-slate-900 dark:text-slate-100">Tech
+                                                    Corp Philanthropy</p>
+                                                <p class="text-[11px] text-slate-500">Joined Dec 2023</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">Corporate</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                                        donations@techcorp.com</td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">+1 (555) 444-3322
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <span
+                                            class="text-sm font-bold text-primary bg-primary/10 px-3 py-1 rounded-lg">28</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-1.5">
+                                            <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                            <span class="text-xs font-medium text-emerald-600">Active</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">10-12-2023</td>
+                                    <td class="px-6 py-4 text-center">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit">
+                                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between border-t border-slate-200 dark:border-slate-800">
+                        <span class="text-xs text-slate-500 font-medium">Showing 1-4 of 128 donors</span>
+                        <div class="flex gap-1">
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-400 hover:bg-slate-50 transition-colors"><span
+                                    class="material-symbols-outlined text-sm">chevron_left</span></button>
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded bg-primary text-white text-xs font-bold">1</button>
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 transition-colors">2</button>
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 transition-colors">3</button>
+                            <button
+                                class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-400 hover:bg-slate-50 transition-colors"><span
+                                    class="material-symbols-outlined text-sm">chevron_right</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="layout.js"></script>
+</body>
+
+</html>

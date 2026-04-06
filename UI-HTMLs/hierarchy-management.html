@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Hierarchy Management | Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#7BAFDE",
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+        <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="hierarchy" data-title="Hierarchy Management" data-desc="Define and manage countries, provinces, cities, districts, areas and clusters." class="bg-white text-slate-900 min-h-screen flex">
+        <div id="sidebar"></div>
+        
+    <main class="flex-1 flex flex-col bg-white">
+        <div class="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-end gap-3 sticky top-0 z-40">
+            <button onclick="window.location.href='hierarchy-listing.html'"
+                class="px-5 py-2 text-xs font-bold text-slate-500 hover:text-slate-700 tracking-widest border border-gray-200 rounded">Cancel</button>
+        </div>
+        <div class="p-8 max-w-5xl mx-auto w-full divide-y divide-slate-200">
+            <section class="py-10 first:pt-0">
+                <div class="flex flex-col md:flex-row md:items-start gap-6">
+                    <div class="md:w-1/3">
+                        <h2 class="text-lg font-bold text-slate-800">Add Country</h2>
+                        <p class="text-sm text-slate-500 mt-1">Define a new national entity.</p>
+                    </div>
+                    <div class="md:w-2/3 flex flex-col sm:flex-row items-end gap-4">
+                        <div class="flex-1 w-full">
+                            <label
+                                class="block text-xs font-semibold text-slate-500 tracking-wider mb-2">Country
+                                Name  <span class="text-red-500">*</span></label>
+                            <input
+                                class="w-full rounded-lg border-slate-300 focus:ring-primary focus:border-primary focus-primary"
+                                placeholder="e.g. Pakistan" type="text" />
+                        </div>
+                        <button
+                            class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-semibold flex items-center gap-2 transition-all shadow-sm">
+                            <span class="material-symbols-outlined text-sm">save</span> Save Country
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <section class="py-10">
+                <div class="flex flex-col md:flex-row md:items-start gap-6">
+                    <div class="md:w-1/3">
+                        <h2 class="text-lg font-bold text-slate-800">Add Province</h2>
+                        <p class="text-sm text-slate-500 mt-1">Assign provinces to a country.</p>
+                    </div>
+                    <div class="md:w-2/3 flex flex-col gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="w-full">
+                                <label
+                                    class="block text-xs font-semibold text-slate-500 tracking-wider mb-2">Select
+                                    Country  <span class="text-red-500">*</span></label>
+                                <select class="w-full rounded-lg border-slate-300 focus-primary">
+                                    <option>Select Country</option>
+                                    <option>Pakistan</option>
+                                </select>
+                            </div>
+                            <div class="w-full">
+                                <label
+                                    class="block text-xs font-semibold text-slate-500 tracking-wider mb-2">Province
+                                    Name  <span class="text-red-500">*</span></label>
+                                <input class="w-full rounded-lg border-slate-300 focus-primary" placeholder="e.g. Sindh"
+                                    type="text" />
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button
+                                class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-semibold flex items-center gap-2 shadow-sm">
+                                <span class="material-symbols-outlined text-sm">save</span> Save Province
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="py-10">
+                <div class="flex flex-col md:flex-row md:items-start gap-6">
+                    <div class="md:w-1/3">
+                        <h2 class="text-lg font-bold text-slate-800">Add District</h2>
+                    </div>
+                    <div class="md:w-2/3 flex flex-col gap-4">
+                        <div class="grid grid-cols-2 lg:grid-cols-2 gap-4">
+                            <div><label
+                                    class="block text-[10px] font-bold text-slate-400 mb-1">Country  <span class="text-red-500">*</span></label><select
+                                    class="w-full rounded-lg border-slate-300 text-sm focus-primary">
+                                    <option>Pakistan</option>
+                                </select></div>
+                            <div><label
+                                    class="block text-[10px] font-bold text-slate-400 mb-1">Province  <span class="text-red-500">*</span></label><select
+                                    class="w-full rounded-lg border-slate-300 text-sm focus-primary">
+                                    <option>Sindh</option>
+                                </select></div>
+                            </div>
+                            <div><label class="block text-[10px] font-bold text-slate-400 mb-1">District
+                                    Name  <span class="text-red-500">*</span></label><input class="w-full rounded-lg border-slate-300 text-sm focus-primary"
+                                    placeholder="East" type="text" /></div>
+                        <div class="flex justify-end">
+                            <button
+                                class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-semibold flex items-center gap-2 shadow-sm">
+                                <span class="material-symbols-outlined text-sm">save</span> Save District</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="py-10">
+                <div class="flex flex-col md:flex-row md:items-start gap-6">
+                    <div class="md:w-1/3">
+                        <h2 class="text-lg font-bold text-slate-800">Add Area</h2>
+                    </div>
+                    <div class="md:w-2/3 flex flex-col gap-4">
+                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                            <div><label
+                                    class="block text-[10px] font-bold text-slate-400 mb-1">Country  <span class="text-red-500">*</span></label><select
+                                    class="w-full rounded-lg border-slate-300 text-sm focus-primary">
+                                    <option>Pak</option>
+                                </select></div>
+                            <div><label
+                                    class="block text-[10px] font-bold text-slate-400 mb-1">Province  <span class="text-red-500">*</span></label><select
+                                    class="w-full rounded-lg border-slate-300 text-sm focus-primary">
+                                    <option>Sindh</option>
+                                </select></div>
+                            <div><label
+                                    class="block text-[10px] font-bold text-slate-400 mb-1">District  <span class="text-red-500">*</span></label><select
+                                    class="w-full rounded-lg border-slate-300 text-sm focus-primary">
+                                    <option>East</option>
+                                </select></div>
+                            </div>
+                            <div><label class="block text-[10px] font-bold text-slate-400 mb-1">Area
+                                    Name  <span class="text-red-500">*</span></label><input class="w-full rounded-lg border-slate-300 text-sm focus-primary"
+                                    placeholder="Gulshan" type="text" /></div>
+                        <div class="flex justify-end">
+                            <button
+                                class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-semibold flex items-center gap-2 shadow-sm">
+                                <span class="material-symbols-outlined text-sm">save</span> Save Area</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="py-10">
+                <div class="flex flex-col md:flex-row md:items-start gap-6">
+                    <div class="md:w-1/3">
+                        <h2 class="text-lg font-bold text-slate-800">Add Cluster</h2>
+                    </div>
+                    <div class="md:w-2/3 flex flex-col gap-4">
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div><label
+                                    class="block text-[10px] font-bold text-slate-400 mb-1">Country  <span class="text-red-500">*</span></label><select
+                                    class="w-full rounded-lg border-slate-300 text-xs focus-primary">
+                                    <option>Pak</option>
+                                </select></div>
+                            <div><label
+                                    class="block text-[10px] font-bold text-slate-400 mb-1">Prov.  <span class="text-red-500">*</span></label><select
+                                    class="w-full rounded-lg border-slate-300 text-xs focus-primary">
+                                    <option>Sindh</option>
+                                </select></div>
+                            <div><label
+                                    class="block text-[10px] font-bold text-slate-400 mb-1">Dist.  <span class="text-red-500">*</span></label><select
+                                    class="w-full rounded-lg border-slate-300 text-xs focus-primary">
+                                    <option>East</option>
+                                </select></div>
+                            <div><label
+                                    class="block text-[10px] font-bold text-slate-400 mb-1">Area  <span class="text-red-500">*</span></label><select
+                                    class="w-full rounded-lg border-slate-300 text-xs focus-primary">
+                                    <option>Gulshan</option>
+                                </select></div>
+                            </div>
+                            <div><label
+                                    class="block text-[10px] font-bold text-slate-400 mb-1">Cluster  <span class="text-red-500">*</span></label><input
+                                    class="w-full rounded-lg border-slate-300 text-xs focus-primary" placeholder="CL-01"
+                                    type="text" /></div>
+                        <div class="flex justify-end">
+                            <button
+                                class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-semibold flex items-center gap-2 shadow-sm">
+                                <span class="material-symbols-outlined text-sm">save</span> Save Cluster</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- <section class="py-10">
+                <div class="flex flex-col md:flex-row md:items-start gap-6">
+                    <div class="md:w-1/3">
+                        <h2 class="text-lg font-bold text-slate-800">Add Microschool</h2>
+                    </div>
+                    <div class="md:w-2/3 flex flex-col gap-4">
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                            <select class="rounded-lg border-slate-300 text-xs focus-primary">
+                                <option>Country</option>
+                            </select>
+                            <select class="rounded-lg border-slate-300 text-xs focus-primary">
+                                <option>Province</option>
+                            </select>
+                            <select class="rounded-lg border-slate-300 text-xs focus-primary">
+                                <option>City</option>
+                            </select>
+                            <select class="rounded-lg border-slate-300 text-xs focus-primary">
+                                <option>District</option>
+                            </select>
+                            <select class="rounded-lg border-slate-300 text-xs focus-primary">
+                                <option>Area</option>
+                            </select>
+                            <select class="rounded-lg border-slate-300 text-xs focus-primary">
+                                <option>Cluster</option>
+                            </select>
+                            <input class="col-span-2 rounded-lg border-slate-300 text-xs focus-primary"
+                                placeholder="Microschool Name" type="text" />
+                        </div>
+                        <div class="flex justify-end">
+                            <button
+                                class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg font-semibold text-sm shadow-sm">Save
+                                Microschool</button>
+                        </div>
+                    </div>
+                </div>
+            </section> -->
+            <section class="py-10">
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-slate-800">Add Region </h2>
+                    <p class="text-sm text-slate-500 mt-1">Select entities from different levels to create a custom
+                        administrative region.</p>
+                </div>
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 border border-slate-200 rounded-xl overflow-hidden mb-6">
+                    <div class="bg-slate-50 p-4 border-r border-slate-200">
+                        <h3 class="font-bold text-xs text-slate-400 mb-3 tracking-widest">Countries</h3>
+                        <div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
+                            <label class="flex items-center gap-2 cursor-pointer group pb-2 mb-1 border-b border-slate-200">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 select-all-checkbox" type="checkbox" data-group="countries" />
+                                <span class="text-xs font-bold text-slate-500 tracking-wide group-hover:text-primary transition-colors">All</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="countries" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">Pakistan</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="countries" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">India</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="p-4 border-r border-slate-200">
+                        <h3 class="font-bold text-xs text-slate-400 mb-3 tracking-widest">Provinces</h3>
+                        <div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
+                            <label class="flex items-center gap-2 cursor-pointer group pb-2 mb-1 border-b border-slate-200">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 select-all-checkbox" type="checkbox" data-group="provinces" />
+                                <span class="text-xs font-bold text-slate-500 tracking-wide group-hover:text-primary transition-colors">All</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="provinces" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">Sindh</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="provinces" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">Punjab</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="provinces" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">KPK</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="p-4  border-slate-200">
+                        <h3 class="font-bold text-xs text-slate-400 mb-3 tracking-widest">Districts</h3>
+                        <div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
+                            <label class="flex items-center gap-2 cursor-pointer group pb-2 mb-1 border-b border-slate-200">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 select-all-checkbox" type="checkbox" data-group="districts" />
+                                <span class="text-xs font-bold text-slate-500 tracking-wide group-hover:text-primary transition-colors">All</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="districts" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">East</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="districts" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">West</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-4 border-r border-slate-200">
+                        <h3 class="font-bold text-xs text-slate-400 mb-3 tracking-widest">Area</h3>
+                        <div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
+                            <label class="flex items-center gap-2 cursor-pointer group pb-2 mb-1 border-b border-slate-200">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 select-all-checkbox" type="checkbox" data-group="areas" />
+                                <span class="text-xs font-bold text-slate-500 tracking-wide group-hover:text-primary transition-colors">All</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="areas" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">Malir</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="areas" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">Gulshan</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="areas" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">Gulberg</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="p-4  border-slate-200">
+                        <h3 class="font-bold text-xs text-slate-400 mb-3 tracking-widest">Cluster</h3>
+                        <div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
+                            <label class="flex items-center gap-2 cursor-pointer group pb-2 mb-1 border-b border-slate-200">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 select-all-checkbox" type="checkbox" data-group="clusters" />
+                                <span class="text-xs font-bold text-slate-500 tracking-wide group-hover:text-primary transition-colors">All</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="clusters" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">Cluster A</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input class="rounded text-primary focus:ring-primary h-4 w-4 group-checkbox" type="checkbox" data-group="clusters" />
+                                <span
+                                    class="text-sm text-slate-600 group-hover:text-primary transition-colors">Cluster B</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="flex flex-col sm:flex-row items-end gap-4 justify-between bg-slate-50 p-6 rounded-xl border border-slate-100">
+                    <div class="w-full max-w-md">
+                        <label class="block text-xs font-bold text-slate-500 mb-2">Region Name  <span class="text-red-500">*</span></label>
+                        <input class="w-full rounded-lg border-slate-300 focus-primary"
+                            placeholder="e.g. South-East Hub" type="text" />
+                    </div>
+                    <button
+                        class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-semibold flex items-center gap-2 shadow-sm">
+                        <span class="material-symbols-outlined text-sm">save</span> Save Region
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+ <script src="layout.js"></script>
+<script>
+    document.querySelectorAll('.select-all-checkbox').forEach(function(selectAll) {
+        var group = selectAll.dataset.group;
+
+        selectAll.addEventListener('change', function() {
+            document.querySelectorAll('.group-checkbox[data-group="' + group + '"]').forEach(function(cb) {
+                cb.checked = selectAll.checked;
+            });
+        });
+
+        var groupCheckboxes = document.querySelectorAll('.group-checkbox[data-group="' + group + '"]');
+        groupCheckboxes.forEach(function(cb) {
+            cb.addEventListener('change', function() {
+                var all = Array.from(groupCheckboxes).every(function(c) { return c.checked; });
+                var none = Array.from(groupCheckboxes).every(function(c) { return !c.checked; });
+                selectAll.checked = all;
+                selectAll.indeterminate = !all && !none;
+            });
+        });
+    });
+</script>
+</body>
+
+</html>

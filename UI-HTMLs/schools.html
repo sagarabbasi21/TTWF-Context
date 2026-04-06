@@ -1,0 +1,637 @@
+<html lang="en">
+
+<head>
+
+
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>School Listing - Teach The World</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#7BAFDE",
+                        secondary: "#1A7F87",
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#0F172A",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        };
+
+        function switchTab(tabId) {
+            const tabs = ['schools', 'school-type'];
+            tabs.forEach(id => {
+                const el = document.getElementById(id + '-content');
+                const btn = document.getElementById(id + '-tab');
+                if (id === tabId) {
+                    el.classList.remove('hidden');
+                    btn.classList.add('border-primary', 'text-primary');
+                    btn.classList.remove('border-transparent', 'text-gray-500');
+                } else {
+                    el.classList.add('hidden');
+                    btn.classList.remove('border-primary', 'text-primary');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                }
+            });
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="schools" data-title="Schools"
+    class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 min-h-screen flex">
+    <div id="sidebar"></div>
+    <main class="flex-1 flex flex-col min-w-0">
+
+        <div class="p-8">
+            <div class="flex items-center justify-end mb-6 gap-3">
+                <button
+                    class="bg-white border border-primary text-primary px-5 py-2.5 rounded-md font-medium flex items-center gap-2 hover:bg-primary/5 transition-colors shadow-sm">
+                    <span class="material-symbols-outlined text-lg">upload_file</span>
+                    Bulk Import
+                </button>
+                <button onclick="window.location.href='school-creation.html'"
+                    class="bg-primary text-white px-5 py-2.5 rounded-md font-medium flex items-center gap-2 hover:bg-secondary transition-colors shadow-sm">
+                    <span class="material-symbols-outlined text-lg">add</span>
+                    Add School
+                </button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="border-b border-slate-200 dark:border-slate-800 mb-8">
+                <nav class="flex gap-8">
+                    <button
+                        class="pb-4 px-1 border-b-2 border-primary text-primary font-semibold text-sm transition-all"
+                        id="schools-tab" onclick="switchTab('schools')">
+                        School Listing
+                    </button>
+                    <button
+                        class="pb-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 font-medium text-sm transition-all"
+                        id="school-type-tab" onclick="switchTab('school-type')">
+                        School Type
+                    </button>
+                </nav>
+            </div>
+
+            <!-- School Listing Tab Content -->
+            <div id="schools-content">
+                <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[var(--primary-teal)]">filter_list</span>
+                            <h3 class="font-bold text-slate-700">Hierarchy Filters</h3>
+                        </div>
+                        <button class="text-[var(--primary-teal)] text-xs font-bold hover:underline">Clear all filters</button>
+                    </div>
+                    <div
+                        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
+                        <div class="space-y-2">
+                            <label
+                                class="text-[10px] font-bold text-slate-400 tracking-widest">Country</label>
+                            <select
+                                class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                <option selected>All</option>
+                                <option>Pakistan</option>
+                                <option>United Kingdom</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="text-[10px] font-bold text-slate-400 tracking-widest">Province</label>
+                            <select
+                                class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                <option selected>All</option>
+                                <option>Punjab</option>
+                                <option>Sindh</option>
+                                <option>KPK</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="text-[10px] font-bold text-slate-400 tracking-widest">District</label>
+                            <select
+                                class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                <option selected>All</option>
+                                <option>East</option>
+                                <option>West</option>
+                                <option>South</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="text-[10px] font-bold text-slate-400 tracking-widest">Region</label>
+                            <select
+                                class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                <option selected>All</option>
+                                <option>Central</option>
+                                <option>North</option>
+                                <option>South</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="text-[10px] font-bold text-slate-400 tracking-widest">Area</label>
+                            <select
+                                class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                <option selected>All</option>
+                                <option>Gulberg</option>
+                                <option>DHA</option>
+                                <option>Johar Town</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="text-[10px] font-bold text-slate-400 tracking-widest">Cluster</label>
+                            <select
+                                class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                                <option selected>All</option>
+                                <option>Cluster A</option>
+                                <option>Cluster B</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="relative w-full mt-4">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400">
+                            <span class="material-symbols-outlined text-xl">search</span>
+                        </span>
+                        <input class="w-full pl-12 rounded-xl border-slate-200 bg-slate-50 text-sm py-3 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all" placeholder="Search hierarchy..." type="text" />
+                    </div>
+                </section>
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                    <div class="relative w-full max-w-md">
+
+                    </div>
+
+                </div>
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+                    <div
+                        class="p-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-700">
+                        <div class="flex items-center space-x-3">
+                            <button
+                                class="inline-flex items-center px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg hover:bg-primary/90 transition-all shadow-sm active:translate-y-px tracking-wider">
+                                <span class="material-symbols-outlined text-sm mr-2">download</span> Excel
+                            </button>
+                            <div class="h-6 w-px bg-slate-200 mx-2"></div>
+                            <div
+                                class="flex items-center text-[10px] font-bold text-slate-500 tracking-widest">
+                                <span>Show</span>
+                                <select
+                                    class="mx-2 rounded-lg border-slate-200 bg-white  py-1 text-xs focus:ring-primary focus:border-primary">
+                                    <option>10</option>
+                                    <option selected="">25</option>
+                                    <option>50</option>
+                                </select>
+                                <span>entries</span>
+                            </div>
+                        </div>
+                        <div class="relative w-full md:w-80">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                <span class="material-symbols-outlined text-lg">search</span>
+                            </span>
+                            <input
+                                class="pl-10 pr-4 py-2 w-full border border-slate-200  rounded-xl bg-slate-50 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400 placeholder:text-[10px] placeholder:font-bold placeholder:tracking-widest"
+                                placeholder="Search schools..." type="text" />
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-left border-collapse min-w-[1400px]">
+                            <thead>
+                                <tr class="bg-primary text-white">
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">School Id</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">Project</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">Donors</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">SEF School Code
+                                    </th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">School Type</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">School Name</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap text-center">No of
+                                        Students</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap text-center">No. of
+                                        Shifts</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">Status</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">Launch Date</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">Closure Date</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">Region</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">Division/City</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">District</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">Area</th>
+                                    <th class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap">Cluster</th>
+                                    <th
+                                        class="px-4 py-4 text-xs font-bold tracking-wider whitespace-nowrap sticky right-0 bg-primary z-10 text-center shadow-[-4px_0_10px_rgba(0,0,0,0.1)]">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">101</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Education All
+                                    </td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-primary relative group cursor-pointer">
+                                        3
+
+                                        <!-- Tooltip -->
+                                        <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2
+                                            hidden group-hover:block
+                                            bg-slate-900 text-white text-xs rounded-lg
+                                            px-3 py-2 whitespace-nowrap shadow-lg z-50">
+                                            Gates Foundation, Unity Foundation, Horizon Partners
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">SEF-992</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Micro School
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">
+                                        Musa Goth
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">10
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">4
+                                    </td>
+                                    <td class="px-4 py-4 text-sm">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Active</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">2025-08-30</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">-</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Sindh</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Karachi</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Korangi</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Zone 4</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Alpha</td>
+                                    <td
+                                        class="px-4 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Person"><span
+                                                    class="material-symbols-outlined text-[20px]">person</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Location"><span
+                                                    class="material-symbols-outlined text-[20px]">location_on</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit"><span
+                                                    class="material-symbols-outlined text-[20px]">edit</span></button>
+
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Smartphone"><span
+                                                    class="material-symbols-outlined text-[20px]">smartphone</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Copy"
+                                                onclick="window.location.href='shifts.html'"><span
+                                                    class="material-symbols-outlined text-[20px]">content_copy</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Group"
+                                                onclick="window.location.href='profiles.html'">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">group</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span
+                                                    class="material-symbols-outlined text-[20px]">delete</span></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr
+                                    class="bg-slate-50/50 dark:bg-slate-800/20 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">9992</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Tech Initiative
+                                    </td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-primary relative group cursor-pointer">
+                                        2
+
+                                        <!-- Tooltip -->
+                                        <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2
+                                            hidden group-hover:block
+                                            bg-slate-900 text-white text-xs rounded-lg
+                                            px-3 py-2 whitespace-nowrap shadow-lg z-50">
+                                            Ford
+                                            Foundation, Unity Foundation
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">SEF-104</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Micro School
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">
+                                        Test School
+                                        2</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">15
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">3
+                                    </td>
+                                    <td class="px-4 py-4 text-sm">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">Pending</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">2026-01-27</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">-</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Sindh</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Karachi</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Korangi</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Zone 2</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Beta</td>
+                                    <td
+                                        class="px-4 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Person"><span
+                                                    class="material-symbols-outlined text-[20px]">person</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Location"><span
+                                                    class="material-symbols-outlined text-[20px]">location_on</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit"><span
+                                                    class="material-symbols-outlined text-[20px]">edit</span></button>
+
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Smartphone"><span
+                                                    class="material-symbols-outlined text-[20px]">smartphone</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Copy"
+                                                onclick="window.location.href='shifts.html'"><span
+                                                    class="material-symbols-outlined text-[20px]">content_copy</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Group"
+                                                onclick="window.location.href='profiles.html'">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">group</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span
+                                                    class="material-symbols-outlined text-[20px]">delete</span></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">105</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Primary Plus
+                                    </td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-primary relative group cursor-pointer">
+                                        4
+
+                                        <!-- Tooltip -->
+                                        <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2
+                                            hidden group-hover:block
+                                            bg-slate-900 text-white text-xs rounded-lg
+                                            px-3 py-2 whitespace-nowrap shadow-lg z-50">
+                                            UNESCO, Unity Foundation, Horizon Partners, Private Donor
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">SEF-882</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Model School
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">
+                                        Green
+                                        Valley Academy</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">5
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">4
+                                    </td>
+                                    <td class="px-4 py-4 text-sm">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Active</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">2024-03-12</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">-</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Punjab</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Lahore</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Model Town
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">North</td>
+                                    <td class="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">Delta</td>
+                                    <td
+                                        class="px-4 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Person"><span
+                                                    class="material-symbols-outlined text-[20px]">person</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Location"><span
+                                                    class="material-symbols-outlined text-[20px]">location_on</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit"><span
+                                                    class="material-symbols-outlined text-[20px]">edit</span></button>
+
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Smartphone"><span
+                                                    class="material-symbols-outlined text-[20px]">smartphone</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Copy"
+                                                onclick="window.location.href='shifts.html'"><span
+                                                    class="material-symbols-outlined text-[20px]">content_copy</span></button>
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Group"
+                                                onclick="window.location.href='profiles.html'">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">group</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span
+                                                    class="material-symbols-outlined text-[20px]">delete</span></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                        <span class="text-sm text-slate-500">Showing 1 to 3 of 42 schools</span>
+                        <div class="flex gap-2">
+                            <button
+                                class="p-2 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
+                                disabled="">
+                                <span class="material-symbols-outlined text-sm">chevron_left</span>
+                            </button>
+                            <button class="px-3 py-1 bg-primary text-white rounded text-sm">1</button>
+                            <button
+                                class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded text-sm hover:bg-slate-50 dark:hover:bg-slate-800">2</button>
+                            <button
+                                class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded text-sm hover:bg-slate-50 dark:hover:bg-slate-800">3</button>
+                            <button
+                                class="p-2 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-800">
+                                <span class="material-symbols-outlined text-sm">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- School Type Tab Content -->
+            <div id="school-type-content" class="hidden">
+                <div class="flex items-center justify-end mb-6">
+                    <button onclick="openCreateSchoolTypeModal()"
+                        class="bg-primary hover:opacity-90 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 font-semibold transition-all shadow-sm">
+                        <span class="material-symbols-outlined text-lg">add</span>
+                        Create School Type
+                    </button>
+                </div>
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-primary text-white">
+                                    <th class="px-6 py-4 text-xs font-bold tracking-wider">Name</th>
+                                    <th
+                                        class="px-6 py-4 text-xs font-bold tracking-wider text-center w-40">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                    <td
+                                        class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">
+                                        Micro School</td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit"
+                                                onclick="openEditSchoolTypeModal('Micro School')">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr
+                                    class="bg-slate-50/50 dark:bg-slate-800/20 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                    <td
+                                        class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">
+                                        Model School</td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit"
+                                                onclick="openEditSchoolTypeModal('Model School')">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                    <td
+                                        class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">
+                                        Community School</td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit"
+                                                onclick="openEditSchoolTypeModal('Community School')">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr
+                                    class="bg-slate-50/50 dark:bg-slate-800/20 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                    <td
+                                        class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">
+                                        Primary School</td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit"
+                                                onclick="openEditSchoolTypeModal('Primary School')">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                        <span class="text-sm text-slate-500">Showing 1 to 4 of 4 school types</span>
+                        <div class="flex gap-2">
+                            <button
+                                class="p-2 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
+                                disabled="">
+                                <span class="material-symbols-outlined text-sm">chevron_left</span>
+                            </button>
+                            <button class="px-3 py-1 bg-primary text-white rounded text-sm">1</button>
+                            <button
+                                class="p-2 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50"
+                                disabled="">
+                                <span class="material-symbols-outlined text-sm">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="fixed -bottom-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10">
+    </div>
+    <div class="fixed bottom-0 left-0 w-1/4 h-1/4 bg-primary/5 -skew-y-12 transform origin-bottom-left -z-10">
+    </div>
+
+    <!-- Create/Edit School Type Modal -->
+    <div id="schoolTypeModal"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+                <h3 id="schoolTypeModalTitle" class="text-lg font-bold text-slate-900 dark:text-slate-100">Create
+                    School Type</h3>
+                <button onclick="closeSchoolTypeModal()"
+                    class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6">
+                <div>
+                    <label
+                        class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">Name</label>
+                    <input id="schoolTypeName" type="text" placeholder="Enter school type name"
+                        class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary py-2.5" />
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-3 p-6 border-t border-slate-200 dark:border-slate-700">
+                <button onclick="closeSchoolTypeModal()"
+                    class="bg-white border border-slate-200 text-slate-600 px-5 py-2.5 rounded-lg font-medium hover:bg-slate-50 transition-colors">
+                    Cancel
+                </button>
+                <button onclick="closeSchoolTypeModal()"
+                    class="bg-primary hover:opacity-90 text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-sm">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="layout.js"></script>
+    <script>
+        function openCreateSchoolTypeModal() {
+            document.getElementById('schoolTypeModalTitle').textContent = 'Create School Type';
+            document.getElementById('schoolTypeName').value = '';
+            document.getElementById('schoolTypeModal').classList.remove('hidden');
+            document.getElementById('schoolTypeModal').classList.add('flex');
+        }
+
+        function openEditSchoolTypeModal(name) {
+            document.getElementById('schoolTypeModalTitle').textContent = 'Edit School Type';
+            document.getElementById('schoolTypeName').value = name;
+            document.getElementById('schoolTypeModal').classList.remove('hidden');
+            document.getElementById('schoolTypeModal').classList.add('flex');
+        }
+
+        function closeSchoolTypeModal() {
+            document.getElementById('schoolTypeModal').classList.add('hidden');
+            document.getElementById('schoolTypeModal').classList.remove('flex');
+        }
+
+        // Close modal when clicking backdrop
+        document.getElementById('schoolTypeModal').addEventListener('click', function (e) {
+            if (e.target === this) closeSchoolTypeModal();
+        });
+    </script>
+</body>
+
+</html>

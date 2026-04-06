@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Profiles Management - Teach The World</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#7BAFDE",
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#0F172A",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    </style>
+     <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="schools" data-title="Profiles" data-desc="View and manage student device profiles."
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200">
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar"></div>
+        <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+            <div class="flex-1 overflow-y-auto p-8">
+                <div class="max-w-7xl mx-auto space-y-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="relative max-w-md w-full">
+                            <input
+                                class="w-full pl-11 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary dark:text-white outline-none transition-all"
+                                placeholder="Search profiles..." type="text" />
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary">search</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <button
+                                class="flex items-center gap-2 px-4 py-2.5 bg-primary text-white rounded-xl font-medium shadow-sm hover:bg-opacity-90 transition-all">
+                                <span>All Shifts</span>
+                                <span class="material-symbols-outlined">expand_more</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-primary text-white">
+                                        <th class="px-6 py-4 font-semibold text-sm tracking-wider">Profile
+                                            Name</th>
+                                        <th class="px-6 py-4 font-semibold text-sm tracking-wider">Password
+                                        </th>
+                                        <th class="px-6 py-4 font-semibold text-sm tracking-wider">Student
+                                        </th>
+                                        <th class="px-6 py-4 font-semibold text-sm tracking-wider">Linked
+                                            Device</th>
+                                        <th class="px-6 py-4 font-semibold text-sm tracking-wider">Shift</th>
+                                        <th
+                                            class="px-6 py-4 font-semibold text-sm tracking-wider text-center w-20">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">profile -
+                                            77</td>
+                                        <td
+                                            class="px-6 py-4 text-slate-400 dark:text-slate-500 font-mono tracking-widest">
+                                            ••••</td>
+                                        <td class="px-6 py-4 text-slate-400 dark:text-slate-500">—</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Device - 20</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Shift 1 (8:00 AM -
+                                            10:00 AM)</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">profile -
+                                            101</td>
+                                        <td
+                                            class="px-6 py-4 text-slate-400 dark:text-slate-500 font-mono tracking-widest">
+                                            ••••</td>
+                                        <td class="px-6 py-4 text-slate-400 dark:text-slate-500">—</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Device - 26</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Shift 1 (8:00 AM -
+                                            10:00 AM)</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">profile -
+                                            57</td>
+                                        <td
+                                            class="px-6 py-4 text-slate-400 dark:text-slate-500 font-mono tracking-widest">
+                                            ••••</td>
+                                        <td class="px-6 py-4 text-slate-400 dark:text-slate-500">—</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Device - 15</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Shift 1 (8:00 AM -
+                                            10:00 AM)</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">profile -
+                                            73</td>
+                                        <td
+                                            class="px-6 py-4 text-slate-400 dark:text-slate-500 font-mono tracking-widest">
+                                            ••••</td>
+                                        <td class="px-6 py-4 text-slate-400 dark:text-slate-500">—</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Device - 19</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Shift 1 (8:00 AM -
+                                            10:00 AM)</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">profile -
+                                            89</td>
+                                        <td
+                                            class="px-6 py-4 text-slate-400 dark:text-slate-500 font-mono tracking-widest">
+                                            ••••</td>
+                                        <td class="px-6 py-4 text-slate-400 dark:text-slate-500">—</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Device - 23</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Shift 1 (8:00 AM -
+                                            10:00 AM)</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">profile -
+                                            97</td>
+                                        <td
+                                            class="px-6 py-4 text-slate-400 dark:text-slate-500 font-mono tracking-widest">
+                                            ••••</td>
+                                        <td class="px-6 py-4 text-slate-400 dark:text-slate-500">—</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Device - 25</td>
+                                        <td class="px-6 py-4 text-slate-700 dark:text-slate-300">Shift 1 (8:00 AM -
+                                            10:00 AM)</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
+                            class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                            <span class="text-sm text-slate-500 dark:text-slate-400">Showing 1 to 6 of 42
+                                profiles</span>
+                            <div class="flex gap-2">
+                                <button
+                                    class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Previous</button>
+                                <button class="px-3 py-1 bg-primary text-white rounded-lg">1</button>
+                                <button
+                                    class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">2</button>
+                                <button
+                                    class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+ <script src="layout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<header  id="mainHeader" class="fixed top-0 left-72 right-0 h-16 bg-white border-b border-slate-200 z-40">
+    <div class="h-full px-6 flex items-center justify-between">
+
+        <!-- Left: Page Title + Description -->
+        <div class="flex items-center gap-3">
+            <span id="pageIcon" class="material-symbols-outlined text-primary">dashboard</span>
+            <div class="leading-tight">
+                <h1 id="pageTitle" class="text-base font-bold text-slate-800 leading-none">Welcome, Admin User</h1>
+                <p id="pageDesc" class="text-xs text-slate-400 mt-0.5 leading-none"></p>
+            </div>
+        </div>
+
+        <!-- Right -->
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3 bg-slate-50 px-3 py-2 rounded-xl">
+                <div class="w-9 h-9 bg-slate-200 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-slate-500">person</span>
+                </div>
+                <div class="leading-tight hidden sm:block">
+                    <p class="text-xs font-bold text-slate-800">Admin User</p>
+                    <p class="text-[10px] text-slate-500" id="headerDate"></p>
+                </div>
+            </div>
+
+            <button class="text-slate-400 hover:text-red-500 transition">
+                <span class="material-symbols-outlined">logout</span>
+            </button>
+        </div>
+
+    </div>
+</header>

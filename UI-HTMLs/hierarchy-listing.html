@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Locations Management - Teach The World</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#7BAFDE",
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#0F172A",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+        function switchTab(tabId) {
+            const tabs = ['hierarchy', 'regions'];
+            tabs.forEach(id => {
+                const el = document.getElementById(id + '-content');
+                const btn = document.getElementById(id + '-tab');
+                if (id === tabId) {
+                    el.classList.remove('hidden');
+                    btn.classList.add('border-primary', 'text-primary');
+                    btn.classList.remove('border-transparent', 'text-gray-500');
+                } else {
+                    el.classList.add('hidden');
+                    btn.classList.remove('border-primary', 'text-primary');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                }
+            });
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+
+        /* prevents tooltip from being clipped by table/overflow parents */
+        .tt-wrap {
+            position: relative;
+            display: inline-flex;
+            width: 100%;
+        }
+
+        .tt-tip {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: calc(100% + 10px);
+            z-index: 9999;
+            display: none;
+            max-width: 320px;
+            white-space: normal;
+        }
+
+        .tt-wrap:hover .tt-tip {
+            display: block;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="hierarchy" data-title="Locations" data-desc="Manage geographical hierarchy and administrative regions."
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex">
+    <div id="sidebar"></div>
+
+    <main class="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+
+        <div class="p-8 w-full">
+            <div class="flex items-center justify-end mb-8">
+                <button onclick="window.location.href='hierarchy-management.html'"
+                    class="bg-primary hover:opacity-90 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 font-semibold transition-all shadow-sm">
+                    <span class="material-icons-outlined">add</span>
+                    Create Location
+                </button>
+            </div>
+            <div class="border-b border-slate-200 dark:border-slate-800 mb-8">
+                <nav class="flex gap-8">
+                    <button
+                        class="pb-4 px-1 border-b-2 border-primary text-primary font-semibold text-sm transition-all"
+                        id="hierarchy-tab" onclick="switchTab('hierarchy')">
+                        Hierarchy View
+                    </button>
+                    <button
+                        class="pb-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 font-medium text-sm transition-all"
+                        id="regions-tab" onclick="switchTab('regions')">
+                        Administrative Regions
+                    </button>
+                </nav>
+            </div>
+            <div class="space-y-6" id="hierarchy-content">
+                <div
+                    class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">Country</label>
+                            <select
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary">
+                                <option selected>All</option>
+                                <option>Pakistan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">Province</label>
+                            <select
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary">
+                                <option selected>All</option>
+                                <option>Sindh</option>
+                                <option>Punjab</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">District</label>
+                            <select
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary">
+                                <option selected>All</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">Area</label>
+                            <select
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary">
+                                <option selected>All</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">Cluster</label>
+                            <select
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary">
+                                <option selected>All</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div
+                        class="p-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-700">
+                        <div class="flex items-center space-x-3">
+                            <button
+                                class="inline-flex items-center px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg hover:bg-primary/90 transition-all shadow-sm active:translate-y-px tracking-wider">
+                                <span class="material-symbols-outlined text-sm mr-2">download</span> Excel
+                            </button>
+                            <!-- <button
+                                class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-[10px] font-bold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-all tracking-wider">
+                                <span class="material-symbols-outlined text-sm mr-2">picture_as_pdf</span> PDF
+                            </button> -->
+                            <div class="h-6 w-px bg-slate-200 mx-2"></div>
+                            <div
+                                class="flex items-center text-[10px] font-bold text-slate-500 tracking-widest">
+                                <span>Show</span>
+                                <select
+                                    class="mx-2 rounded-lg border-slate-200 bg-white  py-1 text-xs focus:ring-primary focus:border-primary">
+                                    <option>10</option>
+                                    <option selected="">25</option>
+                                    <option>50</option>
+                                </select>
+                                <span>entries</span>
+                            </div>
+                        </div>
+                        <div class="relative w-full md:w-80">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                <span class="material-symbols-outlined text-lg">search</span>
+                            </span>
+                            <input
+                                class="pl-10 pr-4 py-2 w-full border border-slate-200  rounded-xl bg-slate-50 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400 placeholder:text-[10px] placeholder:font-bold placeholder:tracking-widest"
+                                placeholder="Search locations..." type="text" />
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-primary text-white">
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">Country</th>
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">Province</th>
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">District</th>
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">Area</th>
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">Cluster</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4 text-sm">Pakistan</td>
+                                    <td class="px-6 py-4 text-sm">Sindh</td>
+                                    <td class="px-6 py-4 text-sm">South</td>
+                                    <td class="px-6 py-4 text-sm">Saddar</td>
+                                    <td class="px-6 py-4 text-sm">Cluster A1</td>
+                                </tr>
+                                <tr
+                                    class="bg-slate-50/50 dark:bg-slate-800/20 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4 text-sm">Pakistan</td>
+                                    <td class="px-6 py-4 text-sm">Punjab</td>
+                                    <td class="px-6 py-4 text-sm">Gulberg</td>
+                                    <td class="px-6 py-4 text-sm">Area 4</td>
+                                    <td class="px-6 py-4 text-sm">Cluster L2</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4 text-sm">Pakistan</td>
+                                    <td class="px-6 py-4 text-sm">Punjab</td>
+                                    <td class="px-6 py-4 text-sm">Zone 1</td>
+                                    <td class="px-6 py-4 text-sm">G-11</td>
+                                    <td class="px-6 py-4 text-sm">Cluster I3</td>
+                                </tr>
+                                <tr
+                                    class="bg-slate-50/50 dark:bg-slate-800/20 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4 text-sm">Pakistan</td>
+                                    <td class="px-6 py-4 text-sm">KPK</td>
+                                    <td class="px-6 py-4 text-sm">Cantt</td>
+                                    <td class="px-6 py-4 text-sm">City Center</td>
+                                    <td class="px-6 py-4 text-sm">Cluster P1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                        <span class="text-xs text-slate-500 font-medium">Showing 4 of 124 results</span>
+                        <div class="flex gap-2">
+                            <button
+                                class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded text-sm hover:bg-slate-50 dark:hover:bg-slate-800">Prev</button>
+                            <button class="px-3 py-1 bg-primary text-white rounded text-sm">1</button>
+                            <button
+                                class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded text-sm hover:bg-slate-50 dark:hover:bg-slate-800">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-6 hidden" id="regions-content">
+                <div
+                    class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">Country</label>
+                            <select
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm">
+                                <option selected>All</option>
+                                <option>Pakistan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">Province</label>
+                            <select
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm">
+                                <option selected>All</option>
+                                <option>Sindh</option>
+                                <option>Punjab</option>
+                                <option>KPK</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">District</label>
+                            <select
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm">
+                                <option selected>All</option>
+                                <option>South</option>
+                                <option>East</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">Area</label>
+                            <select
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm">
+                                <option selected>All</option>
+                                <option>Saddar</option>
+                                <option>Gulberg</option>
+                                <option>City Center</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">Cluster</label>
+                            <select
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm">
+                                <option selected>All</option>
+                                <option>Cluster A1</option>
+                                <option>Cluster L2</option>
+                                <option>Cluster P1</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <div
+                        class="p-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-700">
+                        <div class="flex items-center space-x-3">
+                            <button
+                                class="inline-flex items-center px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg hover:bg-primary/90 transition-all shadow-sm active:translate-y-px tracking-wider">
+                                <span class="material-symbols-outlined text-sm mr-2">download</span> Excel
+                            </button>
+                            <!-- <button
+                                class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-[10px] font-bold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-all tracking-wider">
+                                <span class="material-symbols-outlined text-sm mr-2">picture_as_pdf</span> PDF
+                            </button> -->
+                            <div class="h-6 w-px bg-slate-200 mx-2"></div>
+                            <div
+                                class="flex items-center text-[10px] font-bold text-slate-500 tracking-widest">
+                                <span>Show</span>
+                                <select
+                                    class="mx-2 rounded-lg border-slate-200 bg-white  py-1 text-xs focus:ring-primary focus:border-primary">
+                                    <option>10</option>
+                                    <option selected="">25</option>
+                                    <option>50</option>
+                                </select>
+                                <span>entries</span>
+                            </div>
+                        </div>
+                        <div class="relative w-full md:w-80">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                <span class="material-symbols-outlined text-lg">search</span>
+                            </span>
+                            <input
+                                class="pl-10 pr-4 py-2 w-full border border-slate-200  rounded-xl bg-slate-50 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400 placeholder:text-[10px] placeholder:font-bold placeholder:tracking-widest"
+                                placeholder="Search regions..." type="text" />
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-primary text-white">
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">Region Name
+                                    </th>
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">Country</th>
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">Province</th>
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">District</th>
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">Area</th>
+                                    <th class="px-6 py-4 text-sm font-semibold tracking-wider">Cluster</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="divide-y divide-slate-100">
+
+                     
+
+                                <!-- ================= ROW 2 ================= -->
+                                <tr class="bg-slate-50/50 hover:bg-slate-50 transition-colors">
+                                    <td class="px-6 py-4 text-sm font-semibold text-slate-900">
+                                        Upper Punjab Hub
+                                    </td>
+
+                                    <td class="px-6 py-4">
+                                        <div class="tt-wrap cursor-help">
+                                            <div class="flex flex-wrap gap-1.5">
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">Pakistan</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">UAE</span>
+                                            </div>
+                                            <div class="tt-tip">
+                                                <div
+                                                    class="bg-slate-900 text-white text-xs rounded-lg px-3 py-2 shadow-xl">
+                                                    Pakistan, UAE
+                                                </div>
+                                                <div class="w-3 h-3 bg-slate-900 rotate-45 mx-auto -mt-1"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-6 py-4 text-sm">Punjab</td>
+                                    <td class="px-6 py-4 text-sm">Gulberg, DHA</td>
+                                    <td class="px-6 py-4 text-sm">Gulberg, DHA</td>
+                                    <td class="px-6 py-4 text-sm">Cluster A1, L2</td>
+                                </tr>
+
+                                           <!-- ================= ROW 1 ================= -->
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="px-6 py-4 text-sm font-semibold text-slate-900">
+                                        South Coastal Region
+                                    </td>
+
+                                    <!-- Countries -->
+                                    <td class="px-6 py-4">
+                                        <div class="tt-wrap cursor-help">
+                                            <div class="flex flex-wrap gap-1.5">
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">Pakistan</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">UK</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">+3</span>
+                                            </div>
+                                            <div class="tt-tip">
+                                                <div
+                                                    class="bg-slate-900 text-white text-xs rounded-lg px-3 py-2 shadow-xl">
+                                                    Pakistan, United Kingdom, UAE, Turkey, Qatar
+                                                </div>
+                                                <div class="w-3 h-3 bg-slate-900 rotate-45 mx-auto -mt-1"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <!-- Provinces -->
+                                    <td class="px-6 py-4">
+                                        <div class="tt-wrap cursor-help">
+                                            <div class="flex flex-wrap gap-1.5">
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">Sindh</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">Punjab</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">+5</span>
+                                            </div>
+                                            <div class="tt-tip">
+                                                <div
+                                                    class="bg-slate-900 text-white text-xs rounded-lg px-3 py-2 shadow-xl">
+                                                    Sindh, Punjab, KPK, Balochistan, Gilgit-Baltistan, AJK, Islamabad
+                                                </div>
+                                                <div class="w-3 h-3 bg-slate-900 rotate-45 mx-auto -mt-1"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <!-- Districts -->
+                                    <td class="px-6 py-4">
+                                        <div class="tt-wrap cursor-help">
+                                            <div class="flex flex-wrap gap-1.5">
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">South</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">East</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">+7</span>
+                                            </div>
+                                            <div class="tt-tip">
+                                                <div
+                                                    class="bg-slate-900 text-white text-xs rounded-lg px-3 py-2 shadow-xl">
+                                                    South, East, West, Central, Korangi, Malir, Keamari, Gulshan, Lyari
+                                                </div>
+                                                <div class="w-3 h-3 bg-slate-900 rotate-45 mx-auto -mt-1"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <!-- Areas -->
+                                    <td class="px-6 py-4">
+                                        <div class="tt-wrap cursor-help">
+                                            <div class="flex flex-wrap gap-1.5">
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">Saddar</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">Korangi</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">+4</span>
+                                            </div>
+                                            <div class="tt-tip">
+                                                <div
+                                                    class="bg-slate-900 text-white text-xs rounded-lg px-3 py-2 shadow-xl">
+                                                    Saddar, Korangi, Gulshan, DHA, Malir, Clifton
+                                                </div>
+                                                <div class="w-3 h-3 bg-slate-900 rotate-45 mx-auto -mt-1"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <!-- Clusters -->
+                                    <td class="px-6 py-4">
+                                        <div class="tt-wrap cursor-help">
+                                            <div class="flex flex-wrap gap-1.5">
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">A1</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">K2</span>
+                                                <span
+                                                    class="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">+3</span>
+                                            </div>
+                                            <div class="tt-tip">
+                                                <div
+                                                    class="bg-slate-900 text-white text-xs rounded-lg px-3 py-2 shadow-xl">
+                                                    A1, K2, G1, D3, M1
+                                                </div>
+                                                <div class="w-3 h-3 bg-slate-900 rotate-45 mx-auto -mt-1"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- ================= ROW 3 ================= -->
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="px-6 py-4 text-sm font-semibold text-slate-900">
+                                        Northern Growth Zone
+                                    </td>
+
+                                    <td class="px-6 py-4 text-sm">Pakistan</td>
+                                    <td class="px-6 py-4 text-sm">KPK</td>
+                                    <td class="px-6 py-4 text-sm">Saddar, Hayatabad</td>
+                                    <td class="px-6 py-4 text-sm">City Center, Hayatabad</td>
+                                    <td class="px-6 py-4 text-sm">P1, H2</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="layout.js"></script>
+</body>
+
+</html>

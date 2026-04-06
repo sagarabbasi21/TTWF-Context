@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Role Listing - Management System</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+          <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#7BAFDE",
+                        secondary: "#700036",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.375rem",
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+
+<body data-page="roles" data-title="Roles" data-desc="Define and manage system roles and permissions." class="bg-slate-50 dark:bg-background-dark min-h-screen text-slate-900 dark:text-slate-100 flex">
+  <div id="sidebar"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header
+            class="h-16 flex items-center justify-between px-8 flex-shrink-0">
+           <div></div>
+            <div class="flex items-center space-x-4">
+              
+                <button
+                 onclick="window.location.href='create-new-role.html'"
+                    class="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-lg text-xs font-bold tracking-wider hover:bg-primary/90 transition-all shadow-sm">
+                    <span class="material-symbols-outlined text-sm">add</span>
+                    <span>Create Role</span>
+                </button>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+            <div class="max-w-[1600px] mx-auto">
+                
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+                    <div
+                        class="p-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-700">
+                        <div class="flex items-center space-x-3">
+                            <button
+                                class="inline-flex items-center px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg hover:bg-primary/90 transition-all shadow-sm active:translate-y-px tracking-wider">
+                                <span class="material-symbols-outlined text-sm mr-2">download</span> Excel
+                            </button>
+                            <!-- <button
+                                class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-[10px] font-bold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-all tracking-wider">
+                                <span class="material-symbols-outlined text-sm mr-2">picture_as_pdf</span> PDF
+                            </button> -->
+                            <div class="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
+                            <div
+                                class="flex items-center text-[10px] font-bold text-slate-500 tracking-widest">
+                                <span>Show</span>
+                                <select
+                                    class="mx-2 rounded-lg border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 py-1 text-xs focus:ring-primary focus:border-primary">
+                                    <option>10</option>
+                                    <option selected="">25</option>
+                                    <option>50</option>
+                                </select>
+                                <span>entries</span>
+                            </div>
+                        </div>
+                        <div class="relative w-full md:w-80">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                <span class="material-symbols-outlined text-lg">search</span>
+                            </span>
+                            <input
+                                class="pl-10 pr-4 py-2 w-full border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-900 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400 placeholder:text-[10px] placeholder:font-bold placeholder:tracking-widest"
+                                placeholder="Search roles..." type="text" />
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto custom-scrollbar">
+                        
+                        <table class="w-full text-left border-collapse min-w-[1200px]">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th class="px-6 py-4 w-12 text-center">
+                                        <input
+                                            class="rounded-md border-white/30 text-primary focus:ring-0 focus:ring-offset-0 bg-transparent"
+                                            type="checkbox" />
+                                    </th>
+                                    <th class="px-6 py-4 text-[10px] font-bold tracking-[0.2em]">
+                                        <div class="flex items-center">
+                                             Name
+                                            <span
+                                                class="material-symbols-outlined text-xs ml-2 opacity-50">swap_vert</span>
+                                        </div>
+                                    </th>
+                                    <th class="px-6 py-4 text-[10px] font-bold tracking-[0.2em]">
+                                        <div class="flex items-center">
+                                            Description
+                                            <span
+                                                class="material-symbols-outlined text-xs ml-2 opacity-50">swap_vert</span>
+                                        </div>
+                                    </th>
+                                    <th class="px-6 py-4 text-[10px] font-bold tracking-[0.2em]">
+                                        <div class="flex items-center">
+                                            Approval Status
+                                            <span
+                                                class="material-symbols-outlined text-xs ml-2 opacity-50">swap_vert</span>
+                                        </div>
+                                    </th>
+                                    <th class="px-6 py-4 text-[10px] font-bold tracking-[0.2em]">
+                                        <div class="flex items-center">
+                                            Approved By
+                                            <span
+                                                class="material-symbols-outlined text-xs ml-2 opacity-50">swap_vert</span>
+                                        </div>
+                                    </th>
+                        
+                                    <th class="px-6 py-4 text-[10px] font-bold tracking-[0.2em] text-center">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+                                    <td class="px-6 py-4 text-center"><input
+                                            class="rounded-md border-slate-300 dark:border-slate-600 text-primary focus:ring-primary focus:ring-offset-0 dark:bg-slate-700"
+                                            type="checkbox" /></td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span
+                                                class="text-sm font-bold dark:text-slate-200">School
+                                                Manager</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Microschool Level
+                                    </td>
+                                    <td class="px-6 py-4 text-sm"><span
+                                            class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold tracking-wider rounded-full border border-green-200 dark:border-green-800">Approved</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300 font-medium">System
+                                        Admin</td>
+                         
+                                    <td class="px-6 py-4 text-center">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                title="Edit">
+                                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50"
+                                                title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+                                    <td class="px-6 py-4 text-center"><input
+                                            class="rounded-md border-slate-300 dark:border-slate-600 text-primary focus:ring-primary focus:ring-offset-0 dark:bg-slate-700"
+                                            type="checkbox" /></td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span
+                                                class="text-sm font-bold dark:text-slate-200">System
+                                                Admin</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Country Level</td>
+                                    <td class="px-6 py-4 text-sm"><span
+                                            class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold tracking-wider rounded-full border border-green-200 dark:border-green-800">Approved</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300 font-medium">
+                                        Executive Board</td>
+                     
+                                    <td class="px-6 py-4 text-center">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                title="Edit">
+                                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50"
+                                                title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+                                    <td class="px-6 py-4 text-center"><input
+                                            class="rounded-md border-slate-300 dark:border-slate-600 text-primary focus:ring-primary focus:ring-offset-0 dark:bg-slate-700"
+                                            type="checkbox" /></td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <span
+                                                class="text-sm font-bold dark:text-slate-200">Area
+                                                Coordinator</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Area Level</td>
+                                    <td class="px-6 py-4 text-sm"><span
+                                            class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold tracking-wider rounded-full border border-green-200 dark:border-green-800">Approved</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300 font-medium">
+                                        Regional Lead</td>
+                       
+                                    <td class="px-6 py-4 text-center">
+                                        <div class="flex items-center justify-center gap-3">
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5"
+                                                title="Edit">
+                                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                                            </button>
+                                            <button
+                                                class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50"
+                                                title="Delete">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="p-6 flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-50/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-700">
+                        <span class="text-[10px] font-bold text-slate-500 tracking-[0.2em]">Showing 1 to 3 of
+                            3 roles</span>
+                        <div class="flex items-center space-x-2">
+                            <button
+                                class="px-4 py-2 text-[10px] font-bold tracking-widest border border-slate-200 dark:border-slate-600 rounded-lg text-slate-400 disabled:opacity-50"
+                                disabled="">Prev</button>
+                            <button
+                                class="px-4 py-2 text-[10px] font-bold bg-primary text-white rounded-lg shadow-sm">1</button>
+                            <button
+                                class="px-4 py-2 text-[10px] font-bold tracking-widest border border-slate-200 dark:border-slate-600 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+  <script src="layout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Create New Donor - Teach The World</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7BAFDE",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#10221d",
+                        "neutral-surface": "#ffffff",
+                        "neutral-border": "#e5e7eb",
+                        "neutral-text": "#111827",
+                        "muted-text": "#6b7280"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="donors" data-title="Create New Donor" data-desc="Add a new individual or organization to the donor registry." class="bg-background-light dark:bg-background-dark text-neutral-text dark:text-slate-100 min-h-screen font-display">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div id="sidebar"></div>
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <!-- Content Area -->
+            <div class="p-8 w-full space-y-6">
+
+                <!-- Top Action Bar -->
+                <div class="flex items-center justify-end gap-3">
+                    <button type="button" onclick="window.location.href='donors.html'"
+                        class="px-5 py-2 rounded border border-gray-300 text-slate-600 text-xs font-bold tracking-widest hover:bg-slate-50 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="button" onclick="document.getElementById('donorForm').submit()"
+                        class="px-5 py-2 rounded bg-primary text-white text-xs font-bold tracking-widest hover:bg-primary/90 shadow-sm transition-colors">
+                        Save Donor
+                    </button>
+                </div>
+
+                <form id="donorForm" class="space-y-6">
+
+                    <!-- Donor Information Card -->
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                        <div class="bg-primary text-white px-6 py-3 flex items-center gap-2 rounded-t-lg">
+                            <span class="material-symbols-outlined text-lg">person</span>
+                            <span class="text-sm font-bold">Donor Information</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Donor Name -->
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2" for="donor-name">Donor Name <span class="text-red-500">*</span></label>
+                                    <input
+                                        class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3"
+                                        id="donor-name" placeholder="Full name or Company name" type="text" />
+                                </div>
+                                <!-- Donor Type -->
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2" for="donor-type">Donor Type <span class="text-red-500">*</span></label>
+                                    <select
+                                        class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 bg-white"
+                                        id="donor-type">
+                                        <option disabled="" selected="" value="">Select donor type</option>
+                                        <option value="individual">Individual</option>
+                                        <option value="corporate">Corporate</option>
+                                        <option value="ngo">NGO</option>
+                                    </select>
+                                </div>
+                                <!-- Email -->
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2" for="email">Email Address</label>
+                                    <input
+                                        class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3"
+                                        id="email" placeholder="email@example.com" type="email" />
+                                </div>
+                                <!-- Mobile -->
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2" for="mobile">Mobile Number</label>
+                                    <input
+                                        class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3"
+                                        id="mobile" placeholder="+1 (555) 000-0000" type="tel" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Details Card -->
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                        <div class="bg-primary text-white px-6 py-3 flex items-center gap-2 rounded-t-lg">
+                            <span class="material-symbols-outlined text-lg">info</span>
+                            <span class="text-sm font-bold">Additional Details</span>
+                        </div>
+                        <div class="p-6 space-y-6">
+                            <!-- Address -->
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2" for="address">Physical Address</label>
+                                <input
+                                    class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3"
+                                    id="address" placeholder="Street, City, State, ZIP Code" type="text" />
+                            </div>
+                            <!-- Description -->
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2" for="description">Description</label>
+                                <textarea
+                                    class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 resize-none"
+                                    id="description"
+                                    placeholder="Add any relevant notes or background information about the donor..."
+                                    rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="layout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Create Holiday - Teach The World</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#7BAFDE",
+                        secondary: "#1A7F87",
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#0F172A",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="holidays" data-title="Create Holiday" data-desc="Create a new holiday calendar entry."
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex font-display">
+    <div id="sidebar"></div>
+
+    <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+
+        <!-- Sticky Action Bar -->
+        <div class="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-end flex-shrink-0 gap-3 sticky top-0 z-40">
+            <button type="button" onclick="window.location.href='holidays.html'"
+                class="px-5 py-2 text-xs font-bold text-slate-500 hover:text-slate-700 tracking-widest border border-gray-200 rounded">
+                Cancel
+            </button>
+            <button type="button" onclick="document.getElementById('holidayForm').submit()"
+                class="px-6 py-2.5 text-xs font-bold text-white bg-primary hover:bg-primary/90 rounded shadow-sm flex items-center gap-2 tracking-widest transition-all">
+                <span class="material-symbols-outlined text-sm">save</span> Save Holiday
+            </button>
+        </div>
+
+        <div class="flex-1 p-8">
+            <div class="w-full space-y-6">
+
+                <form id="holidayForm" class="space-y-6">
+
+                    <!-- Calendar Information Card -->
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                        <div class="bg-primary text-white px-6 py-3 flex items-center gap-2 rounded-t-lg">
+                            <span class="material-symbols-outlined text-lg">calendar_month</span>
+                            <span class="text-sm font-bold">Calendar Information</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Calendar Name <span class="text-red-500">*</span></label>
+                                    <input type="text" placeholder="e.g. National Calendar"
+                                        class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hierarchy Selection Card -->
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                        <div class="bg-primary text-white px-6 py-3 flex items-center gap-2 rounded-t-lg">
+                            <span class="material-symbols-outlined text-lg">account_tree</span>
+                            <span class="text-sm font-bold">Hierarchy Selection</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Country</label>
+                                    <select class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 bg-white">
+                                        <option selected>All</option>
+                                        <option>Pakistan</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Province</label>
+                                    <select class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 bg-white">
+                                        <option selected>All</option>
+                                        <option>Sindh</option>
+                                        <option>Punjab</option>
+                                        <option>KPK</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">District</label>
+                                    <select class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 bg-white">
+                                        <option selected>All</option>
+                                        <option>Karachi</option>
+                                        <option>Lahore</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Region</label>
+                                    <select class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 bg-white">
+                                        <option selected>All</option>
+                                        <option>South Coastal Region</option>
+                                        <option>Upper Punjab Hub</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Area</label>
+                                    <select class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 bg-white">
+                                        <option selected>All</option>
+                                        <option>Saddar</option>
+                                        <option>Gulberg</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Cluster</label>
+                                    <select class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 bg-white">
+                                        <option selected>All</option>
+                                        <option>Cluster A1</option>
+                                        <option>Cluster L2</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">School</label>
+                                    <select class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3 bg-white">
+                                        <option selected>All</option>
+                                        <option>Musa Goth</option>
+                                        <option>Green Valley Academy</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Holidays Card -->
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                        <div class="bg-primary text-white px-6 py-3 flex items-center justify-between rounded-t-lg">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg">event</span>
+                                <span class="text-sm font-bold">Holidays</span>
+                            </div>
+                            <button type="button" onclick="addHolidayRow()"
+                                class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-white text-primary text-xs font-bold tracking-widest rounded hover:bg-gray-50 transition-all">
+                                <span class="material-symbols-outlined text-sm">add</span>
+                                Add Holiday
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <div id="holidayRowsContainer" class="space-y-4">
+                                <!-- Holiday rows added by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="layout.js"></script>
+    <script>
+        var holidayRowCounter = 0;
+
+        function createHolidayRowHTML(id) {
+            return '<div id="holidayRow_' + id + '" class="p-5 bg-slate-50 rounded-lg border border-gray-200">' +
+                '<div class="flex items-start justify-between mb-4">' +
+                    '<span class="text-xs font-bold text-slate-600">Holiday #' + id + '</span>' +
+                    '<button type="button" onclick="removeHolidayRow(' + id + ')" class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">' +
+                        '<span class="material-symbols-outlined text-lg">delete</span>' +
+                    '</button>' +
+                '</div>' +
+                '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">' +
+                    '<div>' +
+                        '<label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Holiday Name <span class="text-red-500">*</span></label>' +
+                        '<input type="text" placeholder="e.g. Independence Day" class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3" />' +
+                    '</div>' +
+                    '<div>' +
+                        '<label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Start Date <span class="text-red-500">*</span></label>' +
+                        '<input type="text" placeholder="dd-mm-yyyy" class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3" />' +
+                    '</div>' +
+                    '<div>' +
+                        '<label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">End Date <span class="text-red-500">*</span></label>' +
+                        '<input type="text" placeholder="dd-mm-yyyy" class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3" />' +
+                    '</div>' +
+                    '<div>' +
+                        '<label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Recurring</label>' +
+                        '<div class="flex items-center h-[38px]">' +
+                            '<label class="inline-flex items-center gap-2 cursor-pointer">' +
+                                '<input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary" />' +
+                                '<span class="text-xs text-slate-600">Repeat every year</span>' +
+                            '</label>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div>' +
+                        '<label class="block text-[10px] font-bold text-slate-500 tracking-wider mb-2">Days Offset (+/-)</label>' +
+                        '<input type="number" placeholder="0" class="w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3" />' +
+                        '<p class="text-[10px] text-slate-400 mt-1">Days before (-) or after (+) for next year</p>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        }
+
+        function addHolidayRow() {
+            holidayRowCounter++;
+            var container = document.getElementById('holidayRowsContainer');
+            var div = document.createElement('div');
+            div.innerHTML = createHolidayRowHTML(holidayRowCounter);
+            container.appendChild(div.firstChild);
+        }
+
+        function removeHolidayRow(id) {
+            var row = document.getElementById('holidayRow_' + id);
+            if (row) row.remove();
+        }
+
+        // Add 2 default rows on load
+        document.addEventListener('DOMContentLoaded', function () {
+            addHolidayRow();
+            addHolidayRow();
+        });
+    </script>
+</body>
+
+</html>

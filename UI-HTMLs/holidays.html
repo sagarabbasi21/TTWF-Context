@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Holidays Management - Teach The World</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#7BAFDE",
+                        secondary: "#1A7F87",
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#0F172A",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="holidays" data-title="Holidays" data-desc="Manage holidays across the hierarchy."
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex">
+    <div id="sidebar"></div>
+
+    <main class="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+
+        <div class="p-8 max-w-7xl mx-auto w-full">
+            <div class="flex items-center justify-end mb-8">
+                <button onclick="window.location.href='create-holiday.html'"
+                    class="bg-primary hover:opacity-90 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 font-semibold transition-all shadow-sm">
+                    <span class="material-icons-outlined">add</span>
+                    Create Holiday
+                </button>
+            </div>
+
+            <!-- Hierarchy Filters -->
+            <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[var(--primary-teal)]">filter_list</span>
+                        <h3 class="font-bold text-slate-700">Hierarchy Filters</h3>
+                    </div>
+                    <button class="text-[var(--primary-teal)] text-xs font-bold hover:underline">Clear all filters</button>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-400 tracking-widest">Country</label>
+                        <select class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                            <option selected>All</option>
+                            <option>Pakistan</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-400 tracking-widest">Province</label>
+                        <select class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                            <option selected>All</option>
+                            <option>Sindh</option>
+                            <option>Punjab</option>
+                            <option>KPK</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-400 tracking-widest">District</label>
+                        <select class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                            <option selected>All</option>
+                            <option>East</option>
+                            <option>West</option>
+                            <option>South</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-400 tracking-widest">Region</label>
+                        <select class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                            <option selected>All</option>
+                            <option>South Coastal Region</option>
+                            <option>Upper Punjab Hub</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-400 tracking-widest">Area</label>
+                        <select class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                            <option selected>All</option>
+                            <option>Saddar</option>
+                            <option>Gulberg</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-400 tracking-widest">Cluster</label>
+                        <select class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                            <option selected>All</option>
+                            <option>Cluster A1</option>
+                            <option>Cluster L2</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-400 tracking-widest">School</label>
+                        <select class="w-full rounded-xl border-slate-200 bg-slate-50 text-xs py-2.5 focus:ring-[var(--primary-teal)] focus:border-[var(--primary-teal)] transition-all">
+                            <option selected>All</option>
+                            <option>Musa Goth</option>
+                            <option>Green Valley Academy</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Holiday Listing Table -->
+            <div
+                class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div
+                    class="p-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-700">
+                    <div class="flex items-center space-x-3">
+                        <button
+                            class="inline-flex items-center px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg hover:bg-primary/90 transition-all shadow-sm active:translate-y-px tracking-wider">
+                            <span class="material-symbols-outlined text-sm mr-2">download</span> Excel
+                        </button>
+                        <div class="h-6 w-px bg-slate-200 mx-2"></div>
+                        <div
+                            class="flex items-center text-[10px] font-bold text-slate-500 tracking-widest">
+                            <span>Show</span>
+                            <select
+                                class="mx-2 rounded-lg border-slate-200 bg-white py-1 text-xs focus:ring-primary focus:border-primary">
+                                <option>10</option>
+                                <option selected="">25</option>
+                                <option>50</option>
+                            </select>
+                            <span>entries</span>
+                        </div>
+                    </div>
+                    <div class="relative w-full md:w-80">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                            <span class="material-symbols-outlined text-lg">search</span>
+                        </span>
+                        <input
+                            class="pl-10 pr-4 py-2 w-full border border-slate-200 rounded-xl bg-slate-50 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400 placeholder:text-[10px] placeholder:font-bold placeholder:tracking-widest"
+                            placeholder="Search holidays..." type="text" />
+                    </div>
+                </div>
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-primary text-white">
+                                <th class="px-6 py-4 text-xs font-bold tracking-wider">Calendar Name</th>
+                                <th class="px-6 py-4 text-xs font-bold tracking-wider">Start Date</th>
+                                <th class="px-6 py-4 text-xs font-bold tracking-wider">End Date</th>
+                                <th class="px-6 py-4 text-xs font-bold tracking-wider">Assigned Level
+                                </th>
+                                <th class="px-6 py-4 text-xs font-bold tracking-wider">Applies To</th>
+                                <th class="px-6 py-4 text-xs font-bold tracking-wider">Assigned To</th>
+                                <th class="px-6 py-4 text-xs font-bold tracking-wider">No. of Holidays</th>
+                                <th class="px-6 py-4 text-xs font-bold tracking-wider">Status</th>
+                                <th
+                                    class="px-6 py-4 text-xs font-bold tracking-wider text-center sticky right-0 bg-primary z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.1)]">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                            <!-- Row 1 - Independence Day -->
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">National Calendar</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">14-08-2026</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">14-08-2026</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">Region</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                                    <span class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">12</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">South Coastal Region</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">1</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Active</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit" onclick="window.location.href='create-holiday.html'"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                                        <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Row 2 - Eid ul-Fitr -->
+                            <tr class="bg-slate-50/50 dark:bg-slate-800/20 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">Islamic Calendar</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">31-03-2026</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">02-04-2026</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400">Cluster</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                                    <span class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">5</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Cluster A1</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">3</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Active</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit" onclick="window.location.href='create-holiday.html'"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                                        <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Row 3 - Iqbal Day -->
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">National Calendar</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">09-11-2026</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">09-11-2026</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">Area</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                                    <span class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">8</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Saddar</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">1</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Active</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit" onclick="window.location.href='create-holiday.html'"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                                        <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Row 4 - Annual Day -->
+                            <tr class="bg-slate-50/50 dark:bg-slate-800/20 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">School Calendar</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">15-04-2026</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">15-04-2026</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400">School</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                                    <span class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">1</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Musa Goth</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">1</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Active</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit" onclick="window.location.href='create-holiday.html'"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                                        <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Row 5 - Pakistan Day -->
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-slate-100">National Calendar</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">23-03-2026</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">23-03-2026</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400">Country</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                                    <span class="px-2 py-1 rounded-full bg-slate-100 text-xs font-semibold">All</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Pakistan</td>
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 text-center">1</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Active</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit" onclick="window.location.href='create-holiday.html'"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+                                        <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div
+                    class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <span class="text-xs text-slate-500 font-medium">Showing 5 of 28 results</span>
+                    <div class="flex gap-2">
+                        <button
+                            class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded text-sm hover:bg-slate-50 dark:hover:bg-slate-800">Prev</button>
+                        <button class="px-3 py-1 bg-primary text-white rounded text-sm">1</button>
+                        <button
+                            class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded text-sm hover:bg-slate-50 dark:hover:bg-slate-800">2</button>
+                        <button
+                            class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded text-sm hover:bg-slate-50 dark:hover:bg-slate-800">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="layout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Teach The World - School Locations</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#7BAFDE",
+                        "background-light": "#F3F4F6",
+                        "background-dark": "#111827",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+   
+
+</head>
+
+<body data-page="school-locations" data-title="School Locations" data-desc="View and manage school locations." class="bg-white text-slate-900 min-h-screen flex">
+    <div id="sidebar"></div>
+        <main class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark overflow-hidden">
+          
+            <div class="flex-1 p-6 flex flex-col gap-6 overflow-hidden">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div class="relative inline-block w-full sm:w-auto">
+                        <button
+                            class="w-full sm:w-64 bg-primary text-white px-5 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-primary/90 transition-all shadow-md">
+                            <div class="flex items-center gap-2">
+                                <span class="material-icons-outlined">school</span>
+                                <span>Select School</span>
+                            </div>
+                            <span class="material-icons-outlined">expand_more</span>
+                        </button>
+                    </div>
+                 
+                </div>
+                <div
+                    class="flex-1 relative bg-slate-200 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-inner group">
+                    <div class="absolute inset-0 opacity-40 dark:opacity-20 pointer-events-none">
+                        <svg class="w-full h-full" fill="none" viewBox="0 0 1000 600"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path class="text-slate-400 dark:text-slate-600"
+                                d="M0 200C100 180 200 250 300 220C400 190 500 100 600 120C700 140 800 300 900 280C1000 260 1100 150 1100 150V600H0V200Z"
+                                fill="currentColor"></path>
+                            <path class="text-slate-300 dark:text-slate-500"
+                                d="M0 400C150 380 300 450 450 420C600 390 750 300 900 320C1050 340 1200 500 1200 500V600H0V400Z"
+                                fill="currentColor"></path>
+                        </svg>
+                    </div>
+                    <div class="absolute inset-0 z-0">
+                        <img alt="Regional Map"
+                            class="w-full h-full object-cover opacity-30 dark:opacity-10 grayscale mix-blend-multiply"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBntnhllGproR-ZkxP2p7wmxcx05Bws6bDagi8kGBuZxVX1uvpDurO2ioJ-7QQ4b5y5cL_01wnDvSk9PuaJtDzy9MaVNFs5kCAcDsTRyYL9xedOYsCsRrIMCh972Uuy6imxsbgaI3863_z4UvHB7N5Xz81W7g2QlGRFoIcAHUEOYYwP4XppatoqQFmhWOW065W89SgIkn9Ff2VPK5Uejlxk9QH8UJ7Gn8lxij9Pplg8Ii1-ApnajRzNentApRxN9iRKxJ4sQ5eeoeh3" />
+                    </div>
+                    <div class="absolute inset-0 z-10 map-gradient flex items-center justify-center">
+                        <div class="absolute top-1/4 left-1/3 group/pin cursor-pointer">
+                            <div class="relative">
+                                <span
+                                    class="material-icons-outlined text-4xl text-primary animate-bounce">location_on</span>
+                                <div
+                                    class="absolute -top-12 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-slate-100 dark:border-slate-700 whitespace-nowrap opacity-0 group-hover/pin:opacity-100 transition-opacity">
+                                    Primary School A
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute top-1/2 right-1/4 group/pin cursor-pointer">
+                            <div class="relative">
+                                <span class="material-icons-outlined text-4xl text-primary">location_on</span>
+                                <div
+                                    class="absolute -top-12 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-slate-100 dark:border-slate-700 whitespace-nowrap opacity-0 group-hover/pin:opacity-100 transition-opacity">
+                                    Vocational Training Center
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-1/3 left-1/2 group/pin cursor-pointer">
+                            <div class="relative">
+                                <span class="material-icons-outlined text-4xl text-primary">location_on</span>
+                                <div
+                                    class="absolute -top-12 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-slate-100 dark:border-slate-700 whitespace-nowrap opacity-0 group-hover/pin:opacity-100 transition-opacity">
+                                    Early Learning Wing
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute top-6 left-6 z-20 flex flex-col gap-1 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 p-1">
+                        <button
+                            class="w-10 h-10 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors text-slate-700 dark:text-slate-300">
+                            <span class="material-icons-outlined">add</span>
+                        </button>
+                        <div class="h-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
+                        <button
+                            class="w-10 h-10 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors text-slate-700 dark:text-slate-300">
+                            <span class="material-icons-outlined">remove</span>
+                        </button>
+                    </div>
+                
+                </div>
+            </div>
+        </main>
+ <script src="layout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Devices Overview - Teach The World</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#7BAFDE",
+                        secondary: "#FFC300",
+                        "background-light": "#F8FAFB",
+                    },
+                    borderRadius: {
+                        DEFAULT: "12px",
+                    },
+                },
+            },
+        };
+    </script>
+        <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="devices" class="bg-background-light dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen overflow-x-auto">
+    <div class="flex min-w-[1200px]">
+    <div id="sidebar"></div>
+
+        <div class="flex-1 flex flex-col">
+            <header
+            class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 flex items-center justify-between sticky top-0 z-40">
+            <h1 class="text-xl font-semibold text-slate-700 dark:text-slate-200">Teach The World</h1>
+        </header>
+            <main class="flex-1 p-8 flex flex-col">
+                <div class="w-full flex items-center justify-start gap-6 mb-12">
+                    <button
+                        class="text-primary hover:bg-teal-50 p-2 rounded-full transition-colors dark:hover:bg-slate-700">
+                        <span class="material-symbols-outlined text-3xl font-bold">arrow_back</span>
+                    </button>
+                    <div class="flex items-center gap-4">
+                        <h2 class="text-4xl font-bold text-primary">Devices for</h2>
+                        <div class="relative group">
+                            <button
+                                class="flex items-center gap-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 py-3 rounded-xl shadow-sm hover:shadow-md transition-all group-hover:border-primary">
+                                <span class="text-xl font-semibold text-primary">Select School</span>
+                                <span
+                                    class="material-symbols-outlined text-primary group-hover:rotate-180 transition-transform">expand_more</span>
+                            </button>
+                            <div
+                                class="absolute top-full left-0 mt-2 w-full bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-20">
+                                <ul class="py-2">
+                                    <li class="px-4 py-2 hover:bg-teal-50 dark:hover:bg-teal-900/30 cursor-pointer">
+                                        International High</li>
+                                    <li class="px-4 py-2 hover:bg-teal-50 dark:hover:bg-teal-900/30 cursor-pointer">
+                                        Greenwood Academy</li>
+                                    <li class="px-4 py-2 hover:bg-teal-50 dark:hover:bg-teal-900/30 cursor-pointer">St.
+                                        Joseph Tech</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col items-center justify-start">
+                    <h3 class="text-3xl font-medium text-slate-400 dark:text-slate-500">
+                        Select a school to view Table Data
+                    </h3>
+                </div>
+                <div class="mt-auto mb-10 flex justify-center w-full">
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-[32px] p-10 shadow-lg border border-slate-100 dark:border-slate-700 text-center flex flex-col items-center w-full max-w-lg transform transition-transform hover:scale-[1.01]">
+                        <div
+                            class="w-24 h-24 bg-secondary rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-yellow-400/20">
+                            <span class="material-symbols-outlined text-white text-5xl">devices</span>
+                        </div>
+                        <h4 class="text-2xl font-semibold text-slate-700 dark:text-slate-200 mb-2">
+                            Total Devices Connected
+                        </h4>
+                        <span class="text-7xl font-bold text-slate-900 dark:text-white">50</span>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+<script src="layout.js"></script>
+</body>
+
+</html>

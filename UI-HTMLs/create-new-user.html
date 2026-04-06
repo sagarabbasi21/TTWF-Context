@@ -1,0 +1,505 @@
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Create New User - Management System</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#7BAFDE", // Corporate Teal
+                        secondary: "#0F766E",
+                        accent: "#6B0D33",
+                        "sidebar-bg": "#FFFFFF",
+                        "background-light": "#F8FAFC",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        :root {
+            --primary-teal: #7BAFDE;
+            --primary-teal-dark: #509adb;
+            --sidebar-bg: #ffffff;
+            --bg-gray: #f8fafc;
+            --active-teal: #7BAFDE;
+        }
+        .sidebar-item-active .icon-container
+        {
+            background-color: var(--active-teal);
+            color: white !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 102, 102, 0.2);
+        }
+        .sidebar-item-active span.label {
+            color: var(--primary-teal);
+            font-weight: 600;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: block;
+        }
+        @layer base {
+            body {
+                font-family: 'Inter', sans-serif;
+                @apply bg-background-light text-slate-900;
+            }
+        }
+      
+        .form-select, .form-input {
+            @apply block w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-xs py-2 px-3;
+        }
+        .sidebar-item {
+            @apply flex items-center gap-3 px-6 py-3.5 text-slate-500 transition-all duration-200 hover:bg-slate-50 border-l-4 border-transparent;
+        }
+        .sidebar-item.active {
+            @apply bg-teal-50 text-primary border-primary font-semibold;
+        }
+        .sidebar-item .material-symbols-outlined {
+            @apply text-[22px];
+        }
+        .sidebar-item.active .material-symbols-outlined {
+            @apply text-primary font-variation-fill;
+        }
+        .access-list-container {
+            @apply bg-white border border-gray-200 rounded h-64 overflow-y-auto p-0 flex flex-col shadow-sm;
+        }
+        .access-list-item {
+            @apply flex items-center gap-2 px-3 py-2 text-[12px] hover:bg-teal-50 transition-colors border-b border-gray-50 last:border-0;
+        }
+        .access-header-label {
+            @apply text-[10px] font-bold text-slate-500 tracking-widest mb-2 block px-1;
+        }
+        .section-header {
+            @apply bg-primary text-white px-6 py-3 flex items-center justify-between rounded-t-lg;
+        }
+        .card-container {
+            @apply bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden;
+        }
+        .horizontal-scroll-section::-webkit-scrollbar {
+            height: 8px;
+        }
+        .horizontal-scroll-section::-webkit-scrollbar-track {
+            @apply bg-gray-100 rounded-full;
+        }
+        .horizontal-scroll-section::-webkit-scrollbar-thumb {
+            @apply bg-gray-300 rounded-full hover:bg-gray-400;
+        }
+        .font-variation-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+ 
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="h-screen overflow-hidden" data-page="users" data-title="Create New User" data-desc="Register a new user account and configure their access.">
+    <div class="flex h-full">
+        <div id="sidebar"></div>
+
+        <main class="flex-1 flex flex-col min-w-0 bg-[#F8FAFC] overflow-y-auto">
+            <div class="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-end flex-shrink-0 gap-3 sticky top-0 z-40">
+                <button
+                    class="px-5 py-2 text-xs font-bold text-slate-500 hover:text-slate-700 tracking-widest border border-gray-200 rounded">Cancel</button>
+                <button
+                    class="px-6 py-2.5 text-xs font-bold text-white bg-primary hover:bg-secondary rounded shadow-sm flex items-center gap-2 tracking-widest transition-all">
+                    <span class="material-symbols-outlined text-sm font-variation-fill">save</span> Save User
+                    Profile
+                </button>
+            </div>
+            <div class="p-8">
+                <div class="w-full flex flex-col gap-8">
+                    <!-- <div class="card-container">
+                        <div class="section-header">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg font-variation-fill">account_tree</span>
+                                <span class="text-xs font-bold tracking-widest text-white">Hierarchy Selection</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div
+                                class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">Country
+                                        <span class="text-red-500">*</span></label>
+                                    <select class="form-select">
+                                        <option>Pakistan</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label
+                                        class="text-[10px] font-bold text-slate-500 tracking-wider">Province
+                                        <span class="text-red-500">*</span></label>
+                                    <select class="form-select">
+                                        <option>Sindh</option>
+                                        <option>Punjab</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label
+                                        class="text-[10px] font-bold text-slate-500 tracking-wider">District
+                                        <span class="text-red-500">*</span></label>
+                                    <select class="form-select">
+                                        <option>East</option>
+                                        <option>West</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">Region
+                                        <span class="text-red-500">*</span></label>
+                                    <select class="form-select">
+                                        <option>South</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">Area
+                                        <span class="text-red-500">*</span></label>
+                                    <select class="form-select">
+                                        <option>Gulistan-e-Jauhar</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">Cluster
+                                        <span class="text-red-500">*</span></label>
+                                    <select class="form-select">
+                                        <option>Select Cluster</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">School
+                                        <span class="text-red-500">*</span></label>
+                                    <select class="form-select">
+                                        <option>Select School</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="card-container bg-white rounded-xl shadow-md">
+                        <div class="section-header">
+                            <div class="flex items-center gap-2"> <span
+                                    class="material-symbols-outlined text-lg font-variation-fill">person_edit</span>
+                                <span class="text-xs font-bold tracking-widest text-white">User Profile
+                                    Details</span>
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                                <!-- Employee ID -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Employee ID <span class="text-red-500">*</span>
+                                    </label>
+                                    <input class="form-input" placeholder="e.g. EMP12345" type="text" />
+                                </div>
+
+                                <!-- First Name -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        First Name <span class="text-red-500">*</span>
+                                    </label>
+                                    <input class="form-input" placeholder="e.g. Ahmed" type="text" />
+                                </div>
+
+                                <!-- Last Name -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Last Name <span class="text-red-500">*</span>
+                                    </label>
+                                    <input class="form-input" placeholder="e.g. Khan" type="text" />
+                                </div>
+
+                                <!-- Profile Picture -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Profile Picture
+                                    </label>
+                                    <input class="form-input p-1" type="file" accept="image/*" />
+                                </div>
+
+                                <!-- Mobile Number -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Mobile Number 
+                                    </label>
+                                    <input class="form-input" placeholder="03xx-xxxxxxx" type="text" />
+                                </div>
+
+                                <!-- Email Address -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Email Address <span class="text-red-500">*</span>
+                                    </label>
+                                    <input class="form-input" placeholder="user@domain.com" type="email" />
+                                </div>
+
+                                <!-- Select Role -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Select Role <span class="text-red-500">*</span>
+                                    </label>
+                                    <select class="form-select">
+                                        <option>Select User Role</option>
+                                        <option>Administrator</option>
+                                        <option>School Lead</option>
+                                        <option>Regional Supervisor</option>
+                                    </select>
+                                </div>
+
+                                <!-- Designation -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Designation <span class="text-red-500">*</span>
+                                    </label>
+                                    <input class="form-input" placeholder="e.g. Senior Area Manager" type="text" />
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Gender <span class="text-red-500">*</span>
+                                    </label>
+                                    <select class="form-select">
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
+
+                                <!-- Status Toggle On/Off -->
+                                <div class="space-y-1.5 col-span-2">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Status
+                                    </label>
+                                    <div class="flex items-center mt-2">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" value="" class="sr-only peer" checked>
+                                            <div
+                                                class="w-14 h-7 bg-gray-200 rounded-full peer peer-checked:bg-primary transition-colors">
+                                            </div>
+                                            <span
+                                                class="absolute left-1 top-1 w-5 h-5 bg-white rounded-full shadow-md peer-checked:translate-x-7 transition-transform"></span>
+                                            <span
+                                                class="ml-4 text-xs font-semibold text-slate-700 peer-checked:text-primary">
+                                                <span class="peer-checked:hidden">Active/Inactive</span>
+                                                <span class="hidden peer-checked:inline">On</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Flag Sync Allow -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Flag Sync Allow
+                                    </label>
+                                    <div class="flex items-center mt-2">
+                                        <label class="relative inline-flex items-center cursor-pointer" id="syncToggle">
+                                            <input type="checkbox" value="" class="sr-only peer" id="syncCheckbox">
+                                            <div
+                                                class="w-14 h-7 bg-gray-200 rounded-full peer peer-checked:bg-primary transition-colors">
+                                            </div>
+                                            <span
+                                                class="absolute left-1 top-1 w-5 h-5 bg-white rounded-full shadow-md peer-checked:translate-x-7 transition-transform"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- OTP Field (Hidden by default) -->
+                                <div class="space-y-1.5 col-span-2 hidden" id="otpContainer">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        OTP
+                                    </label>
+                                    <div class="flex items-center gap-2">
+                                        <input class="form-input flex-1" placeholder="Enter OTP" type="text" id="otpField" readonly />
+                                        <button type="button" onclick="generateOTP()" class="p-2.5 text-primary border border-primary rounded hover:bg-primary/10 transition-colors" title="Refresh OTP">
+                                            <span class="material-symbols-outlined text-lg">refresh</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-container mb-8">
+                        <div class="section-header">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg font-variation-fill">verified_user</span>
+                                <span class="text-xs font-bold tracking-widest text-white">Regional Access
+                                    Permissions</span>
+                            </div>
+                            <label
+                                class="inline-flex items-center cursor-pointer group bg-white/10 px-3 py-1 rounded border border-white/20">
+                                <input
+                                    class="form-checkbox h-3.5 w-3.5 text-primary border-white/40 bg-white rounded focus:ring-offset-primary"
+                                    type="checkbox" />
+                                <span class="ml-2 text-[11px] font-bold tracking-tighter text-white">Grant
+                                    Global Access</span>
+                            </label>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-1.5 my-4">
+                                <label class="text-[10px] font-bold text-slate-500 tracking-wider">Select User For Right Sharing
+                                <span class="text-red-500">*</span></label>
+                                <select class="form-select">
+                                    <option>Select User</option>
+                                    <option>Ali Khan -8821</option>
+                                    <option>Sarah Ahmed -8822</option>
+                                    <option>Usman Khan -8823</option>
+                                </select>
+                            </div>
+                            <!-- Row 1: Country, Province, District, Region -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pb-4">
+                                <div>
+                                    <label class="access-header-label">Country</label>
+                                    <div class="access-list-container">
+                                        <div class="access-list-item"><input checked=""
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">All</span></div>
+                                        <div class="access-list-item"><input checked=""
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">Pakistan</span></div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">United Kingdom</span></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="access-header-label">Province</label>
+                                    <div class="access-list-container">
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">All</span></div>
+                                        <div class="access-list-item"><input checked=""
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">Sindh</span></div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">Punjab</span></div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">KPK</span></div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">Balochistan</span></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="access-header-label">District</label>
+                                    <div class="access-list-container">
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">All</span></div>
+                                        <div class="access-list-item"><input checked=""
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">East</span></div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">West</span></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="access-header-label">Region</label>
+                                    <div class="access-list-container">
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">All</span></div>
+                                        <div class="access-list-item"><input checked=""
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">East</span></div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">West</span></div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">South</span></div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">Central</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Row 2: Area, Cluster, School -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pb-2">
+                                <div>
+                                    <label class="access-header-label">Area</label>
+                                    <div class="access-list-container">
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">All</span></div>
+                                        <div
+                                            class="access-list-item font-bold bg-teal-50 text-primary border-l-2 border-primary">
+                                            <input checked=""
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">Gulistan-e-Jauhar</span>
+                                        </div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">Gulshan</span></div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">Malir</span></div>
+                                        <div class="access-list-item"><input
+                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
+                                                type="checkbox" /><span class="ml-1">North Nazimabad</span></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="access-header-label">Cluster</label>
+                                    <div class="access-list-container">
+                                        <div class="access-list-item italic text-slate-400">Select Area first...</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="access-header-label">School</label>
+                                    <div class="access-list-container">
+                                        <div class="access-list-item italic text-slate-400">Select Cluster first...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="layout.js"></script>
+    <script>
+        // Handle Flag Sync Allow checkbox toggle
+        document.getElementById('syncCheckbox').addEventListener('change', function() {
+            const otpContainer = document.getElementById('otpContainer');
+            if (this.checked) {
+                otpContainer.classList.remove('hidden');
+                // Generate initial OTP
+                generateOTP();
+            } else {
+                otpContainer.classList.add('hidden');
+            }
+        });
+
+        // Generate random OTP
+        function generateOTP() {
+            const otp = Math.floor(100000 + Math.random() * 900000).toString();
+            document.getElementById('otpField').value = otp;
+        }
+    </script>
+</body>
+
+</html>
