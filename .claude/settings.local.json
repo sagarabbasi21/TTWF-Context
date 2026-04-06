@@ -52,7 +52,14 @@
       "Bash(\"teach_the_world_env/Scripts/python.exe\" manage.py showmigrations school_management geo_hierarchy user_management)",
       "Bash(\"teach_the_world_env/Scripts/python.exe\" manage.py migrate school_management)",
       "Bash(teach_the_world_env/Scripts/python.exe manage.py shell -c ':*)",
-      "Bash(export AITASKS_AGENT_ID=claude-sonnet-4-6)"
+      "Bash(export AITASKS_AGENT_ID=claude-sonnet-4-6)",
+      "Bash(find ./Backend -name \"*.py\" -type f -exec grep -l \"permission\\\\|access\\\\|RBAC\\\\|decorator\" {} \\\\;)",
+      "Bash(find ./Frontend/src -name \"*.jsx\" -type f -exec grep -l \"permission\\\\|role\\\\|access\" {} \\\\;)",
+      "Bash(ls UI-HTMLs/*.html)",
+      "Bash(xargs -I {} basename {})",
+      "Bash(aitasks deps:*)",
+      "Bash(ls -la Backend/role_management/migrations/*.py)",
+      "Bash(ls:*)"
     ]
   }
 }

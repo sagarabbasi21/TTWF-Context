@@ -122,14 +122,18 @@ CREATE TABLE IF NOT EXISTS roles (
 );
 
 CREATE TABLE IF NOT EXISTS system_modules (
-    id          BIGSERIAL PRIMARY KEY,
-    name        VARCHAR(100) NOT NULL,
-    code        VARCHAR(50) NOT NULL UNIQUE,
-    is_active   BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    updated_at  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    created_by  INTEGER,
-    updated_by  INTEGER
+    id              BIGSERIAL PRIMARY KEY,
+    name            VARCHAR(100) NOT NULL,
+    code            VARCHAR(50) NOT NULL UNIQUE,
+    icon            VARCHAR(50) NOT NULL DEFAULT '',
+    display_order   INTEGER NOT NULL DEFAULT 0,
+    view_only       BOOLEAN NOT NULL DEFAULT FALSE,
+    is_special      BOOLEAN NOT NULL DEFAULT FALSE,
+    is_active       BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    created_by      INTEGER,
+    updated_by      INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS module_permissions (
