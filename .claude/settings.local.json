@@ -59,7 +59,9 @@
       "Bash(xargs -I {} basename {})",
       "Bash(aitasks deps:*)",
       "Bash(ls -la Backend/role_management/migrations/*.py)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)"
     ]
   }
 }

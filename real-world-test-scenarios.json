@@ -1,0 +1,1243 @@
+{
+  "project": "TTWF Portal",
+  "version": "2026-04-13",
+  "description": "End-to-end test scenarios for humans and AI browser automation agents. Covers auth, user management, role management with maker-checker workflow, hierarchy management, profile, permissions, and edge cases.",
+  "base_urls": {
+    "frontend_local": "http://localhost:3000",
+    "backend_local": "http://localhost:8000/api/v1",
+    "staging": "https://ttwf.eteamid.com",
+    "django_admin": "http://localhost:8000/admin"
+  },
+  "default_credentials": {
+    "super_admin": {
+      "email": "superadmin@ttwf.com",
+      "password": "Admin@ttwf2026",
+      "notes": "Seeded via `python manage.py seed_all`. is_superuser=True, has_global_access=True, must_change_password=False."
+    }
+  },
+  "setup": [
+    "Fresh DB: python manage.py migrate (on server/local).",
+    "Run: python manage.py seed_all — creates System Admin role + superadmin@ttwf.com user.",
+    "Start backend: python manage.py runserver.",
+    "Start Celery worker (Windows): celery -A teach_the_world_dashboard worker -l info --pool=solo (note: settings auto-set pool=solo on win32).",
+    "Start frontend: npm start (dev).",
+    "Confirm EMAIL_HOST/HOST_USER/HOST_PASSWORD set in settings so notification + password emails actually dispatch."
+  ],
+  "test_data_templates": {
+    "test_user_maker": {
+      "first_name": "Maker",
+      "last_name": "One",
+      "email": "maker1+{{timestamp}}@test.com",
+      "employee_id": "EMP-T-{{random4}}",
+      "mobile_number": "0300-000{{random4}}",
+      "designation": "Tester Maker",
+      "gender": "male",
+      "status": "active",
+      "password": "TempPass@123",
+      "confirm_password": "TempPass@123",
+      "role": "System Admin"
+    },
+    "test_user_checker": {
+      "first_name": "Checker",
+      "last_name": "One",
+      "email": "checker1+{{timestamp}}@test.com",
+      "employee_id": "EMP-T-{{random4}}",
+      "mobile_number": "0300-111{{random4}}",
+      "designation": "Tester Checker",
+      "gender": "female",
+      "status": "active",
+      "password": "TempPass@123",
+      "confirm_password": "TempPass@123",
+      "role": "Checker Only Role"
+    },
+    "test_role_basic": {
+      "name": "TestRole-{{timestamp}}",
+      "description": "Automated test role for maker-checker verification",
+      "permissions_preset": "schools_view_only"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "AUTH-001",
+      "title": "First-time login with seeded Super Admin",
+      "category": "auth",
+      "priority": "P0",
+      "preconditions": ["Database seeded with seed_all"],
+      "steps": [
+        {"step": 1, "action": "Navigate to /login"},
+        {"step": 2, "action": "Enter email=superadmin@ttwf.com, password=Admin@ttwf2026"},
+        {"step": 3, "action": "Click Login button"}
+      ],
+      "expected": [
+        "Browser redirects to / (Dashboard)",
+        "Header shows 'Super Admin' name",
+        "Sidebar shows all module links (Dashboard, Roles, Hierarchy, Users, etc.)",
+        "No 'must change password' redirect (super admin has must_change_password=False)"
+      ]
+    },
+    {
+      "id": "AUTH-002",
+      "title": "Login with wrong password — credentials preserved",
+      "category": "auth",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Navigate to /login"},
+        {"step": 2, "action": "Enter email=superadmin@ttwf.com"},
+        {"step": 3, "action": "Enter password=WrongPassword"},
+        {"step": 4, "action": "Click Login"}
+      ],
+      "expected": [
+        "Error message shown: 'Incorrect credentials entered. Please try again.' (capitalized)",
+        "Email field STILL contains superadmin@ttwf.com",
+        "Password field is CLEARED (retype required)",
+        "User remains on /login page"
+      ]
+    },
+    {
+      "id": "AUTH-003",
+      "title": "Login with non-existent email",
+      "category": "auth",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Enter email=notexist@test.com, password=Whatever123"},
+        {"step": 2, "action": "Click Login"}
+      ],
+      "expected": [
+        "Error: 'Incorrect credentials entered...' (same message as wrong password, no email enumeration)",
+        "No information leak about whether email exists"
+      ]
+    },
+    {
+      "id": "AUTH-004",
+      "title": "Login with soft-deleted user",
+      "category": "auth-edge",
+      "priority": "P1",
+      "preconditions": ["A user exists in DB with user_profile.deleted_at != null"],
+      "steps": [{"step": 1, "action": "Attempt login with that user's credentials"}],
+      "expected": ["Login rejected with same generic error; no session created"]
+    },
+    {
+      "id": "AUTH-005",
+      "title": "Login with inactive user (status=inactive)",
+      "category": "auth-edge",
+      "priority": "P1",
+      "preconditions": ["A user profile with status='inactive' exists"],
+      "steps": [{"step": 1, "action": "Attempt login"}],
+      "expected": ["Login rejected; no access granted"]
+    },
+    {
+      "id": "AUTH-006",
+      "title": "Password visibility toggle (eye icon)",
+      "category": "auth-ui",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Open /login"},
+        {"step": 2, "action": "Type 'abc123' in password field"},
+        {"step": 3, "action": "Click the eye icon inside password field"}
+      ],
+      "expected": [
+        "Password characters become visible (input type switches to text)",
+        "Clicking again toggles back to masked"
+      ]
+    },
+    {
+      "id": "AUTH-007",
+      "title": "Force password change for freshly-created user",
+      "category": "auth-forced-reset",
+      "priority": "P0",
+      "preconditions": ["A new user created via CreateUser with must_change_password=True (default)"],
+      "steps": [
+        {"step": 1, "action": "Login as that new user using the password received by email"},
+        {"step": 2, "action": "Observe redirect destination"}
+      ],
+      "expected": [
+        "After login, user is redirected to /change_password",
+        "Sidebar is visible but clicking any other link redirects back to /change_password",
+        "Direct URL navigation (e.g., typing /users in address bar) also redirects to /change_password"
+      ]
+    },
+    {
+      "id": "AUTH-008",
+      "title": "Successful force password change",
+      "category": "auth-forced-reset",
+      "priority": "P0",
+      "preconditions": ["User on /change_password due to must_change_password=True"],
+      "steps": [
+        {"step": 1, "action": "Enter current password (temporary)"},
+        {"step": 2, "action": "Enter new password (min 8 chars)"},
+        {"step": 3, "action": "Enter confirm password matching"},
+        {"step": 4, "action": "Click Save"}
+      ],
+      "expected": [
+        "Notification: 'Password changed successfully!'",
+        "User redirected to first accessible page (Dashboard if permitted, else next accessible, else /my_profile)",
+        "User remains logged in (NOT logged out)",
+        "Can navigate freely now (no more forced redirect)",
+        "Verify by logging out and logging in with new password — must succeed"
+      ]
+    },
+    {
+      "id": "AUTH-009",
+      "title": "Change password — wrong current password",
+      "category": "auth-forced-reset",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "On /change_password, enter WRONG current password"},
+        {"step": 2, "action": "Enter valid new + confirm"},
+        {"step": 3, "action": "Click Save"}
+      ],
+      "expected": [
+        "Error shown: 'Current password is incorrect.'",
+        "User remains on /change_password"
+      ]
+    },
+    {
+      "id": "AUTH-010",
+      "title": "Change password — passwords don't match",
+      "category": "auth-forced-reset",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Enter different new + confirm passwords"},
+        {"step": 2, "action": "Click Save"}
+      ],
+      "expected": [
+        "Error on confirm field: 'Passwords do not match.'",
+        "Page auto-scrolls to the first error field (confirm-password)"
+      ]
+    },
+    {
+      "id": "AUTH-011",
+      "title": "Change password — new password too short",
+      "category": "auth-forced-reset",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "Enter new password of length < 8"}],
+      "expected": ["Error: 'Password must be at least 8 characters.'"]
+    },
+    {
+      "id": "AUTH-012",
+      "title": "Page refresh — stays on current page (no login flash)",
+      "category": "auth-persistence",
+      "priority": "P0",
+      "steps": [
+        {"step": 1, "action": "Login as Super Admin"},
+        {"step": 2, "action": "Navigate to /users"},
+        {"step": 3, "action": "Press F5 to refresh"}
+      ],
+      "expected": [
+        "Page reloads directly on /users (no flash of /login)",
+        "Data loads normally",
+        "Header shows user info correctly"
+      ]
+    },
+    {
+      "id": "AUTH-013",
+      "title": "Logout clears session and persistence",
+      "category": "auth",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "While logged in, click the logout icon in header"},
+        {"step": 2, "action": "Verify redirect"},
+        {"step": 3, "action": "Try accessing /users via URL"}
+      ],
+      "expected": [
+        "Redirected to /login",
+        "localStorage cleared (no access/refresh token, no user)",
+        "Direct access to protected routes redirects to /login"
+      ]
+    },
+    {
+      "id": "AUTH-014",
+      "title": "Forgot password email flow",
+      "category": "auth",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "On /login, click 'Forgot Password'"},
+        {"step": 2, "action": "Enter registered email"},
+        {"step": 3, "action": "Submit"}
+      ],
+      "expected": [
+        "Success message shown (no email enumeration)",
+        "Backend queues Celery email task",
+        "Email received with reset link → clicking opens /reset_password?token=..."
+      ]
+    },
+
+    {
+      "id": "USER-001",
+      "title": "Create User — full happy path",
+      "category": "user-crud",
+      "priority": "P0",
+      "preconditions": ["Logged in as user with users.can_add permission"],
+      "steps": [
+        {"step": 1, "action": "Navigate to /users"},
+        {"step": 2, "action": "Click Create User button"},
+        {"step": 3, "action": "Fill all required: Employee ID, First Name, Last Name, Mobile (unique), Email (unique), Password, Confirm Password, Role, Designation, Gender"},
+        {"step": 4, "action": "Optionally attach profile picture < 1MB"},
+        {"step": 5, "action": "Select at least one country in Regional Access"},
+        {"step": 6, "action": "Click Save User Profile"}
+      ],
+      "expected": [
+        "Success notification shown",
+        "Redirects to /users",
+        "New row appears in listing at top (sorted by -updated_at)",
+        "New user receives welcome email with credentials (Celery worker running)",
+        "New user's must_change_password=True (will be forced on first login)"
+      ]
+    },
+    {
+      "id": "USER-002",
+      "title": "Create User — without access entity (validation)",
+      "category": "user-validation",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Fill all required fields but DON'T select any country and don't toggle Grant Global Access"},
+        {"step": 2, "action": "Click Save"}
+      ],
+      "expected": [
+        "Error: 'At least one access permission is required.'",
+        "Save blocked; page auto-scrolls to access section"
+      ]
+    },
+    {
+      "id": "USER-003",
+      "title": "Create User — duplicate email",
+      "category": "user-validation",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Try creating a user with email already in system"}
+      ],
+      "expected": [
+        "Backend returns username error (username=email internally)",
+        "Frontend maps error to email field: 'A user with this username already exists.' (capitalized)",
+        "Page auto-scrolls to email field"
+      ]
+    },
+    {
+      "id": "USER-004",
+      "title": "Create User — duplicate mobile number",
+      "category": "user-validation",
+      "priority": "P1",
+      "steps": [{"step": 1, "action": "Use a mobile number already assigned to another user"}],
+      "expected": ["Error: 'Mobile number with this already exists.' or similar (unique constraint); save blocked"]
+    },
+    {
+      "id": "USER-005",
+      "title": "Profile picture size enforcement (>1MB)",
+      "category": "user-validation",
+      "priority": "P1",
+      "steps": [{"step": 1, "action": "Upload a 2MB image for profile picture"}],
+      "expected": [
+        "Frontend pre-upload check: 'Image must be less than 1MB' shown, file cleared",
+        "If bypassed, backend rejects with same 1MB error"
+      ]
+    },
+    {
+      "id": "USER-006",
+      "title": "Profile picture — invalid type (.pdf)",
+      "category": "user-validation",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "Try uploading a PDF as profile picture via the file input"}],
+      "expected": [
+        "File picker shows only image types (accept='image/*')",
+        "If file forced via browser: backend rejects with allowed-types error"
+      ]
+    },
+    {
+      "id": "USER-007",
+      "title": "Create User — passwords mismatch + auto-scroll",
+      "category": "user-validation",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Scroll all the way down to password section (after hierarchy access)"},
+        {"step": 2, "action": "Enter mismatching passwords"},
+        {"step": 3, "action": "Scroll to top and click Save"}
+      ],
+      "expected": [
+        "Validation fails",
+        "Page auto-scrolls to first error field (employee_id or earlier), not stuck at top"
+      ]
+    },
+    {
+      "id": "USER-008",
+      "title": "Edit User — update profile picture reflects in header immediately",
+      "category": "user-crud",
+      "priority": "P1",
+      "preconditions": ["Logged in as any user with profile edit capability"],
+      "steps": [
+        {"step": 1, "action": "Click user avatar in header → navigates to /my_profile"},
+        {"step": 2, "action": "Change profile picture"},
+        {"step": 3, "action": "Click Update Profile"}
+      ],
+      "expected": [
+        "Header avatar updates immediately (no refresh needed)",
+        "Redux auth state updated; localStorage refreshed",
+        "On page refresh, avatar still shows the new image"
+      ]
+    },
+    {
+      "id": "USER-009",
+      "title": "My Profile — Access Level section (read-only)",
+      "category": "user-profile",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Login as a non-global user with selective access"},
+        {"step": 2, "action": "Click header avatar → /my_profile"},
+        {"step": 3, "action": "Scroll to 'Access Level' section"}
+      ],
+      "expected": [
+        "Shows 5 cards: Countries, Provinces, Districts, Areas, Clusters",
+        "Each card has a count badge + list of accessible names",
+        "All cards read-only (no editing possible)",
+        "If user has_global_access=True → shows 'Global Access' banner instead"
+      ]
+    },
+    {
+      "id": "USER-010",
+      "title": "My Profile — limited edit (basic info only)",
+      "category": "user-profile",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "On /my_profile, try changing fields"}
+      ],
+      "expected": [
+        "Editable: First Name, Last Name, Mobile Number, Profile Picture",
+        "Read-only/disabled: Employee ID, Email, Role, Designation, Gender, Status",
+        "Save updates only the editable fields"
+      ]
+    },
+    {
+      "id": "USER-011",
+      "title": "Users listing — search works on name, email, designation, role, status",
+      "category": "user-listing",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "On /users, enter each of these in search: a name, part of an email, a designation, a role name, 'active'/'inactive'"}
+      ],
+      "expected": [
+        "Each search returns relevant users",
+        "Search is debounced (~500ms) — fires one request per stop of typing"
+      ]
+    },
+    {
+      "id": "USER-012",
+      "title": "Users listing — hierarchy filter cascading",
+      "category": "user-listing",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Click Country dropdown → select a country"},
+        {"step": 2, "action": "Click Province — should only show provinces for selected country"},
+        {"step": 3, "action": "Select province → District should narrow"},
+        {"step": 4, "action": "Continue through Region / Area / Cluster / School"}
+      ],
+      "expected": [
+        "Each child dropdown only shows options under the selected parent",
+        "List of users filtered accordingly (users whose access M2M includes selected entity)",
+        "Dropdowns respect user access (filter_access=true) — users only see hierarchy they themselves can access"
+      ]
+    },
+    {
+      "id": "USER-013",
+      "title": "Users listing — status tick/cross icons",
+      "category": "user-listing-ui",
+      "priority": "P2",
+      "expected": [
+        "Active users show green check_circle icon",
+        "Inactive users show red cancel icon",
+        "No 'Active'/'Inactive' text — icons only for space"
+      ]
+    },
+    {
+      "id": "USER-014",
+      "title": "Users listing — avatar or initials",
+      "category": "user-listing-ui",
+      "priority": "P2",
+      "expected": [
+        "User with profile_picture → shows image in Full Name column",
+        "User without → shows initials (first letter of first+last name)",
+        "Image path resolves correctly (absolute URL or prepended with REACT_APP_BACKEND_URL)"
+      ]
+    },
+    {
+      "id": "USER-015",
+      "title": "Users listing — default sort is -updated_at",
+      "category": "user-listing",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Create or edit a user"},
+        {"step": 2, "action": "Return to /users"}
+      ],
+      "expected": ["Edited/created user appears at top of listing"]
+    },
+    {
+      "id": "USER-016",
+      "title": "Users listing — no_page capped at 200",
+      "category": "user-api-edge",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "Hit GET /api/v1/users/?no_page directly via browser URL or curl"}],
+      "expected": ["Response has at most 200 users, not all"]
+    },
+    {
+      "id": "USER-017",
+      "title": "Right Sharing — debounced search",
+      "category": "user-crud",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "On CreateUser/EditUser, scroll to 'Select User For Right Sharing'"},
+        {"step": 2, "action": "Type 3 characters quickly"}
+      ],
+      "expected": [
+        "No API call fires until user stops typing (~300ms debounce)",
+        "Dropdown shows matching users; selecting one copies their access into form"
+      ]
+    },
+    {
+      "id": "USER-018",
+      "title": "Grant Global Access — auto-selects all hierarchies incl. regions",
+      "category": "user-access",
+      "priority": "P0",
+      "steps": [
+        {"step": 1, "action": "On CreateUser, toggle 'Grant Global Access' ON"},
+        {"step": 2, "action": "Observe each access column"}
+      ],
+      "expected": [
+        "All Countries selected",
+        "All Provinces selected",
+        "All Districts selected",
+        "All Regions selected (regression fix — previously was empty)",
+        "All Areas selected",
+        "All Clusters selected",
+        "All Schools selected (if any exist)"
+      ]
+    },
+    {
+      "id": "USER-019",
+      "title": "Edit User with existing access — cascading load",
+      "category": "user-access",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Edit an existing user who has access to e.g. 2 countries, 3 provinces, 5 districts"}
+      ],
+      "expected": [
+        "Page loads in ONE API call (/users/{id}/access-tree/), NOT 60+ cascading requests",
+        "All previously selected entities pre-checked",
+        "Unselecting a country cascades unselect for its descendants"
+      ]
+    },
+    {
+      "id": "USER-020",
+      "title": "Delete user — soft delete + auth_user deactivated",
+      "category": "user-crud",
+      "priority": "P1",
+      "steps": [{"step": 1, "action": "From listing, click delete icon on a user row, confirm"}],
+      "expected": [
+        "Row disappears from listing",
+        "user_profile.deleted_at set",
+        "user.is_active=False in DB",
+        "That user can no longer login"
+      ]
+    },
+    {
+      "id": "USER-021",
+      "title": "CascadingAccessColumn handles undefined data gracefully",
+      "category": "user-edge",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "On fresh CreateUser page, before data loads, observe access columns"}
+      ],
+      "expected": [
+        "No 'Cannot read properties of undefined' crash",
+        "Empty state shown with 'Select parent first' or similar"
+      ]
+    },
+
+    {
+      "id": "ROLE-001",
+      "title": "Role create — ends in pending, email sent to checkers",
+      "category": "role-crud",
+      "priority": "P0",
+      "preconditions": ["Logged in as user with roles.can_add", "At least one role_checker user exists"],
+      "steps": [
+        {"step": 1, "action": "Navigate to /roles"},
+        {"step": 2, "action": "Click Create Role"},
+        {"step": 3, "action": "Enter name (unique), description, toggle some module permissions"},
+        {"step": 4, "action": "Click Save"}
+      ],
+      "expected": [
+        "Notification: 'Role submitted for approval!'",
+        "Redirect to /roles",
+        "New role appears in listing with status badge 'Pending'",
+        "role_requests table has a new row (action=create, status=pending, created_by=current user)",
+        "Role.module_permissions is EMPTY (only applied on approval)",
+        "Celery task notify_checkers_role_created fires, email received by checkers"
+      ]
+    },
+    {
+      "id": "ROLE-002",
+      "title": "Role create — checker sees it in Approval Queue",
+      "category": "role-maker-checker",
+      "priority": "P0",
+      "preconditions": ["Role created in ROLE-001"],
+      "steps": [
+        {"step": 1, "action": "Logout maker, login as a checker (different user with role_checker permission)"},
+        {"step": 2, "action": "Navigate to /roles"},
+        {"step": 3, "action": "Click 'Approval Queue' tab"}
+      ],
+      "expected": [
+        "Pending role visible in queue with badge count (e.g. '1')",
+        "Created By column shows maker's username",
+        "Review button visible in Actions"
+      ]
+    },
+    {
+      "id": "ROLE-003",
+      "title": "Role approve — permissions applied, status becomes approved",
+      "category": "role-maker-checker",
+      "priority": "P0",
+      "steps": [
+        {"step": 1, "action": "As checker, click Review on a pending role"},
+        {"step": 2, "action": "Observe role details and proposed permissions"},
+        {"step": 3, "action": "(Optional) add approval remarks"},
+        {"step": 4, "action": "Click Approve"}
+      ],
+      "expected": [
+        "Confirmation shown; redirect to /roles",
+        "Role now shows status 'Approved' in listing",
+        "Role.module_permissions populated with the proposed permissions (bulk_create)",
+        "role_requests row updated: status=approved, approved_by=checker, remarks stored",
+        "Role.approved_by = checker, Role.approval_status='approved'"
+      ]
+    },
+    {
+      "id": "ROLE-004",
+      "title": "Role reject — role status becomes rejected, reason required",
+      "category": "role-maker-checker",
+      "priority": "P0",
+      "steps": [
+        {"step": 1, "action": "As checker, click Review on a pending role"},
+        {"step": 2, "action": "Click Reject WITHOUT remarks → should fail validation"},
+        {"step": 3, "action": "Enter rejection reason, click Reject"}
+      ],
+      "expected": [
+        "Step 2: error 'Rejection reason is required.'",
+        "Step 3: role status becomes 'Rejected'",
+        "Rejection reason visible in listing (tooltip/italic below status badge)",
+        "role_requests.status=rejected, remarks stored"
+      ]
+    },
+    {
+      "id": "ROLE-005",
+      "title": "Self-approval blocked (maker ≠ approver)",
+      "category": "role-security",
+      "priority": "P0",
+      "steps": [
+        {"step": 1, "action": "Login as a user who has BOTH can_add AND role_checker"},
+        {"step": 2, "action": "Create a new role"},
+        {"step": 3, "action": "Navigate to Approval Queue"}
+      ],
+      "expected": [
+        "The user's own role is NOT shown in queue (excluded by created_by != current)",
+        "If attempted via direct API POST /roles/{id}/approve/: 403 'You cannot approve a request you created.'",
+        "Banner shown on Approval Queue: 'You cannot approve/reject roles created by you...'"
+      ]
+    },
+    {
+      "id": "ROLE-006",
+      "title": "Update approved role — goes pending, old permissions remain active",
+      "category": "role-maker-checker",
+      "priority": "P0",
+      "steps": [
+        {"step": 1, "action": "Edit an existing APPROVED role, change permissions"},
+        {"step": 2, "action": "Click Update"},
+        {"step": 3, "action": "Check the role in DB / listing"}
+      ],
+      "expected": [
+        "Role.approval_status=pending",
+        "Role.module_permissions UNCHANGED (still old/approved values)",
+        "New role_requests row created (action=update, payload contains new values, status=pending)",
+        "Users assigned to this role continue operating with OLD permissions until approval"
+      ]
+    },
+    {
+      "id": "ROLE-007",
+      "title": "Update blocked while pending request exists",
+      "category": "role-maker-checker",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Create/edit a role so it has a pending request"},
+        {"step": 2, "action": "Try to edit and save again before approval"}
+      ],
+      "expected": [
+        "Backend returns 400 with: 'This role has a pending approval request. Please wait for it to be reviewed.'",
+        "Frontend shows the message as general error"
+      ]
+    },
+    {
+      "id": "ROLE-008",
+      "title": "Edit page pre-fills from latest pending payload",
+      "category": "role-maker-checker",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Create a new role (status pending, permissions empty)"},
+        {"step": 2, "action": "Open EditRole for it"}
+      ],
+      "expected": [
+        "Form shows name/description/permissions from latest_request.payload",
+        "Not an empty form (which would happen if reading from Role.module_permissions only)"
+      ]
+    },
+    {
+      "id": "ROLE-009",
+      "title": "Checker with maker rights cannot approve role they edited",
+      "category": "role-security",
+      "priority": "P0",
+      "preconditions": ["User has both roles.can_add and role_checker permissions"],
+      "steps": [
+        {"step": 1, "action": "Another maker (User A) creates a role"},
+        {"step": 2, "action": "User B (checker+maker) approves it → role becomes approved"},
+        {"step": 3, "action": "User B edits the role (now goes pending again)"},
+        {"step": 4, "action": "User B navigates to Approval Queue"}
+      ],
+      "expected": [
+        "User B does NOT see their own pending request in queue",
+        "Direct API approve → 403 'You cannot approve a request you created.'",
+        "A different checker must approve"
+      ]
+    },
+    {
+      "id": "ROLE-010",
+      "title": "Reject CREATE request → role becomes Rejected (unusable)",
+      "category": "role-maker-checker",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Checker rejects a brand-new pending create role"}
+      ],
+      "expected": [
+        "Role.approval_status=rejected, approved_by=null",
+        "Role.module_permissions stays empty",
+        "Role visible in listing with rejected badge + reason",
+        "Maker can edit and resubmit (creates a new UPDATE request)"
+      ]
+    },
+    {
+      "id": "ROLE-011",
+      "title": "Reject UPDATE request → role reverts to approved (previous state valid)",
+      "category": "role-maker-checker",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Edit an approved role → pending update"},
+        {"step": 2, "action": "Checker rejects the update"}
+      ],
+      "expected": [
+        "Role.approval_status goes back to 'approved' (not rejected)",
+        "Role.module_permissions unchanged (still the previously approved state)",
+        "role_requests row has status=rejected with remarks"
+      ]
+    },
+    {
+      "id": "ROLE-012",
+      "title": "Role Checker ↔ View auto-linking in permission grid",
+      "category": "role-ui",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "On CreateRole, open permission grid"},
+        {"step": 2, "action": "Click Role Checker 'can_view' toggle to ON"},
+        {"step": 3, "action": "Observe Roles module row"},
+        {"step": 4, "action": "Toggle Roles 'can_view' OFF"}
+      ],
+      "expected": [
+        "Step 2: Roles 'can_view' auto-turns ON",
+        "Step 4: Role Checker 'can_view' auto-turns OFF (dependent)"
+      ]
+    },
+    {
+      "id": "ROLE-013",
+      "title": "Role Maker special permission is inactive (not shown)",
+      "category": "role-ui",
+      "priority": "P2",
+      "expected": [
+        "On CreateRole / EditRole, the 'Role Maker' special permission is NOT in the grid",
+        "Only Role Checker is in the special permissions section"
+      ]
+    },
+    {
+      "id": "ROLE-014",
+      "title": "Roles listing — Excel export includes role name",
+      "category": "role-ui",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Open a role detail / permission grid"},
+        {"step": 2, "action": "Click Excel export button"}
+      ],
+      "expected": [
+        "File downloaded with sheet name = role name",
+        "First row contains role name as title, second row has headers",
+        "All modules listed with View/Add/Edit/Delete Yes/No/— (— for view-only/special)"
+      ]
+    },
+    {
+      "id": "ROLE-015",
+      "title": "Delete role assigned to user → blocked",
+      "category": "role-edge",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Assign a role to at least one user"},
+        {"step": 2, "action": "Try to delete that role"}
+      ],
+      "expected": [
+        "Error: 'This role is assigned to users and cannot be deleted.'",
+        "Role remains in DB"
+      ]
+    },
+    {
+      "id": "ROLE-016",
+      "title": "Duplicate role name (case-insensitive) rejected",
+      "category": "role-validation",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "Try creating a role named 'SYSTEM ADMIN' (case differs)"}],
+      "expected": ["Error: 'A role with this name already exists.'"]
+    },
+    {
+      "id": "ROLE-017",
+      "title": "Tab visibility based on permissions",
+      "category": "role-ui",
+      "priority": "P1",
+      "scenarios": [
+        {"user_type": "viewer (roles.can_view only)", "expected_tabs": "No tabs. Listing shows approved roles only. No Create/Edit/Delete."},
+        {"user_type": "maker (roles.can_add + can_view)", "expected_tabs": "No tabs (single listing). All roles with status badges. Create + Edit + Delete."},
+        {"user_type": "checker only (role_checker + roles.can_view)", "expected_tabs": "Two tabs: 'Roles' (approved only) and 'Approval Queue'. No Create."},
+        {"user_type": "both (roles.can_add + role_checker)", "expected_tabs": "Two tabs. Queue excludes own requests. Warning banner in queue."}
+      ]
+    },
+    {
+      "id": "ROLE-018",
+      "title": "Role approval — diff view shows old vs new",
+      "category": "role-ui",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Approved role with can_view on Schools (for example)"},
+        {"step": 2, "action": "Maker edits → removes can_view on Schools, adds can_add on Users"},
+        {"step": 3, "action": "Checker opens Review page"}
+      ],
+      "expected": [
+        "For each permission cell: if changed, shows old value crossed-out + new value in bold",
+        "Unchanged cells show single value",
+        "Role name/description: if changed, shows current → proposed arrow"
+      ]
+    },
+
+    {
+      "id": "HIER-001",
+      "title": "Hierarchy listing — 5 levels (no City)",
+      "category": "hierarchy",
+      "priority": "P1",
+      "steps": [{"step": 1, "action": "Navigate to /heirarchy"}],
+      "expected": [
+        "Filter dropdowns: Country, Province, District, Area, Cluster (no City)",
+        "Table columns: Country, Province, District, Area, Cluster",
+        "Tab for Regions (M2M grouping) available"
+      ]
+    },
+    {
+      "id": "HIER-002",
+      "title": "Create hierarchy — province goes directly under country, district under province",
+      "category": "hierarchy",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Navigate to /create_heirarchy"},
+        {"step": 2, "action": "Try creating Country → Province → District → Area → Cluster each step"}
+      ],
+      "expected": [
+        "District picker only needs province (no city step)",
+        "Each entity created successfully, appears in listing"
+      ]
+    },
+    {
+      "id": "HIER-003",
+      "title": "Create region with All checkbox",
+      "category": "hierarchy",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "On CreateHeirarchy, scroll to Add Region"},
+        {"step": 2, "action": "In each column (Country/Province/District/Area/Cluster), click 'All' checkbox"},
+        {"step": 3, "action": "Enter region name, click Save Region"}
+      ],
+      "expected": [
+        "All items in each column auto-checked",
+        "Region saved with members from all levels via RegionMember rows",
+        "Region shows in Regions tab"
+      ]
+    },
+    {
+      "id": "HIER-004",
+      "title": "Edit region with All checkbox",
+      "category": "hierarchy",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "Navigate to /edit_heirarchy, pick a region, toggle All on Countries column"}],
+      "expected": ["Same All functionality works on edit page"]
+    },
+    {
+      "id": "HIER-005",
+      "title": "Hierarchy dropdowns filtered by user access",
+      "category": "hierarchy-security",
+      "priority": "P0",
+      "preconditions": ["User has access to only Pakistan's Sindh+East district"],
+      "steps": [
+        {"step": 1, "action": "Login as that user"},
+        {"step": 2, "action": "Open Users listing hierarchy filters"}
+      ],
+      "expected": [
+        "Country dropdown shows only Pakistan",
+        "Province dropdown shows only Sindh",
+        "District dropdown shows only East",
+        "Areas/Clusters show only those tied to East"
+      ]
+    },
+    {
+      "id": "HIER-006",
+      "title": "Delete hierarchy entity with children blocked",
+      "category": "hierarchy-edge",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "Try deleting a country that has provinces"}],
+      "expected": ["Error: cannot delete while child entities exist; soft delete blocked"]
+    },
+
+    {
+      "id": "PERM-001",
+      "title": "Sidebar shows only modules user has can_view for",
+      "category": "permissions",
+      "priority": "P0",
+      "steps": [
+        {"step": 1, "action": "Login as user whose role only has can_view on Dashboard + Users"}
+      ],
+      "expected": [
+        "Sidebar shows only Dashboard + Users",
+        "Other modules (Roles, Hierarchy, Donors, etc.) hidden"
+      ]
+    },
+    {
+      "id": "PERM-002",
+      "title": "Direct URL access to unauthorized module redirects",
+      "category": "permissions-security",
+      "priority": "P0",
+      "steps": [
+        {"step": 1, "action": "Login as user without roles.can_view"},
+        {"step": 2, "action": "Type /roles in address bar"}
+      ],
+      "expected": [
+        "Redirected to first accessible route (Dashboard if has permission, else next, else /my_profile)",
+        "No flash of the restricted page"
+      ]
+    },
+    {
+      "id": "PERM-003",
+      "title": "Dashboard access gated by dashboard permission",
+      "category": "permissions-security",
+      "priority": "P0",
+      "steps": [{"step": 1, "action": "Login as user without dashboard.can_view, navigate to /"}],
+      "expected": ["Redirected to first accessible route, NOT shown dashboard"]
+    },
+    {
+      "id": "PERM-004",
+      "title": "Create/Edit buttons hidden when user lacks permission",
+      "category": "permissions-ui",
+      "priority": "P0",
+      "preconditions": ["User with users.can_view only (no can_add, no can_edit, no can_delete)"],
+      "steps": [
+        {"step": 1, "action": "Navigate to /users"}
+      ],
+      "expected": [
+        "Create User button NOT visible",
+        "Edit + Delete icons NOT shown in row actions",
+        "Frontend visibility = Backend permission"
+      ]
+    },
+    {
+      "id": "PERM-005",
+      "title": "Backend enforces permissions even if frontend bypassed",
+      "category": "permissions-security",
+      "priority": "P0",
+      "steps": [
+        {"step": 1, "action": "Login as user with users.can_view only"},
+        {"step": 2, "action": "Capture JWT token"},
+        {"step": 3, "action": "Directly curl POST /api/v1/users/ with token + payload"}
+      ],
+      "expected": [
+        "Backend returns 403 Forbidden (ModulePerm class)",
+        "User NOT created"
+      ]
+    },
+    {
+      "id": "PERM-006",
+      "title": "Hierarchy Create/Edit buttons hidden without permission",
+      "category": "permissions-ui",
+      "priority": "P1",
+      "preconditions": ["User with hierarchy.can_view only"],
+      "steps": [{"step": 1, "action": "Navigate to /heirarchy"}],
+      "expected": [
+        "Create Location button hidden",
+        "Edit Location button hidden",
+        "Only read-only listing visible"
+      ]
+    },
+
+    {
+      "id": "UI-001",
+      "title": "Table header text visible during and after sort",
+      "category": "ui",
+      "priority": "P1",
+      "steps": [
+        {"step": 1, "action": "Navigate to any listing (/users, /roles)"},
+        {"step": 2, "action": "Click a sortable column header multiple times"}
+      ],
+      "expected": [
+        "Header text (name, email, etc.) stays visible at all times",
+        "No white-on-white invisibility after sort",
+        "Sort indicator arrow (▲ or ▼) displays correctly"
+      ]
+    },
+    {
+      "id": "UI-002",
+      "title": "No empty white column after sort",
+      "category": "ui",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "Sort a table by different columns"}],
+      "expected": ["Column widths remain consistent; no extra empty white column appears"]
+    },
+    {
+      "id": "UI-003",
+      "title": "Loader appears in center during route transition",
+      "category": "ui",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "Navigate between pages via sidebar"}],
+      "expected": ["Loading spinner shows in center of screen (h-screen container) during suspense fallback"]
+    },
+    {
+      "id": "UI-004",
+      "title": "Header shows correct date + user info",
+      "category": "ui",
+      "priority": "P3",
+      "expected": [
+        "Today's date shown (format: Monday, April 13, 2026 etc.)",
+        "User name shown",
+        "Avatar image or initials",
+        "Clickable — opens /my_profile"
+      ]
+    },
+    {
+      "id": "UI-005",
+      "title": "Sticky action bar on create/edit pages",
+      "category": "ui",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Open CreateUser, scroll down in the form"}
+      ],
+      "expected": ["Cancel + Save User Profile buttons stick at top while scrolling the form"]
+    },
+    {
+      "id": "UI-006",
+      "title": "Sticky buttons disable during save",
+      "category": "ui",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Click Save — while request is in flight"}
+      ],
+      "expected": [
+        "Save button disabled + label changes to 'Saving...'",
+        "Cancel button also disabled (grayed)"
+      ]
+    },
+
+    {
+      "id": "EDGE-001",
+      "title": "Create 200+ users rapidly — unique user_code",
+      "category": "scale-edge",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "POST 50 users in parallel"}],
+      "expected": [
+        "Each user gets a unique user_code (USR-XXXX)",
+        "No duplicate errors (race condition protected via Max aggregate)"
+      ]
+    },
+    {
+      "id": "EDGE-002",
+      "title": "Very long description (max length 500)",
+      "category": "validation-edge",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "Enter 600-char description in role or similar field"}],
+      "expected": ["Input limited to 500 chars in UI; backend also rejects if bypassed"]
+    },
+    {
+      "id": "EDGE-003",
+      "title": "Special characters in role name (Unicode)",
+      "category": "validation-edge",
+      "priority": "P3",
+      "steps": [{"step": 1, "action": "Create role named 'Müşavir / مشاور' "}],
+      "expected": ["Accepted (unicode-safe in DB and API)"]
+    },
+    {
+      "id": "EDGE-004",
+      "title": "Concurrent approval race — only one checker wins",
+      "category": "concurrency-edge",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Two checkers open review page for same role"},
+        {"step": 2, "action": "Both click approve at exactly the same time"}
+      ],
+      "expected": [
+        "Only first request wins",
+        "Second receives 400: 'This request has already been reviewed.'"
+      ]
+    },
+    {
+      "id": "EDGE-005",
+      "title": "Session token expired mid-action",
+      "category": "auth-edge",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Login, wait until JWT access token expires"},
+        {"step": 2, "action": "Click Save on a form"}
+      ],
+      "expected": [
+        "Axios interceptor handles 401; refreshes token transparently using refresh token",
+        "Or, if refresh also invalid, logs out user and redirects to /login"
+      ]
+    },
+    {
+      "id": "EDGE-006",
+      "title": "Profile update with no changes",
+      "category": "edge",
+      "priority": "P3",
+      "steps": [{"step": 1, "action": "On MyProfile, click Update without changing anything"}],
+      "expected": ["Succeeds silently; no-op; no validation errors"]
+    },
+    {
+      "id": "EDGE-007",
+      "title": "Region listed without any district assignment",
+      "category": "hierarchy-edge",
+      "priority": "P3",
+      "steps": [{"step": 1, "action": "Create a region with only province-level members, no district"}],
+      "expected": [
+        "Region shows in listing; doesn't break user access-tree endpoint",
+        "Region group under districts not displayed (empty items filtered out)"
+      ]
+    },
+    {
+      "id": "EDGE-008",
+      "title": "User with no permissions — can see only profile",
+      "category": "permissions-edge",
+      "priority": "P2",
+      "preconditions": ["Create a role with zero permissions, assign to a user"],
+      "steps": [
+        {"step": 1, "action": "Login as that user"}
+      ],
+      "expected": [
+        "Sidebar empty",
+        "Accessing / redirects to /my_profile (fallback)",
+        "Can still view/edit own profile and change password"
+      ]
+    },
+    {
+      "id": "EDGE-009",
+      "title": "Role deletion after role is assigned then unassigned",
+      "category": "role-edge",
+      "priority": "P3",
+      "steps": [
+        {"step": 1, "action": "Assign role to user, then reassign another role to that user, leaving the first role with 0 assignments"},
+        {"step": 2, "action": "Try deleting the first role"}
+      ],
+      "expected": ["Deletes successfully (no users assigned)"]
+    },
+    {
+      "id": "EDGE-010",
+      "title": "Stale frontend permissions after role update",
+      "category": "permissions-edge",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "User A logged in with role R having can_view on Users"},
+        {"step": 2, "action": "Admin edits role R to remove can_view on Users (approved)"},
+        {"step": 3, "action": "User A continues browsing without logout"}
+      ],
+      "expected": [
+        "User A's client still has stale permissions until refresh/logout",
+        "But backend rejects any API call to /users/ with 403",
+        "On next login, permissions refreshed in token response"
+      ]
+    },
+    {
+      "id": "EDGE-011",
+      "title": "Celery worker down — emails queued but not sent",
+      "category": "infra-edge",
+      "priority": "P2",
+      "steps": [
+        {"step": 1, "action": "Stop Celery worker"},
+        {"step": 2, "action": "Create a role (triggers notify_checkers_role_created.delay)"}
+      ],
+      "expected": [
+        "Role creation succeeds immediately (doesn't block on worker)",
+        "Task queued in broker",
+        "Later when worker starts: all queued tasks execute (emails eventually sent)"
+      ]
+    },
+    {
+      "id": "EDGE-012",
+      "title": "Create user with global access and no per-level access",
+      "category": "user-access-edge",
+      "priority": "P2",
+      "steps": [{"step": 1, "action": "Toggle Grant Global Access; ensure no per-item selections"}],
+      "expected": [
+        "Validation passes (global access satisfies 'at least one access' rule)",
+        "Backend creates no M2M rows but has_global_access=True"
+      ]
+    },
+    {
+      "id": "EDGE-013",
+      "title": "View role listing while no roles exist (empty state)",
+      "category": "ui-edge",
+      "priority": "P3",
+      "steps": [{"step": 1, "action": "On fresh DB with no roles, open /roles"}],
+      "expected": ["Empty message shown: 'No roles found.' (not a crash)"]
+    },
+    {
+      "id": "EDGE-014",
+      "title": "Large image (just under 1MB)",
+      "category": "user-edge",
+      "priority": "P3",
+      "steps": [{"step": 1, "action": "Upload a 0.95MB JPG as profile picture"}],
+      "expected": ["Accepted; saved; shown in header + listing"]
+    },
+    {
+      "id": "EDGE-015",
+      "title": "Approval Queue tab badge count accuracy",
+      "category": "role-ui",
+      "priority": "P3",
+      "steps": [
+        {"step": 1, "action": "Create 3 roles, all pending, none by current checker"},
+        {"step": 2, "action": "Login as checker, view queue badge"}
+      ],
+      "expected": [
+        "Badge shows '3'",
+        "Approve one → badge decreases to '2'"
+      ]
+    }
+  ],
+  "global_assertions": [
+    "All list pages paginate by default (page_size=20 or 25).",
+    "All backend errors are capitalized on frontend display.",
+    "Auto-scroll to first validation error fires on create/edit forms.",
+    "All sticky action bars remain visible during scroll.",
+    "Session tokens persist across refresh (no login flash).",
+    "Permission visibility on frontend matches backend enforcement (no UI-only hiding)."
+  ],
+  "environments_to_test": [
+    {"name": "Local dev", "browser": "Chrome latest", "notes": "Windows Celery pool=solo"},
+    {"name": "Staging", "url": "https://ttwf.eteamid.com", "notes": "Real SMTP"},
+    {"name": "Mobile viewport", "browser": "Chrome DevTools emulator", "notes": "Test sidebar collapse, form layouts"}
+  ],
+  "test_run_checklist": [
+    "P0 scenarios MUST all pass before release",
+    "P1 scenarios should pass; any failures are release-blocking bugs",
+    "P2/P3 are enhancement/edge coverage",
+    "Run seeded fresh DB before each P0 pass",
+    "Verify Celery worker running during any test with email side effects"
+  ]
+}
