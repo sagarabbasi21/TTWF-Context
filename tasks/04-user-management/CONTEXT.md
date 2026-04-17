@@ -103,3 +103,29 @@ User CRUD with cascading regional access permissions, profile management, passwo
 - Shows user name from auth state
 - Clickable → navigates to /my_profile
 - Date memoized, React.memo wrapper
+
+---
+
+## Changes — 2026-04-15 (Manager discussion P1 batch)
+
+### Validation & auth
+- **CHG-03 / BUG-32** Access levels mandatory till cluster (school optional). `CreateUser.jsx` + `EditUser.jsx` + `UserDetailSerializer.validate` all enforce country → province → district → area → cluster when `has_global_access=false`. Global bypass intact.
+- **CHG-04 / BUG-26** Email/mobile reusable after soft-delete. `UserProfile.soft_delete` renames `auth_user.username`, `auth_user.email` and `user_profile.mobile_number` with `__deleted_<timestamp>` suffix to clear hard unique constraints. Employee ID stays globally unique. `validate_email` / `validate_username` use `__iexact` against active users.
+- **CHG-07** Shared password rules: `Backend/user_management/validators.py` + `Frontend/src/utils/helpers/passwordRules.js`. Wired in CreateUser, EditUser, MyProfile, ChangePassword (FE + BE).
+- **BUG-06** Inactive/soft-deleted user login returns `inactive_account` code with message "User is inactive. Please contact administrator." Wrong password / missing email still returns `no_active_account`.
+- **BUG-13** Duplicate-email error now says "A user with this email already exists." (mapped from username unique constraint).
+- **BUG-27** `ChangePassword.jsx` surfaces `err.response.data.detail` containing "current password" on the current-password field.
+
+### Permissions
+- **BUG-23** `App.jsx` bootstrap: single `GET /users/me/` after hydration merges fresh permissions into Redux via `updateAuthUser`. No polling. Backend `/users/me/` now returns `permissions` + `must_change_password` alongside profile.
+- **CHG-10 / BUG-24** Role dropdown filter: `fetchRoles({approvedOnly:true})` — backend accepts `?approved_only=true` on `/roles/`.
+- **CHG-11** Partial M2M save: `_set_regional_access(scoped=True)` only mutates rows within LI's access scope. EU's extra access preserved. Super admin / has_global_access bypasses scope.
+
+### Edit User performance & UX
+- **BUG-30** EditUser with `has_global_access=True` auto-populates all hierarchy IDs + groups via `fetchAndSelectAll()` so every node renders checked.
+- **BUG-31** EditUser `loadData` uses `loadUserAccess(userId)` batch endpoint instead of cascading per-level fetches (replaces ~60 API calls with 1).
+- **BUG-18** `toggleAllForLevel` in CreateUser + EditUser now invokes per-item `toggleAcc*` so Select-All at province/district/area/cluster cascades fetch of child items.
+- **BUG-09** Profile picture URL: `_absolute_picture_url` returns absolute URL only when host is not localhost (prevents baking "localhost" into URLs served to UAT frontend).
+
+### MyProfile / Change Password
+- **CHG-12** (not in this batch — P2) MyProfile change password fields still pending.

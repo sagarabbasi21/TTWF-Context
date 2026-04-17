@@ -55,3 +55,17 @@
 - Roles listing: Create button hidden without `can_add`, DataTable actions respect `can_edit`/`can_delete`
 - Permission auto-link: Role Checker ON → Roles `can_view` ON; Roles `can_view` OFF → Checker OFF
 - Approval logic UI: "updated_by" also blocked from approving (maker/checker with maker rights can't approve own edits)
+
+## Phase 6 — Manager discussion P0/P1 (2026-04-15)
+
+### P0
+- **BUG-01 (TASK-059)** `EditRole.jsx` — `latest_request.payload` prefill gated on `action_type='create'`. For pending UPDATE, form now loads from `role.module_permissions` (last approved snapshot) so the change is NOT visually applied before approval.
+
+### P1
+- **CHG-01 (TASK-068) + BUG-04 (TASK-077) + BUG-17 (TASK-082)** `PermissionGrid.togglePerm` cascades: add/edit/delete ON ⇒ view=true; view OFF ⇒ a/e/d=false. Role Checker ON ⇒ roles.can_view=true; roles.can_view OFF ⇒ role_checker=false. `RoleSerializer.validate_module_permissions` mirrors: rejects if action without view, or `role_checker.can_view && !roles.can_view`.
+- **CHG-05 (TASK-071)** `RoleSerializer.update` no longer blocks when a pending RoleRequest exists. Instead overwrites `pending.payload` in place so checker reviews the latest submission.
+- **CHG-09 (TASK-074)** New `RoleRequest.previous_payload` JSONField (migration 0004). `_snapshot_role` captures the approved state at submission. New endpoint `GET /api/v1/roles/{id}/history/` returns approved + rejected requests. New "Request History" tab on `Roles.jsx` (checker only) with role selector + diff-ready table.
+- **CHG-10 / BUG-24 (TASK-075 / TASK-085)** `GET /roles/?approved_only=true` filter added on `RoleViewSet.get_queryset`. `fetchRoles` thunk accepts `approvedOnly`. `CreateUser` + `EditUser` call with `{approvedOnly:true}` so the role dropdown never shows pending/rejected roles.
+
+### Pending migrations
+- `role_management/0004_rolerequest_previous_payload.py` — nullable JSONField, no data backfill needed.

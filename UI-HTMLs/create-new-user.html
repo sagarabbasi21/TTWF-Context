@@ -201,6 +201,19 @@
                         <div class="p-6">
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
+                                <!-- Country -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] font-bold text-slate-500 tracking-wider">
+                                        Country <span class="text-red-500">*</span>
+                                    </label>
+                                    <select class="form-select">
+                                        <option>Select Country</option>
+                                        <option>Pakistan</option>
+                                        <option>United Kingdom</option>
+                                        <option>UAE</option>
+                                    </select>
+                                </div>
+
                                 <!-- Employee ID -->
                                 <div class="space-y-1.5">
                                     <label class="text-[10px] font-bold text-slate-500 tracking-wider">
@@ -363,7 +376,7 @@
                                     <option>Usman Khan -8823</option>
                                 </select>
                             </div>
-                            <!-- Row 1: Country, Province, District, Region -->
+                            <!-- Row 1: Country, Province, Region, Area -->
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pb-4">
                                 <div>
                                     <label class="access-header-label">Country</label>
@@ -400,20 +413,6 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="access-header-label">District</label>
-                                    <div class="access-list-container">
-                                        <div class="access-list-item"><input
-                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
-                                                type="checkbox" /><span class="ml-1">All</span></div>
-                                        <div class="access-list-item"><input checked=""
-                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
-                                                type="checkbox" /><span class="ml-1">East</span></div>
-                                        <div class="access-list-item"><input
-                                                class="form-checkbox h-3.5 w-3.5 text-primary border-gray-300 rounded"
-                                                type="checkbox" /><span class="ml-1">West</span></div>
-                                    </div>
-                                </div>
-                                <div>
                                     <label class="access-header-label">Region</label>
                                     <div class="access-list-container">
                                         <div class="access-list-item"><input
@@ -433,9 +432,6 @@
                                                 type="checkbox" /><span class="ml-1">Central</span></div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Row 2: Area, Cluster, School -->
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pb-2">
                                 <div>
                                     <label class="access-header-label">Area</label>
                                     <div class="access-list-container">
@@ -459,6 +455,9 @@
                                                 type="checkbox" /><span class="ml-1">North Nazimabad</span></div>
                                     </div>
                                 </div>
+                            </div>
+                            <!-- Row 2: Cluster, School -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pb-2">
                                 <div>
                                     <label class="access-header-label">Cluster</label>
                                     <div class="access-list-container">

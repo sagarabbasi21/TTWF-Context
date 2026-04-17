@@ -124,3 +124,11 @@ When migrating production:
 1. Create `role_requests` table
 2. Remove `pending_data` and `remarks` columns from `roles`
 3. Ensure existing approved roles have a matching RoleRequest(action=create, status=approved) for listing consistency (handled by seed for fresh DB; manual script needed for existing prod data)
+4. Migration `0004_rolerequest_previous_payload.py` adds JSONField (nullable) — no data backfill needed.
+
+## Changes — 2026-04-15 P1 batch
+- **CHG-05** Pending-role edit allowed: `RoleSerializer.update` overwrites existing pending `RoleRequest.payload` instead of returning 400.
+- **CHG-09** Request History: `RoleRequest.previous_payload` JSONField captures the approved state at submission. `GET /api/v1/roles/{id}/history/` returns approved+rejected requests (newest first). `Roles.jsx` has a third tab "Request History" for checkers.
+- **CHG-01** Permission auto-link: `PermissionGrid.togglePerm` cascades add/edit/delete ⇒ view=true; view OFF ⇒ a/e/d=false. Role Checker toggle still auto-syncs with `roles.can_view`.
+- **BUG-04 / BUG-17** Same cascade as CHG-01; backend `RoleSerializer.validate_module_permissions` rejects `role_checker.view && !roles.can_view`.
+- **CHG-10 / BUG-24** `GET /roles/?approved_only=true` filter; `fetchRoles({approvedOnly:true})` used by `CreateUser`/`EditUser`.

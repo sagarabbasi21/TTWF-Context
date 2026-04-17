@@ -208,3 +208,34 @@ None currently — scope is clear from schema v5 and mockups.
 8. Frontend: Update Redux store (remove cities)
 9. Frontend: Update HierarchySelector component
 10. Frontend: Update pages (Listing, Create, Edit)
+
+---
+
+## Changes — 2026-04-15 (Manager discussion follow-up)
+
+### Default listing order (`tasks/CHG` — off-tracker)
+- All 6 geo models: `Meta.ordering = ['-updated_at', 'name']` (was `['name']`). Migration `0002_alter_*_options` applied.
+- `HierarchyFlatView.VALID_ORDER_FIELDS` adds `updated_at`, `created_at`; default `-updated_at`.
+- `RegionViewSet.get_queryset` custom-order block allows `updated_at`/`created_at`; default `-updated_at`.
+- Frontend `HeirarchyListing.jsx`: initial `hSortBy=updated_at`, `hSortDir=desc`; `rSortBy/rSortDir` same.
+
+### Access-filter enforced unconditionally — BUG-14 / BUG-28 (TASK-061, TASK-066)
+- `BaseGeoViewSet.get_queryset`: filter applied on EVERY authenticated request unless `user.is_superuser` OR `profile.has_global_access`. `filter_access=true` param is now redundant (safe no-op).
+- `RegionViewSet` gained `_get_access_filter` using `access_regions` M2M.
+- `HierarchyFlatView.get_queryset` filters by `access_clusters` for non-global users.
+- Effect: listings, object GET, PUT, DELETE all respect access M2M via `get_object()` → 404 for out-of-scope IDs.
+
+### Delete block — BUG-16 (TASK-062)
+- `BaseGeoViewSet.destroy` adds a new guard:
+  ```python
+  user_count = instance.accessible_by_users.filter(
+      user__is_active=True, deleted_at__isnull=True,
+  ).count()
+  ```
+  Blocks deletion with 400 and count when any active user has the entity in their access M2M. Runs after child-count and region-member checks. Applies to all 6 levels because reverse related_name `accessible_by_users` exists on every hierarchy model.
+
+### Still pending (next batches)
+- CHG-02 Region-dropdown behaviour (area change ≠ region refilter)
+- CHG-08 Auto-add created entity to creator's M2M
+- CHG-13 Searchable dropdown on Edit Hierarchy
+- BUG-10 "All Countrys" typo, BUG-11 Cluster filter, BUG-15 Delete popup overflow

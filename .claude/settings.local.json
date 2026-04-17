@@ -61,7 +61,21 @@
       "Bash(ls -la Backend/role_management/migrations/*.py)",
       "Bash(ls:*)",
       "Bash(python:*)",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(aitasks --version)",
+      "Bash(export AITASKS_AGENT_ID=claude-opus-4-6)",
+      "Bash(\"./teach_the_world_env/Scripts/python.exe\" manage.py check)",
+      "Bash(\"./teach_the_world_env/Scripts/python.exe\" manage.py makemigrations)",
+      "Bash(\"./teach_the_world_env/Scripts/python.exe\" manage.py makemigrations user_management)",
+      "Bash(\"./teach_the_world_env/Scripts/python.exe\" manage.py migrate user_management)",
+      "Bash(aitasks create *)",
+      "Bash(grep -rn \"primary-dark\\\\|primary.*dark\" Frontend/tailwind.config.js Frontend/tailwind.config.cjs)",
+      "Bash(ls Frontend/tailwind*)",
+      "Bash(teach_the_world_env/Scripts/python.exe manage.py makemigrations user_management)",
+      "Bash(teach_the_world_env/Scripts/python.exe manage.py migrate)",
+      "Bash(teach_the_world_env/Scripts/python.exe manage.py check)",
+      "Bash(teach_the_world_env/Scripts/python.exe -c \"from user_management.views import UserProfileViewSet; print\\('Views OK'\\)\")",
+      "Bash(\"./teach_the_world_env/Scripts/python.exe\" manage.py showmigrations user_management)"
     ]
   }
 }

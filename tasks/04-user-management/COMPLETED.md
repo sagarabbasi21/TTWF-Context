@@ -68,3 +68,66 @@
 - Super Admin: is_superuser=True, is_staff=True, has_global_access=True, must_change_password=False
 - Access M2M: all countries/provinces/districts/regions/areas/clusters granted to Super Admin
 - Matching approved RoleRequest created for System Admin (workflow consistency)
+
+## Phase 7 — Manager discussion P0/P1/P2 (2026-04-15)
+
+### P0 (permissions + account integrity)
+- **BUG-20 / BUG-21 / BUG-22 (TASK-063, TASK-064, TASK-065)** `withAuth.jsx` `ROUTE_MODULE_MAP` entries upgraded from strings to `{module, action}` tuples. Create routes require `can_add`, edit routes require `can_edit`. Holidays added to map. `Drawer.jsx` NAV item for Holidays gained `moduleCode: 'holidays'`. `Donors.jsx` Add button + DataTable `isEditable`/`isDeletable` bound to `authUser.permissions.donors`.
+- **BUG-29 (TASK-067)** `UserProfile.soft_delete` now mirrors `user.is_active=False`. New `authflow.authentication.StrictJWTAuthentication` rejects soft-deleted users. Axios response interceptor clears tokens + redirects on 401 codes (`user_inactive|user_deleted|user_not_found`).
+
+### P1 (validation + UX)
+- **CHG-03 / BUG-32 (TASK-069 / TASK-090)** Access mandatory till cluster (school optional) unless `has_global_access`. `CreateUser.jsx`, `EditUser.jsx`, `UserDetailSerializer.validate` all enforce in order country → province → district → area → cluster.
+- **CHG-04 / BUG-26 (TASK-070 / TASK-086)** Soft-delete renames auth_user.username, auth_user.email, user_profile.mobile_number with `__deleted_<timestamp>` suffix to free the values. Employee ID stays globally unique. `validate_email` / `validate_username` use `__iexact`.
+- **CHG-07 (TASK-072)** Shared password rules — `Backend/user_management/validators.py` + `Frontend/src/utils/helpers/passwordRules.js`. Wired in CreateUser, EditUser, MyProfile, ChangePassword, `/users/change-password/`.
+- **CHG-11 (TASK-076)** `_set_regional_access(scoped=True)` on Edit User — only mutates M2M rows within LI user's access scope. EU's extra access preserved. Super admin / `has_global_access` bypasses scope.
+- **BUG-06 (TASK-078)** Distinct `inactive_account` login error for `is_active=False` / soft-deleted / `status!='active'`.
+- **BUG-09 (TASK-079)** `_absolute_picture_url` returns absolute URL only when request host ≠ localhost.
+- **BUG-13 (TASK-081)** Duplicate email error now reads "A user with this email already exists."
+- **BUG-18 (TASK-083)** `toggleAllForLevel` in CreateUser + EditUser invokes per-item cascading toggle on Select-All so child columns populate.
+- **BUG-23 (TASK-084)** App.jsx bootstrap: single `GET /users/me/` merges fresh permissions into Redux after token hydration. No polling.
+- **BUG-27 (TASK-087)** ChangePassword maps backend `detail` containing "current password" to `fieldErrors.current_password`.
+- **BUG-30 (TASK-088)** EditUser with `has_global_access=True` auto-populates all hierarchy IDs + groups via `fetchAndSelectAll()`.
+- **BUG-31 (TASK-089)** EditUser `loadData` replaced cascading per-level fetches with single `loadUserAccess(userId)` batch call.
+
+### P2 (UI polish + features)
+- **CHG-06 (TASK-092)** Phone field strips non-digits, caps at 11 chars, regex `^03\d{9}$` on submit. Backend `phone_regex_validator` mirrors.
+- **CHG-12 (TASK-093)** MyProfile optional new/confirm password fields. Backend `/users/me/` PUT accepts `new_password` with shared validator.
+- **BUG-05 (TASK-095)** `Select` component label style unified with TextBox. Status / Flag Sync / Profile Picture / OTP / Right Sharing labels migrated in CreateUser + EditUser.
+- **BUG-07 (TASK-096)** CascadingAccessColumn per-item row wrapped in `<label>` — native label semantics make text click toggle checkbox.
+- **BUG-12 (TASK-098)** Profile picture uploader full-width (`bg-gray-50 border-gray-200 py-3`) matching TextBox height.
+- **BUG-19 (TASK-100)** DataTable Actions `<th>` gained explicit `text-white`.
+- **BUG-33 (TASK-102)** CreateUser + EditUser email regex check before submit.
+
+### Pending migrations
+- `user_management/0003_userprofile_must_change_password_and_more.py` (already applied in earlier phase)
+- No new schema migrations this phase — soft-delete rename is row-level, no DDL changes.
+
+## Phase 8 — UAT Round 2 fixes (2026-04-17)
+
+### Security & Access
+- **TASK-105** User listing filtered by LI user's cluster-level access. Non-global users only see users with overlapping clusters.
+- **TASK-106** PasswordHistory model (db_table=password_history). `PASSWORD_HISTORY_COUNT=3` in settings. Blocks reuse of last N passwords on all change flows (change-password, MyProfile PUT, create user stores initial). Migration 0006 applied.
+- **TASK-107** Unknown URLs redirect to first accessible route via catch-all `<Route path="*">` in React Router.
+
+### Performance
+- **TASK-110** New `/users/{id}/edit-context/` merged endpoint returns user detail + selected access + available hierarchy (scoped to LI user) + approved roles in ONE call. EditUser.jsx refactored to single API call on mount.
+- **TASK-111** Roles page tabs lazy-loaded: Queue fetches on first tab click only, History already on-demand.
+
+### Email & Notifications
+- **TASK-108** User creation email includes dynamic login URL from `settings.SERVER_ADDR`.
+- Role email tasks: `notify_checkers_role_created` excludes creator email; new `notify_checkers_role_updated` task sent on role update, excludes updater.
+
+### UI Polish
+- **TASK-103** MyProfile profile picture uploader unified with full-width pattern.
+- **TASK-104** CreateRole/EditRole: `scrollToFirstError` added with field ID map.
+- **TASK-109** Region access column deduplicates by region ID, shows member districts as sub-text.
+- **TASK-112** Phone validation message: "Phone number must start with 03 and be exactly 11 digits" (FE + BE).
+- **TASK-113** Select Role placeholder option disabled (not submittable).
+- **TASK-114** DataTable `<th>` explicit `bg-primary` per cell to prevent white flash.
+- **TASK-115** DeleteModal: description from Roles listing already stripped/truncated by existing fix.
+
+### Hierarchy Edit
+- Long country name: Select button label truncated, edit/delete buttons `shrink-0`.
+
+### Pending migrations
+- `user_management/0006_alter_userprofile_mobile_number_passwordhistory.py` — PasswordHistory table + mobile max_length=50.
