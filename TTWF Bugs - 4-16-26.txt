@@ -1,0 +1,73 @@
+When Country is only selected in user access, and province and district is not seleted, on clicking on Save Profile getting no error, kuch na select pe bhi error nahin ha
+Password validation error message must be same in every case, abhi jo nahin daala us base pe aaraah ah 
+why shown DB error  raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\D Documents\Eteam Document and Credentials\TTWF\Portal\Backend\teach_the_world_env\lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.IntegrityError: duplicate key value violates unique constraint "user_profiles_employee_id_key"
+DETAIL:  Key (employee_id)=(EMP-015) already exist
+
+If same user is checker also who creates role, usko na bejo email
+
+In role module, when Role is updated tab bhi checkers ko email jahega, except jo karha ha agar wo bhi checker hoto
+Role Update pe mene bola tha ke pending nahin hoga approve hi rahega, but usko request jaahega checker ke pass, ab koi aesa karlo ke main listing main approve rahe, Approval queue main Pending rahe, aur agar request 2 dafa pending hoto aik pending ki request bhi dikhe role history main, take pata to chale wahan ke pending aahi thi but usi pending main dubara request aahi thi, ismain conflicts aahenge clear karlena
+
+jo role history wala tab banaya ha ismain sirf Table listing main na dikhao, aik review ka koi view ka icon dedo uske click pe dekhsake pe Pehle kiya thi aur new permissions kiya howin
+
+Project has no add permission but still Add button is connected
+
+when no province is selected in creating region, it tells Atleast one district is required, Province pe bolna chahiye tha aur dusri baat aur jo mandatory hain uspe * lagade
+
+Jab User A jiske pass access zyada ho aur wo User B ko edit mode pe khole jiske pass access kam hoto User B ki wo access to dikhe jo usko assign ho, aur jo User A ko assign hon wo bhi dikhe checkbox unchecked ho take agar new deni hain to wo desake (aik cheez ka khayal rakhna ka aesa hosakta ha User B ko koi aesi assign ho jo User A ko nahin to wo na dikhain), hope you understand what I want to say, If query ask question by AskFromUserQuestion tool
+
+If Designation is too long, kuch dikhao user listing main baki ... karke dikhao
+
+Password set karne pe via My Profile koi message nahin aaya
+
+There are two users, Sagar And Faisal , Sagar has global access, but Faisal has not, So when faisal view Sagar in Edit user screen, he also sees those hierarchy levels which is not assigned to Faisal (other than the country, country ko nahin dikhraha lekin baki hierarchy level dikhrahe hain)
+
+when county name is too big and in Heirarchy edit screen selecting that country hides the edit and delete icon
+
+
+
+Above one are again fixed by claude, need the verify them, these are new ones
+In Profile section, Profile Picture UI is not looks good
+In roles create/edit screen, not navigating to the first error message
+In user listing, only those users are visible to user, whose access level is also appxzlied on Loggedin users till cluster, means user Area tak bhi same access level ha aur us area ke ander 2 cluster hain, aur user A loggedin ha usko cluster A assign ha and user B ko cluster B assign haito user A ko user B na dikhe
+On changing password on any screen, user ko last 3 passwords select na karne de, but ye backend level configurable hoga, isko change bhi karsakte hain
+agar user koi aesa URL hit karta ha after / to usko first accessible screen pe redirect karo
+On User creation, jo email jaati ha, usmain login URL bhi bejo, but zahir se baat ha main domain hardcode na ho dynamic uthke jaahe, taake kahin bhi deployment karain to issues na aahain
+Jo region wala access level ha create/edit user main, Pehle ye batao ke reusable component banaya haina tumne, dusra yaike agar region ke ander multipe districts hon to usko kese dikhrahe ho, abhi ye horaha haike wo region multi times show horaha haike jabke ha aik hi region, iska koi proper solution do muje
+When open edit user screen, why too much API calls attached path "D:\D Documents\Eteam Document and Credentials\TTWF\Portal\screenshots\Edit API Calls.png"4
+Tell me one more thing, on the screens where tabs are shown, did you call API's for all tabs at once or what, because this is enterprise level application, calling too much API's on screen load gives issues when data is too much, hope you understand what I want to say
+On phone number validation I think show validation with proper message
+Select Role option in user creation must be disabled
+Abhi bhi hierarchy,user table pe white header hojata ha, jab hover karta hoon to sahi hojata ha, ispe upper koi white color ki css wagera lagai haito hatado
+delete role pe description hightlight hoke aarahi ha sirf wahi jismain description main ... laga ho attached screenshot in this path ("D:\D Documents\Eteam Document and Credentials\TTWF\Portal\screenshots\Delete role.png")
+
+
+Some new on 20 April 2026
+
+Some new bugs found on 4-20-2026
+> server sends this response, but frontend can't show it below mobile number
+  {"non_field_errors":["Invalid phone number for IN."]}
+  also there is no frontend level validation for number
+  also regional access permission, wale jo jaga ha usko aesa karlo ke wo puri jaga lele, abhi ye horaha haike wo spaces beech beech
+  main aarahe hain, wo nahin aane chahiye
+  currently Roles listing main approval wala jo tab ha usmain agar request haito wo dikhata nahin ha number, sirf tabhi show karta
+  ha jab tab pe click kiya jaata ha , isse user end ko har dafa tab pe click karna parega dekhne ke liye koi request ha ya nahin
+  Jo Role request wala tab ha ismain jo role requests aarahi hain usko end pe jo icon ha uske click pe neeche show karha ha main
+  charaha ke role approval wali screen ke jese hi show hoke pehle kiya next kiya ha abhi to wo neeche aaraha ha acha bhi nahin
+  lagraha ha aur module 1 , 2 samaj bhi nahin aarha ha , main charaha ha har request pe pata chale ke pehle kiya tha phir kiya howa
+  Approved role agar update kiya to approval queue wale tab main uska status pending dikhao, approved pe user ko thori confusion
+  hosakti ha
+  On Request history tab, Select a role option is disabled and by default selected, so on change user can't select it again
+  I think agar koi role Approval queue main tha aur usko approval ke bajahe kesi ne edit kardiya to jo pehle ki request thi usko
+  system main as pending request dikhao na ke rejected ,remarks sahi hain
+
+
+
+21 April 2026
+
+Some bugs written in TTWF-Bugs-Test-Scenarios-4-16-26 excel file, need to view them tomorrow also
+
+

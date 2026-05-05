@@ -158,6 +158,18 @@
                             </select>
                             <span>entries</span>
                         </div>
+                        <div class="h-6 w-px bg-slate-200 mx-2"></div>
+                        <div class="flex items-center text-[10px] font-bold text-slate-500 tracking-widest gap-2">
+                            <span>Year</span>
+                            <select class="rounded-lg border-slate-200 bg-white py-1 text-xs focus:ring-primary focus:border-primary">
+                                <option value="">All</option>
+                                <option>2024</option>
+                                <option>2025</option>
+                                <option selected>2026</option>
+                                <option>2027</option>
+                                <option>2028</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="relative w-full md:w-80">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
@@ -205,6 +217,7 @@
                                 </td>
                                 <td class="px-6 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
                                     <div class="flex items-center justify-center gap-3">
+                                        <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="View Holidays" onclick="openHolidayPopup(this)"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
                                         <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit" onclick="window.location.href='create-holiday.html'"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                                         <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                                     </div>
@@ -229,6 +242,7 @@
                                 </td>
                                 <td class="px-6 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
                                     <div class="flex items-center justify-center gap-3">
+                                        <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="View Holidays" onclick="openHolidayPopup(this)"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
                                         <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit" onclick="window.location.href='create-holiday.html'"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                                         <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                                     </div>
@@ -253,6 +267,7 @@
                                 </td>
                                 <td class="px-6 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
                                     <div class="flex items-center justify-center gap-3">
+                                        <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="View Holidays" onclick="openHolidayPopup(this)"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
                                         <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit" onclick="window.location.href='create-holiday.html'"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                                         <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                                     </div>
@@ -277,6 +292,7 @@
                                 </td>
                                 <td class="px-6 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
                                     <div class="flex items-center justify-center gap-3">
+                                        <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="View Holidays" onclick="openHolidayPopup(this)"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
                                         <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit" onclick="window.location.href='create-holiday.html'"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                                         <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                                     </div>
@@ -301,6 +317,7 @@
                                 </td>
                                 <td class="px-6 py-4 text-sm sticky right-0 bg-white dark:bg-slate-900 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]">
                                     <div class="flex items-center justify-center gap-3">
+                                        <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="View Holidays" onclick="openHolidayPopup(this)"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
                                         <button class="p-1.5 text-slate-400 hover:text-primary transition-colors rounded-md hover:bg-primary/5" title="Edit" onclick="window.location.href='create-holiday.html'"><span class="material-symbols-outlined text-[20px]">edit</span></button>
                                         <button class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Delete"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                                     </div>
@@ -325,6 +342,117 @@
             </div>
         </div>
     </main>
+
+    <!-- Holiday Entries Popup -->
+    <div id="holidayEntriesModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[80vh]">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 flex-shrink-0">
+                <div>
+                    <h2 id="popupCalendarName" class="text-base font-bold text-slate-800">Calendar Name</h2>
+                    <p id="popupEntryCount" class="text-xs text-slate-400 mt-0.5">Holiday Entries — 0 total</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="exportPopupToExcel()" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all shadow-sm">
+                        <span class="material-symbols-outlined text-sm">download</span> Export
+                    </button>
+                    <button onclick="closeHolidayPopup()" class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Close">
+                        <span class="material-symbols-outlined text-[20px]">close</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Search -->
+            <div class="px-6 py-3 border-b border-slate-100 flex-shrink-0">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-lg text-slate-400">search</span>
+                    </span>
+                    <input id="popupSearch" oninput="filterPopupEntries()" class="pl-10 pr-4 py-2 w-full border border-slate-200 rounded-xl bg-slate-50 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400" placeholder="Search by name or date..." type="text" />
+                </div>
+            </div>
+            <!-- Table -->
+            <div class="overflow-auto flex-1 custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead class="sticky top-0">
+                        <tr class="bg-primary text-white">
+                            <th class="px-6 py-3 text-xs font-bold tracking-wider">Holiday Name</th>
+                            <th class="px-6 py-3 text-xs font-bold tracking-wider">Start Date</th>
+                            <th class="px-6 py-3 text-xs font-bold tracking-wider">End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="popupTableBody" class="divide-y divide-slate-100">
+                    </tbody>
+                </table>
+                <div id="popupEmpty" class="hidden py-12 text-center text-sm text-slate-400 font-medium">No holidays found.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SAMPLE_ENTRIES = {
+            'National Calendar': [
+                { name: 'Independence Day', start: '14-08-2026', end: '14-08-2026' },
+                { name: 'Pakistan Day', start: '23-03-2026', end: '23-03-2026' },
+                { name: 'Iqbal Day', start: '09-11-2026', end: '09-11-2026' },
+            ],
+            'Islamic Calendar': [
+                { name: 'Eid ul-Fitr', start: '31-03-2026', end: '02-04-2026' },
+                { name: 'Eid ul-Adha', start: '07-06-2026', end: '09-06-2026' },
+                { name: 'Shab-e-Barat', start: '14-02-2026', end: '14-02-2026' },
+            ],
+            'School Calendar': [
+                { name: 'Annual Day', start: '15-04-2026', end: '15-04-2026' },
+                { name: 'Sports Day', start: '10-05-2026', end: '10-05-2026' },
+            ],
+        };
+
+        let popupAllEntries = [];
+
+        function openHolidayPopup(btn) {
+            const calendarName = btn.closest('tr').querySelector('td').textContent.trim();
+            popupAllEntries = SAMPLE_ENTRIES[calendarName] || [];
+            document.getElementById('popupCalendarName').textContent = calendarName;
+            document.getElementById('popupSearch').value = '';
+            renderPopupEntries(popupAllEntries);
+            document.getElementById('holidayEntriesModal').classList.remove('hidden');
+        }
+
+        function closeHolidayPopup() {
+            document.getElementById('holidayEntriesModal').classList.add('hidden');
+        }
+
+        function filterPopupEntries() {
+            const q = document.getElementById('popupSearch').value.trim().toLowerCase();
+            const filtered = q
+                ? popupAllEntries.filter(e => e.name.toLowerCase().includes(q) || e.start.includes(q) || e.end.includes(q))
+                : popupAllEntries;
+            renderPopupEntries(filtered);
+        }
+
+        function renderPopupEntries(entries) {
+            document.getElementById('popupEntryCount').textContent = `Holiday Entries — ${popupAllEntries.length} total`;
+            const tbody = document.getElementById('popupTableBody');
+            const empty = document.getElementById('popupEmpty');
+            tbody.innerHTML = '';
+            if (!entries.length) { empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+            entries.forEach((e, i) => {
+                const tr = document.createElement('tr');
+                tr.className = i % 2 === 0 ? 'hover:bg-slate-50 transition-colors' : 'bg-slate-50/50 hover:bg-slate-50 transition-colors';
+                tr.innerHTML = `<td class="px-6 py-4 text-sm font-medium text-slate-800">${e.name}</td><td class="px-6 py-4 text-sm text-slate-600">${e.start}</td><td class="px-6 py-4 text-sm text-slate-600">${e.end}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function exportPopupToExcel() {
+            const name = document.getElementById('popupCalendarName').textContent;
+            alert(`Export to Excel: "${name}.xlsx"\n(In production this triggers a real file download)`);
+        }
+
+        document.getElementById('holidayEntriesModal').addEventListener('click', function(e) {
+            if (e.target === this) closeHolidayPopup();
+        });
+    </script>
 
     <script src="layout.js"></script>
 </body>

@@ -1,0 +1,26 @@
+Screen,Field,Max Length,Notes
+User (Create/Edit),Employee ID,50 chars,Alphanumeric + hyphens/underscores only
+User (Create/Edit),First Name,50 chars,
+User (Create/Edit),Last Name,50 chars,
+User (Create/Edit),Password,8–14 chars,Min 8 — must include uppercase + lowercase + digit + special char
+User (Create/Edit),Email Address,70 chars,
+User (Create/Edit),Mobile Number,15 digits,Min 7 digits (optional field)
+User (Create/Edit),Designation,100 chars,
+User (Create/Edit),OTP,6 chars,Auto-generated (read-only)
+User (Create/Edit),Profile Picture,10 MB,JPEG / PNG / GIF / WebP only (configurable via PROFILE_PICTURE_MAX_SIZE_MB in settings)
+Donor (Create/Edit),Donor Name,50 chars,
+Donor (Create/Edit),Email Address,70 chars,
+Donor (Create/Edit),Mobile Number,15 digits,Min 7 digits (optional field)
+Donor (Create/Edit),Physical Address,500 chars,
+Donor (Create/Edit),Description,1000 chars,
+Project (Create/Edit),Project Name,50 chars,
+Geo Hierarchy,Country Name,50 chars,geo_hierarchy.Country
+Geo Hierarchy,Province Name,50 chars,geo_hierarchy.Province
+Geo Hierarchy,District Name,50 chars,geo_hierarchy.District
+Geo Hierarchy,Region Name,50 chars,geo_hierarchy.Region
+Geo Hierarchy,Area Name,50 chars,geo_hierarchy.Area
+Geo Hierarchy,Cluster Name,50 chars,geo_hierarchy.Cluster
+Role,Role Name,100 chars,role_management.Role
+Role,Role Description,500 chars,role_management.Role
+Shared,Status values,active / inactive / pending,Depends on entity
+Shared,Gender values,male / female,

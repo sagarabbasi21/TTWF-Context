@@ -131,3 +131,31 @@
 
 ### Pending migrations
 - `user_management/0006_alter_userprofile_mobile_number_passwordhistory.py` — PasswordHistory table + mobile max_length=50.
+
+## Phase 9 — Country master + Phone validation + District removal (2026-04-19)
+
+### Model
+- **CountryMaster** — new table `country_master` with `iso_code` (PK), `name`, `dial_code`, `flag`, `is_active`. Seeded with ~195 countries via `seed_countries` management command.
+- **UserProfile.country** — nullable FK to CountryMaster. Set on user create/edit.
+- **phone_regex_validator** relaxed to generic `^\+?[0-9]{7,20}$` — actual country-specific validation done at serializer level using `phonenumbers` library.
+- **All migrations consolidated** — single `0001_initial.py` per app (some 0002 for circular FK).
+
+### Backend
+- **New endpoint:** `GET /api/v1/master/countries/` — returns all active countries (unpaginated).
+- **`validate_phone_for_country(iso, phone)`** in `validators.py` uses `phonenumbers.parse(phone, iso)` + `is_valid_number()`.
+- **UserDetailSerializer.validate()** calls phone validator with selected country's iso_code.
+- **Libraries:** `phonenumbers==8.13.26` (Python), `react-phone-number-input` (npm — not actually used; custom country dropdown preferred per manager).
+- **UserProfileViewSet.get_queryset**: district query param removed from user listing.
+- **UserDetailSerializer**: `access_district_ids` field removed, district not in CHG-03 level check, `country_name` + `country_dial_code` read-only fields added.
+
+### Frontend
+- **CreateUser / EditUser** refactored:
+  - Country dropdown (from `/master/countries/`) as first field in profile grid. Default `'PK'` on create; `user.country || 'PK'` on edit.
+  - Country iso_code sent as `country` field in payload.
+  - Phone regex check removed client-side (server validates).
+  - District fully removed (state, handlers, column, payload).
+  - Access grid: **Row 1** = Country/Province/Region/Area (4 cols), **Row 2** = Cluster/School (4-col grid, 2 populated).
+  - Province cascade fetches regions + areas directly (`?province=X`, skipping district).
+  - Shared `CascadingAccessColumn` + `deduplicateRegionGroups` imported from `components/AccessLevel` (inline duplicate removed from both files).
+- **MyProfile Access Level card**: districts row replaced with regions.
+- **userAccessHelpers.loadUserAccess + fetchAndSelectAll**: response no longer includes district groups/ids (backend dropped them).

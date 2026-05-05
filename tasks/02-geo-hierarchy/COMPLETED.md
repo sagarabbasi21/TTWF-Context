@@ -39,3 +39,32 @@
 
 ### Pending migrations
 - `geo_hierarchy/0002_alter_area_options_alter_cluster_options_and_more.py` — default ordering change.
+
+## Phase 7 — District removal from chain (2026-04-19, manager decision)
+
+### Model + DB
+- **Area.parent changed**: `Area.district` FK → `Area.province` FK. District is NO LONGER in the main chain.
+- **District is now standalone**: still a direct child of Province (for school context only). Not part of the user access flow.
+- **Region members**: backend RegionMember rows still store `level='district'` but UI surfaces regions at province level (mapped via District.province_id).
+- **All migrations deleted + regenerated**: fresh `0001_initial.py` per app; some apps split into 0002 due to circular FK resolution (normal).
+
+### Backend
+- `AreaViewSet.get_queryset`: accepts `?province=X` (was `?district=X`)
+- `AreaSerializer`: `province` / `province_name` / `country_name` (was district_name)
+- `ClusterDetailSerializer`: `province_name` from `area.province.name` (was district_name)
+- `HierarchyFlatView`: chain fields reference `area__province__country` (skipping district)
+- `RegionViewSet`: `?province=X` filter — resolves via all districts under that province's `RegionMember` rows
+- `UserProfileViewSet.access_tree/edit_context/all_access_tree`: district entries removed from `ids` + `groups` payload. Area groups parented to Province. Region groups parented to Province (deduped).
+- `UserDetailSerializer`: `access_district_ids` field removed. `validate()` CHG-03 level list no longer requires district.
+
+### Frontend
+- **HierarchySelector widget** refactored: default `levels=['country','province','area','cluster']`. Cascade: Country→Province→Area→Cluster. District NOT in chain.
+- **Thunks**: `fetchAreas(provinceId)` (was districtId). `fetchRegions(provinceId)` (was districtId).
+- **HeirarchyListing**: uses `<HierarchySelector mode="filter">` for both tabs. District column + filter removed.
+- **CreateHeirarchy**: rewritten. Main chain sections Country → Province → Area → Cluster. "Add District" section moved to bottom (after Region). Region = 4-column cascading (no District).
+- **EditHeirarchy**: HierarchySelector uses default levels. Region edit = 4 columns. New "Edit District" standalone section at bottom.
+- **Users listing**: inline Select cascading replaced with `<HierarchySelector mode="filter" showRegion>`. District filter removed from state + backend query params.
+- **fetchUsers.thunk**: district param removed.
+
+### New reusable component
+- `components/AccessLevel/CascadingAccessColumn.jsx` + `index.jsx` — extracted from inline duplicate in CreateUser + EditUser.

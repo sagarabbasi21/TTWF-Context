@@ -50,7 +50,12 @@
             <section class="py-10 first:pt-0">
                 <div class="flex flex-col md:flex-row md:items-start gap-6">
                     <div class="md:w-1/3">
-                        <h2 class="text-lg font-bold text-slate-800">Add Country</h2>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-lg font-bold text-slate-800">Add Country</h2>
+                            <button type="button" onclick="showHierarchyPreview('country')" class="p-1 text-slate-400 hover:text-primary transition-colors rounded hover:bg-primary/5" title="Preview Hierarchy">
+                                <span class="material-symbols-outlined text-[18px]">account_tree</span>
+                            </button>
+                        </div>
                         <p class="text-sm text-slate-500 mt-1">Define a new national entity.</p>
                     </div>
                     <div class="md:w-2/3 flex flex-col sm:flex-row items-end gap-4">
@@ -59,7 +64,7 @@
                                 class="block text-xs font-semibold text-slate-500 tracking-wider mb-2">Country
                                 Name  <span class="text-red-500">*</span></label>
                             <input
-                                class="w-full rounded-lg border-slate-300 focus:ring-primary focus:border-primary focus-primary"
+                                id="country-input" class="w-full rounded-lg border-slate-300 focus:ring-primary focus:border-primary focus-primary"
                                 placeholder="e.g. Pakistan" type="text" />
                         </div>
                         <button
@@ -72,7 +77,12 @@
             <section class="py-10">
                 <div class="flex flex-col md:flex-row md:items-start gap-6">
                     <div class="md:w-1/3">
-                        <h2 class="text-lg font-bold text-slate-800">Add Province</h2>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-lg font-bold text-slate-800">Add Province</h2>
+                            <button type="button" onclick="showHierarchyPreview('province')" class="p-1 text-slate-400 hover:text-primary transition-colors rounded hover:bg-primary/5" title="Preview Hierarchy">
+                                <span class="material-symbols-outlined text-[18px]">account_tree</span>
+                            </button>
+                        </div>
                         <p class="text-sm text-slate-500 mt-1">Assign provinces to a country.</p>
                     </div>
                     <div class="md:w-2/3 flex flex-col gap-4">
@@ -81,7 +91,7 @@
                                 <label
                                     class="block text-xs font-semibold text-slate-500 tracking-wider mb-2">Select
                                     Country  <span class="text-red-500">*</span></label>
-                                <select class="w-full rounded-lg border-slate-300 focus-primary">
+                                <select id="prov-country-sel" class="w-full rounded-lg border-slate-300 focus-primary">
                                     <option>Select Country</option>
                                     <option>Pakistan</option>
                                 </select>
@@ -90,7 +100,7 @@
                                 <label
                                     class="block text-xs font-semibold text-slate-500 tracking-wider mb-2">Province
                                     Name  <span class="text-red-500">*</span></label>
-                                <input class="w-full rounded-lg border-slate-300 focus-primary" placeholder="e.g. Sindh"
+                                <input id="prov-input" class="w-full rounded-lg border-slate-300 focus-primary" placeholder="e.g. Sindh"
                                     type="text" />
                             </div>
                         </div>
@@ -106,23 +116,28 @@
             <section class="py-10">
                 <div class="flex flex-col md:flex-row md:items-start gap-6">
                     <div class="md:w-1/3">
-                        <h2 class="text-lg font-bold text-slate-800">Add Area</h2>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-lg font-bold text-slate-800">Add Area</h2>
+                            <button type="button" onclick="showHierarchyPreview('area')" class="p-1 text-slate-400 hover:text-primary transition-colors rounded hover:bg-primary/5" title="Preview Hierarchy">
+                                <span class="material-symbols-outlined text-[18px]">account_tree</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="md:w-2/3 flex flex-col gap-4">
                         <div class="grid grid-cols-2 lg:grid-cols-2 gap-4">
                             <div><label
                                     class="block text-[10px] font-bold text-slate-400 mb-1">Country  <span class="text-red-500">*</span></label><select
-                                    class="w-full rounded-lg border-slate-300 text-sm focus-primary">
+                                    id="area-country-sel" class="w-full rounded-lg border-slate-300 text-sm focus-primary">
                                     <option>Pakistan</option>
                                 </select></div>
                             <div><label
                                     class="block text-[10px] font-bold text-slate-400 mb-1">Province  <span class="text-red-500">*</span></label><select
-                                    class="w-full rounded-lg border-slate-300 text-sm focus-primary">
+                                    id="area-prov-sel" class="w-full rounded-lg border-slate-300 text-sm focus-primary">
                                     <option>Sindh</option>
                                 </select></div>
                             </div>
                             <div><label class="block text-[10px] font-bold text-slate-400 mb-1">Area
-                                    Name  <span class="text-red-500">*</span></label><input class="w-full rounded-lg border-slate-300 text-sm focus-primary"
+                                    Name  <span class="text-red-500">*</span></label><input id="area-input" class="w-full rounded-lg border-slate-300 text-sm focus-primary"
                                     placeholder="Gulshan" type="text" /></div>
                         <div class="flex justify-end">
                             <button
@@ -135,29 +150,34 @@
             <section class="py-10">
                 <div class="flex flex-col md:flex-row md:items-start gap-6">
                     <div class="md:w-1/3">
-                        <h2 class="text-lg font-bold text-slate-800">Add Cluster</h2>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-lg font-bold text-slate-800">Add Cluster</h2>
+                            <button type="button" onclick="showHierarchyPreview('cluster')" class="p-1 text-slate-400 hover:text-primary transition-colors rounded hover:bg-primary/5" title="Preview Hierarchy">
+                                <span class="material-symbols-outlined text-[18px]">account_tree</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="md:w-2/3 flex flex-col gap-4">
                         <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
                             <div><label
                                     class="block text-[10px] font-bold text-slate-400 mb-1">Country  <span class="text-red-500">*</span></label><select
-                                    class="w-full rounded-lg border-slate-300 text-xs focus-primary">
+                                    id="cl-country-sel" class="w-full rounded-lg border-slate-300 text-xs focus-primary">
                                     <option>Pakistan</option>
                                 </select></div>
                             <div><label
                                     class="block text-[10px] font-bold text-slate-400 mb-1">Province  <span class="text-red-500">*</span></label><select
-                                    class="w-full rounded-lg border-slate-300 text-xs focus-primary">
+                                    id="cl-prov-sel" class="w-full rounded-lg border-slate-300 text-xs focus-primary">
                                     <option>Sindh</option>
                                 </select></div>
                             <div><label
                                     class="block text-[10px] font-bold text-slate-400 mb-1">Area  <span class="text-red-500">*</span></label><select
-                                    class="w-full rounded-lg border-slate-300 text-xs focus-primary">
+                                    id="cl-area-sel" class="w-full rounded-lg border-slate-300 text-xs focus-primary">
                                     <option>Gulshan</option>
                                 </select></div>
                             </div>
                             <div><label
                                     class="block text-[10px] font-bold text-slate-400 mb-1">Cluster  <span class="text-red-500">*</span></label><input
-                                    class="w-full rounded-lg border-slate-300 text-xs focus-primary" placeholder="CL-01"
+                                    id="cl-input" class="w-full rounded-lg border-slate-300 text-xs focus-primary" placeholder="CL-01"
                                     type="text" /></div>
                         <div class="flex justify-end">
                             <button
@@ -205,9 +225,13 @@
             </section> -->
             <section class="py-10">
                 <div class="mb-6">
-                    <h2 class="text-xl font-bold text-slate-800">Add Region </h2>
-                    <p class="text-sm text-slate-500 mt-1">Select entities from different levels to create a custom
-                        administrative region.</p>
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-xl font-bold text-slate-800">Add Region</h2>
+                        <button type="button" onclick="showHierarchyPreview('region')" class="p-1 text-slate-400 hover:text-primary transition-colors rounded hover:bg-primary/5" title="Preview Hierarchy">
+                            <span class="material-symbols-outlined text-[18px]">account_tree</span>
+                        </button>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-1">Select entities from different levels to create a custom administrative region.</p>
                 </div>
                 <div
                     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 border border-slate-200 rounded-xl overflow-hidden mb-6">
@@ -314,20 +338,25 @@
             <section class="py-10">
                 <div class="flex flex-col md:flex-row md:items-start gap-6">
                     <div class="md:w-1/3">
-                        <h2 class="text-lg font-bold text-slate-800">Add District</h2>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-lg font-bold text-slate-800">Add District</h2>
+                            <button type="button" onclick="showHierarchyPreview('district')" class="p-1 text-slate-400 hover:text-primary transition-colors rounded hover:bg-primary/5" title="Preview Hierarchy">
+                                <span class="material-symbols-outlined text-[18px]">account_tree</span>
+                            </button>
+                        </div>
                         <p class="text-sm text-slate-500 mt-1">Districts are created under a Country and Province. Used for school-level assignments.</p>
                     </div>
                     <div class="md:w-2/3 flex flex-col gap-4">
                         <div class="grid grid-cols-2 lg:grid-cols-2 gap-4">
                             <div><label
                                     class="block text-[10px] font-bold text-slate-400 mb-1">Country  <span class="text-red-500">*</span></label><select
-                                    class="w-full rounded-lg border-slate-300 text-sm focus-primary">
+                                    id="dist-country-sel" class="w-full rounded-lg border-slate-300 text-sm focus-primary">
                                     <option>Select Country</option>
                                     <option>Pakistan</option>
                                 </select></div>
                             <div><label
                                     class="block text-[10px] font-bold text-slate-400 mb-1">Province  <span class="text-red-500">*</span></label><select
-                                    class="w-full rounded-lg border-slate-300 text-sm focus-primary">
+                                    id="dist-prov-sel" class="w-full rounded-lg border-slate-300 text-sm focus-primary">
                                     <option>Select Province</option>
                                     <option>Sindh</option>
                                     <option>Punjab</option>
@@ -335,7 +364,7 @@
                                 </select></div>
                             </div>
                             <div><label class="block text-[10px] font-bold text-slate-400 mb-1">District
-                                    Name  <span class="text-red-500">*</span></label><input class="w-full rounded-lg border-slate-300 text-sm focus-primary"
+                                    Name  <span class="text-red-500">*</span></label><input id="dist-input" class="w-full rounded-lg border-slate-300 text-sm focus-primary"
                                     placeholder="e.g. Lahore" type="text" /></div>
                         <div class="flex justify-end">
                             <button
@@ -347,8 +376,99 @@
             </section>
         </div>
     </main>
+    <!-- Hierarchy Preview Popup -->
+    <div id="hierarchyPreviewModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-[20px]">account_tree</span>
+                    <h2 id="previewPopupTitle" class="text-sm font-bold text-slate-800">Hierarchy Preview</h2>
+                </div>
+                <button onclick="closeHierarchyPreview()" class="p-1.5 text-slate-400 hover:text-red-500 transition-colors rounded-md hover:bg-red-50" title="Close">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+            </div>
+            <!-- Breadcrumb -->
+            <div class="px-6 py-6">
+                <div id="previewBreadcrumb" class="flex flex-wrap items-center gap-1 min-h-[60px]"></div>
+            </div>
+        </div>
+    </div>
+
  <script src="layout.js"></script>
 <script>
+    function showHierarchyPreview(section) {
+        var path = [];
+
+        if (section === 'country') {
+            var val = (document.getElementById('country-input') || {}).value || '';
+            if (val.trim()) path.push({ label: val.trim(), level: 'Country' });
+        } else if (section === 'province') {
+            var country = (document.getElementById('prov-country-sel') || {}).value || '';
+            var prov = (document.getElementById('prov-input') || {}).value || '';
+            if (country && country !== 'Select Country') path.push({ label: country, level: 'Country' });
+            if (prov.trim()) path.push({ label: prov.trim(), level: 'Province' });
+        } else if (section === 'area') {
+            var country = (document.getElementById('area-country-sel') || {}).value || '';
+            var prov = (document.getElementById('area-prov-sel') || {}).value || '';
+            var area = (document.getElementById('area-input') || {}).value || '';
+            if (country) path.push({ label: country, level: 'Country' });
+            if (prov) path.push({ label: prov, level: 'Province' });
+            if (area.trim()) path.push({ label: area.trim(), level: 'Area' });
+        } else if (section === 'cluster') {
+            var country = (document.getElementById('cl-country-sel') || {}).value || '';
+            var prov = (document.getElementById('cl-prov-sel') || {}).value || '';
+            var area = (document.getElementById('cl-area-sel') || {}).value || '';
+            var cluster = (document.getElementById('cl-input') || {}).value || '';
+            if (country) path.push({ label: country, level: 'Country' });
+            if (prov) path.push({ label: prov, level: 'Province' });
+            if (area) path.push({ label: area, level: 'Area' });
+            if (cluster.trim()) path.push({ label: cluster.trim(), level: 'Cluster' });
+        } else if (section === 'region') {
+            var groupLabels = { countries: 'Country', provinces: 'Province', areas: 'Area', clusters: 'Cluster' };
+            ['countries', 'provinces', 'areas', 'clusters'].forEach(function(group) {
+                document.querySelectorAll('.group-checkbox[data-group="' + group + '"]:checked').forEach(function(cb) {
+                    var label = cb.closest('label').querySelector('span').textContent.trim();
+                    path.push({ label: label, level: groupLabels[group] });
+                });
+            });
+        } else if (section === 'district') {
+            var country = (document.getElementById('dist-country-sel') || {}).value || '';
+            var prov = (document.getElementById('dist-prov-sel') || {}).value || '';
+            var dist = (document.getElementById('dist-input') || {}).value || '';
+            if (country && country !== 'Select Country') path.push({ label: country, level: 'Country' });
+            if (prov && prov !== 'Select Province') path.push({ label: prov, level: 'Province' });
+            if (dist.trim()) path.push({ label: dist.trim(), level: 'District' });
+        }
+
+        var titleMap = { country: 'Country', province: 'Province', area: 'Area', cluster: 'Cluster', region: 'Region', district: 'District' };
+        document.getElementById('previewPopupTitle').textContent = titleMap[section] + ' Hierarchy Preview';
+
+        var breadcrumb = document.getElementById('previewBreadcrumb');
+        if (!path.length) {
+            breadcrumb.innerHTML = '<span class="text-sm text-slate-400 italic">No selection yet — fill in the form fields to see the preview.</span>';
+        } else {
+            breadcrumb.innerHTML = path.map(function(p, i) {
+                return '<span class="flex flex-col items-center">' +
+                    '<span class="text-[10px] font-bold text-slate-400 tracking-widest mb-1">' + p.level.toUpperCase() + '</span>' +
+                    '<span class="px-3 py-1.5 rounded-lg bg-primary/10 text-primary font-semibold text-sm">' + p.label + '</span>' +
+                    '</span>' +
+                    (i < path.length - 1 ? '<span class="material-symbols-outlined text-slate-300 text-2xl mt-5">chevron_right</span>' : '');
+            }).join('');
+        }
+
+        document.getElementById('hierarchyPreviewModal').classList.remove('hidden');
+    }
+
+    function closeHierarchyPreview() {
+        document.getElementById('hierarchyPreviewModal').classList.add('hidden');
+    }
+
+    document.getElementById('hierarchyPreviewModal').addEventListener('click', function(e) {
+        if (e.target === this) closeHierarchyPreview();
+    });
+
     document.querySelectorAll('.select-all-checkbox').forEach(function(selectAll) {
         var group = selectAll.dataset.group;
 
